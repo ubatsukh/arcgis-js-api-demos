@@ -1,7 +1,6 @@
 // The `///amd-dependency ...` allows us to import AMD modules and provide a name
 // for them in the compiled JS. TypeScript relies on some helpers for building
-// classes. JS API disabled the option for TypeScript to automatically generate these
-// for us. So we import them as we create a class, mainly `__extends` and `__decorate`.
+// classes. So we import them as we create a class, mainly `__extends` and `__decorate`.
 /// <amd-dependency path="esri/core/tsSupport/declareExtendsHelper" name="__extends" />
 /// <amd-dependency path="esri/core/tsSupport/decorateHelper" name="__decorate" />
 
