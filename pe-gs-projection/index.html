@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Client-side projection vs GeometryService projection</title>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      font-family: "Avenir Next W00", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    #viewDivGS, 
+    #viewDivPE {
+      float: right;
+      height: 100%;
+      width: 50%;
+      border: gray;
+      border-width: 2px;
+    }
+    #viewDivGS {
+      float: right;
+    }
+
+    #viewDivPE {
+      float: left;
+    }
+
+    #projectionDiv {
+      position: absolute;
+      top: 20px;
+      right: 10px;
+      background: #ffffff;
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    .options {
+      height: 30px;
+      overflow: hidden;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+    }
+
+    .title {
+      position: absolute;
+      z-index: 99;
+      font-weight: bold;
+      font-size: 16px;
+      top: 20px;
+      background-color: white;
+      padding: 10px;
+    }
+
+    #peTitle {
+      left: 55px;
+    }
+
+    #gsTitle {
+      top: 20px;
+    }
+
+    #pe_projectTimer,
+    #gs_projectTimer {
+      background-color: white;
+      border-top-right-radius: 6px;
+      border-color: black;
+      font-weight: bold;
+      font-size: 16px;
+      position: absolute;
+      bottom: 20px;
+      z-index: 84;
+      padding: 6px;
+    }
+
+    #pe_projectTimer {
+      left: 0;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://jsdev.arcgis.com/4.7/esri/css/main.css">
+  <script src="https://jsdev.arcgis.com/4.7/"></script>
+
+  <script>
+    require([
+      "esri/views/MapView",
+      "esri/Map",
+      "esri/portal/PortalItem",
+      "esri/geometry/Polygon",
+      "esri/geometry/SpatialReference",
+      "esri/geometry/projection",
+      "esri/tasks/GeometryService",
+      "esri/tasks/support/ProjectParameters",
+      "dojo/domReady!"
+    ], function (
+      MapView, Map,
+      PortalItem,
+      Polygon, SpatialReference, projection,
+      GeometryService, ProjectParameters
+    ) {
+
+      // align html elements
+      var left = document.getElementById("viewDivGS").offsetWidth;
+      document.getElementById("gsTitle").style.left = (left + 55) + "px";
+      document.getElementById("gs_projectTimer").style.left = left + "px";
+
+      // WGS84_graphics will be used by the client-side projection
+      // and geometryService projection.
+      let WGS84_graphics, view1, view2;
+
+      // some variables that will keep track of elapsed time for
+      // client-side projection versus geometryService projection
+      let pe_beginTime, pe_endTime, pe_timeSpent;
+      let gs_beginTime, gs_endTime, gs_timeSpent;
+
+      // geometry service
+      var geometryService = new GeometryService({
+        url: "https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer"
+      });
+
+      // check if the client side projection engine is supported in the browser.
+      // The browser must support WebAssembly.
+      if (!projection.isSupported()) {
+        alert("client-side projection is not supported");
+        return;
+      }
+
+      // load the projection module
+      projection.load().then(function () {
+
+        // listen to change event on projections drop down menu
+        const wkidSelect = document.getElementById("projectWKID");
+        wkidSelect.addEventListener("change", getWkid);
+
+        getItems() // get the portal item
+          .then(fetchJsonData) // fetch the json data from portal item
+          .otherwise(errback)
+
+        function getItems() {
+          //world geojson
+          const itemid = "98bd91a471244ca79eff0f4b82b2200a";
+          const item = new PortalItem({
+            id: itemid
+          });
+          return item.load();
+        }
+
+        /*******************************************************************************
+         * Fetch the GeoJSON data from a portal item and create polygons
+         * from GeoJSON features. Convert the polygons from WGS84 to selected projection
+         *******************************************************************************/
+        function fetchJsonData(item) {
+          // fetch the GeoJSON data from the world portal item
+          item.fetchData().then(function (data) {
+
+            // read the raw GeoJSON and create graphics from each with feature
+            // these graphics' geometries will be in WGS84 and will be used for projection
+            WGS84_graphics = data.features.map(function (feature, i) {
+              // create a polygon from the raw GeoJSON specify its spatial reference
+              const polygon = new Polygon({
+                spatialReference: SpatialReference.WGS84
+              });
+
+              // read the GeoJSON's geometry and add to the polygon rings
+              feature.geometry.coordinates.forEach(function (coord) {
+                polygon.addRing(coord[0]);
+              });
+
+              // create new graphic and set its geometry to the projected polygon
+              const graphic = {
+                geometry: polygon,
+                // select only the attributes you care about
+                attributes: {
+                  ObjectID: i
+                }
+              };
+
+              // check if the feature is continent or ocean and assign an appropriate symbol
+              graphic.symbol = feature.properties.CONTINENT != "Ocean" ? createSymbol("#31a354") :
+                createSymbol("#2B65EC");
+
+              return graphic;
+            });
+
+            // project the fetched data to winkel III projection when app loads
+            var outSpatialReference = new SpatialReference({
+              wkid: 54042
+            });
+
+            // call geometryService.project first then projection engine project
+            gs_projectData(outSpatialReference);
+            pe_projectData(outSpatialReference);
+
+            // enable the projection dropdown
+            wkidSelect.disabled = false;
+          });
+        }
+
+        /*************************************************************************
+         * This function is called whenever user selects a new projection
+         * from the projections drop down.
+         * New view and map is created with the spatial reference that user chose
+         *************************************************************************/
+        function recreatePEView(graphics, viewSpatialReference) {
+          // use this point to set the center of the view
+          // for the specified spatial reference
+          let centerPoint = {
+            x: 0,
+            y: 0,
+            spatialReference: viewSpatialReference
+          };
+
+          if (view1) {
+            view1.container = null;
+            view1.map.removeAll();
+            view1.map = null;
+          }
+
+          view1 = new MapView({
+            container: "viewDivPE",
+            map: new Map(),
+            // set the view spatial reference to Winkel III projection
+            // if spatial reference is set explicitly on the view then
+            // center and scale properties (or extent) must also be specified
+            spatialReference: viewSpatialReference,
+            center: centerPoint,
+            scale: 166418924
+          });
+
+          view1.graphics.addMany(graphics);
+        }
+
+        /*************************************************************************
+         * This function is called whenever user selects a new projection
+         * from the projections drop down.
+         * New view and map is created with the spatial reference that user chose
+         *************************************************************************/
+        function recreateGSView(graphics, viewSpatialReference) {
+          // use this point to set the center of the view
+          // for the specified spatial reference
+          let centerPoint = {
+            x: 0,
+            y: 0,
+            spatialReference: viewSpatialReference
+          };
+
+          if (view2) {
+            view2.map.removeAll();
+            view2.container = null;
+            view2.map = null;
+          }
+
+          view2 = new MapView({
+            container: "viewDivGS",
+            map: new Map(),
+            // set the view spatial reference to Winkel III projection
+            // if spatial reference is set explicitly on the view then
+            // center and scale properties (or extent) must also be specified
+            spatialReference: viewSpatialReference,
+            center: centerPoint,
+            scale: 166418924
+          });
+
+          view2.graphics.addMany(graphics);
+        }
+
+        /*******************************************************************************
+         * This function is called when user selects a projection from the drop down
+         * We get the wkid of the projection and call the projectData function so that
+         * the geometries can be converted to the selected projection
+         *******************************************************************************/
+        function getWkid() {
+          var wkid = wkidSelect.value;
+          var outSpatialReference = new SpatialReference({
+            wkid: wkid
+          });
+          gs_projectData(outSpatialReference);
+          pe_projectData(outSpatialReference);
+        }
+
+        /*************************************************************************
+         * GeometryService.project()
+         * This function is called whenever user selects a new projection
+         * from the projections drop down.
+         * Convert geometries from WGS84 to the spatial reference that user chose
+         *************************************************************************/
+        function gs_projectData(outSpatialReference) {
+          const WGS84_geometries = WGS84_graphics.map(function (graphic) {
+            return graphic.geometry;
+          })
+          var params = new ProjectParameters({
+            geometries: WGS84_geometries,
+            outSpatialReference: outSpatialReference
+          });
+
+          gs_beginTime = Date.now();
+
+          geometryService.project(params)
+            .then(function (result) {
+              console.log(result);
+              gs_endTime = Date.now();
+              gs_timeSpent = (gs_endTime - gs_beginTime) / 1000 + "secs";
+
+              document.getElementById("resultsGS").innerHTML = gs_timeSpent;
+
+              const graphics = result.map(function (geometry, i) {
+                // create new graphic and set its geometry to the projected polygon
+                const newGraphic = {
+                  geometry: geometry,
+                  // select only the attributes you care about
+                  attributes: {
+                    ObjectID: i
+                  },
+                  symbol: WGS84_graphics[i].symbol
+                };
+                return newGraphic;
+              });
+              recreateGSView(graphics, outSpatialReference);
+            })
+            .otherwise(function (error) {
+              console.log(error);
+            });
+        }
+
+        /*************************************************************************
+         * projection.project()
+         * This function is called whenever user selects a new projection
+         * from the projections drop down.
+         * Convert geometries from WGS84 to the spatial reference that user chose
+         *************************************************************************/
+        function pe_projectData(outSpatialReference) {
+
+          var projected = WGS84_graphics.map(function (graphic, i) {
+
+            pe_beginTime = Date.now();
+            // project the polygons to the user selected projection
+            const projectedPolygon = projection.project(graphic.geometry, outSpatialReference);
+
+            // create new graphic and set its geometry to the projected polygon
+            const newGraphic = {
+              geometry: projectedPolygon,
+              // select only the attributes you care about
+              attributes: {
+                ObjectID: i
+              }
+            };
+
+            // check if the feature is continent or ocean and assign an appropriate symbol
+            newGraphic.symbol = graphic.symbol;
+
+            return newGraphic;
+          });
+
+          pe_endTime = Date.now();
+          pe_timeSpent = (pe_endTime - pe_beginTime) / 1000 + "secs";
+          document.getElementById("resultsPE").innerHTML = pe_timeSpent;
+          // re-create view and map 
+          recreatePEView(projected, outSpatialReference);
+        }
+
+        function createSymbol(color) {
+          return {
+            type: "simple-fill",
+            color: color,
+            outline: {
+              color: "white",
+              width: 0.5
+            }
+          };
+        }
+
+        // Executes if data retrieval was unsuccessful.
+        function errback(error) {
+          console.error("something went wrong. ", error);
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDivPE">
+    <div id="peTitle" class="title">Client-side projection</div>
+    <div id="pe_projectTimer">
+      <span id="peTime"> GeometryEngine Time:
+        <span id="resultsPE"></span>
+      </span>
+    </div>
+  </div>
+  </div>
+  <div id="viewDivGS">
+    <div id="gsTitle" class="title">GeometryServer</div>
+    <div id="projectionDiv">
+      <span>Select a projection</span>
+      <br/>
+      <select id="projectWKID" class="options" disabled>
+        <option value="54042" selected>Winkel III</option>
+        <option value="54044">World Hammer Aitoff</option>
+        <option value="54051">World Cube</option>
+        <option value="54050">World Fuller</option>
+        <option value="54010">World Eckert VI</option>
+        <option value="54021">World Polyconic</option>
+        <option value="54016">World Gall Stereographic</option>
+        <option value="54008">World Sinusoidal</option>
+        <option value="54023">World Loximuthal</option>
+        <option value="54024">World Bonne</option>
+        <option value="54044">World Hammer</option>
+      </select>
+    </div>
+    <div id="gs_projectTimer">
+      <span id="gsTime"> GeometryService Time:
+        <span id="resultsGS"></span>
+      </span>
+    </div>
+  </div>
+
+</body>
+
+</html>
