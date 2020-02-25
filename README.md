@@ -4,7 +4,7 @@ This repository contains samples using the ArcGIS API for JavaScript in its 3.x 
 
 You can explore the following samples here:
 
-### Creating a custom tile layer with TypeScript
+### 1. Creating a custom tile layer with TypeScript
 
 This sample was featured in [this blog post](https://blogs.esri.com/esri/arcgis/2017/10/27/creating-a-custom-tile-layer-with-typescript/) in a series featuring how to create a custom tile layer with TypeScript.
 
@@ -17,4 +17,17 @@ services. The `multiply` blend mode multiplies the values of each pixel of the t
 
 [View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/blendlayer)
 
-[View the live sample](https://ubatsukh.github.io/blendlayer/)
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/blendlayer/)
+
+
+
+### 2.Client-side projection versus GeometryService projection
+
+This sample was featured in [this blog post](https://blogs.esri.com/esri/arcgis/2017/10/27/creating-a-custom-tile-layer-with-typescript/) introducing the client-side projection engine.
+
+This sample demonstrates how to use the client-side projection engine in JavaScript application. It also compares the performance of client-side projection versus the geometryserver projection. 
+
+
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/pe-gs-projection)
+
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/pe-gs-projection/)
