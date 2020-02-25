@@ -21,7 +21,7 @@ services. The `multiply` blend mode multiplies the values of each pixel of the t
 
 
 
-### 2.Client-side projection versus GeometryService projection
+### 2. Client-side projection versus GeometryService projection
 
 This sample was featured in [this blog post](https://blogs.esri.com/esri/arcgis/2017/10/27/creating-a-custom-tile-layer-with-typescript/) introducing the client-side projection engine.
 
