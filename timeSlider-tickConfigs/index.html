@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Custom TimeSlider Tick Samples</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <style>
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #C8C8C8;
+    }
+
+    .sample-heading {
+      margin: 20px 0 5px 20px;
+      font-family: "Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .sample-slider {
+      margin: 0 20px;
+    }
+
+    #timeSlider2 .custom-ticks,
+    #timeSlider3 .custom-ticks {
+      background-color: red;
+      width: 1px;
+      height: 8px;
+    }
+
+    #timeSlider2 .custom-labels,
+    #timeSlider3 .custom-labels {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 15px;
+      color: red;
+    }
+
+    #timeSlider3 .custom-ticks2 {
+      background-color: red;
+      width: 2px;
+      height: 2px;
+    }
+
+    #timeSlider4 .custom-labels {
+      font-family: 'Parisienne', cursive;
+      font-size: 15px;
+      font-weight: bold;
+      color: #0079c1;
+    }
+
+    #timeSlider4 .custom-ticks {
+      background-color: #0079c1;
+      width: 4px;
+      height: 4px;
+      border-radius: 2px;
+    }
+
+    #timeSlider4 .custom-labels2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      color: black;
+      margin-top: 35px;
+    }
+
+    #timeSlider4 .custom-ticks2 {
+      background-color: black;
+      width: 1px;
+      height: 20px;
+    }
+
+    #timeSlider5 .custom-labels {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 15px;
+      color: black;
+    }
+
+    #timeSlider5 .custom-ticks {
+      background-color: black;
+      width: 1px;
+      height: 8px;
+    }
+  </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.16/esri/themes/light/main.css"/>
+    <script src="https://js.arcgis.com/4.16/"></script>
+
+  <script type="text/javascript">
+    require(["esri/widgets/TimeSlider"],
+    function (TimeSlider) {
+      "use strict";
+
+// default ticks
+      const timeSlider0 = new TimeSlider({
+        container: "timeSlider0",
+        fullTimeExtent: {
+          start: new Date(2010, 0, 1),
+          end: new Date(2020, 0, 1)
+        }
+      });
+
+// custom values
+      const timeSlider1 = new TimeSlider({
+        container: "timeSlider1",
+        fullTimeExtent: {
+          start: new Date(2010, 0, 1),
+          end: new Date(2020, 0, 1)
+        },
+        tickConfigs: [{
+          mode: "position",
+          values: [ // dates to be used for ticks and labels
+            new Date(2010, 0, 1), new Date(2012, 0, 1), new Date(2014, 0, 1),
+            new Date(2016, 0, 1), new Date(2018, 0, 1), new Date(2020, 0, 1)
+          ].map((date) => date.getTime()),
+          labelsVisible: true, // display labels for the ticks
+          labelFormatFunction: (value) => { // format the labels for the ticks
+            const date = new Date(value);
+            return date.getUTCFullYear(); // show full year values
+          }
+        }]
+      });
+
+// custom values and styling
+      const timeSlider2 = new TimeSlider({
+        container: "timeSlider2",
+        fullTimeExtent: {
+          start: new Date(2010, 0, 1),
+          end: new Date(2020, 0, 1)
+        },
+        tickConfigs: [{
+          mode: "position",
+          values: [
+            new Date(2010, 0, 1), new Date(2012, 0, 1), new Date(2014, 0, 1),
+            new Date(2016, 0, 1), new Date(2018, 0, 1), new Date(2020, 0, 1)
+          ].map((date) => date.getTime()),
+          labelsVisible: true,
+          labelFormatFunction: (value) => { // get the full year from the date
+            const date = new Date(value);
+            return `'${date.getUTCFullYear() - 2000}`; // only display the last two digits of the year
+          },
+          tickCreatedFunction: (value, tickElement, labelElement) => { // callback for the ticks
+            tickElement.classList.add("custom-ticks");  // assign a custom css for the ticks 
+            labelElement.classList.add("custom-labels"); // assign a custom css for the labels
+          }
+        }]
+      });
+
+// multiple tick configurations
+      const end = new Date(2020, 0, 1);
+      let current = new Date(2010, 0, 1);
+
+      const months = [new Date(current.getTime())];
+      while (current < end) {
+        current.setMonth(current.getMonth() + 2);
+        months.push(new Date(current.getTime()));
+      }
+
+      // create dates with two month intervals
+      const monthsAsTicks = months.map((date) => date.getTime());
+      const timeSlider3 = new TimeSlider({
+        container: "timeSlider3",
+        fullTimeExtent: {
+          start: new Date(2010, 0, 1),
+          end: new Date(2020, 0, 1)
+        },
+        tickConfigs: [{ // ticks and labels for the years
+          mode: "position",
+          values: [
+            new Date(2010, 0, 1), new Date(2012, 0, 1), new Date(2014, 0, 1),
+            new Date(2016, 0, 1), new Date(2018, 0, 1), new Date(2020, 0, 1)
+          ].map((date) => date.getTime()),
+          labelsVisible: true,
+          labelFormatFunction: (value) => {
+            const date = new Date(value);
+            return `'${date.getUTCFullYear() - 2000}`;
+          },
+          tickCreatedFunction: (value, tickElement, labelElement) => {
+            tickElement.classList.add("custom-ticks");
+            labelElement.classList.add("custom-labels");
+          }
+        }, {
+          mode: "position", // ticks for the months no labels
+          values: monthsAsTicks,
+          labelsVisible: false,
+          tickCreatedFunction: (value, tickElement, labelElement) => {
+            tickElement.classList.add("custom-ticks2");
+          }
+        }]
+      });
+
+// Famous Physicists Date of Birth
+// will be used for the tick labels
+      const scientists = [
+        { name: "Galileo", dob: 1564 },
+        { name: "Newton", dob: 1642 },
+        { name: "Einstein", dob: 1879 },
+        { name: "Sagan", dob: 1934 }
+      ];
+
+      const timeSlider4 = new TimeSlider({
+        container: "timeSlider4",
+        mode: "instant",
+        fullTimeExtent: {
+          start: new Date(1500, 0, 1),
+          end: new Date(2000, 0, 1)
+        },
+        tickConfigs: [{
+          mode: "position",
+          values: [
+            new Date(1500, 0, 1), new Date(1600, 0, 1), new Date(1700, 0, 1),
+            new Date(1800, 0, 1), new Date(1900, 0, 1), new Date(2000, 0, 1)
+          ].map((date) => date.getTime()),
+          labelsVisible: true,
+          labelFormatFunction: (value) => {
+            const date = new Date(value);
+            return `${date.getUTCFullYear() / 100}`; // display the first two digits of the years/show century
+          },
+          tickCreatedFunction: (value, tickElement, labelElement) => {
+            tickElement.classList.add("custom-ticks");
+            labelElement.classList.add("custom-labels");
+          }
+        }, {
+          mode: "position",
+          values: scientists // tick values
+            .map((scientist) => new Date(scientist.dob, 0, 1)) // create a date using dob from scientists array 
+            .map((date) => date.getTime()),
+          labelsVisible: true,
+          labelFormatFunction: (value) => {
+            const scientist = scientists.find( // find the scientist that matches the tick value
+              (s) => new Date(s.dob, 0, 1).getTime() === value
+            );
+            return scientist.name + ", " + scientist.dob; // set the label as name + dob
+          },
+          tickCreatedFunction: (value, tickElement, labelElement) => {
+            tickElement.classList.add("custom-ticks2");
+            labelElement.classList.add("custom-labels2");
+          }
+        }
+      ]
+      });
+
+// Novo Coronavirus Outbreak
+
+      // tick values
+      const outbreak = [
+        { date: new Date(2020, 0, 15), label: "Arrival" },
+        { date: new Date(2020, 0, 30), label: "+15 days" },
+        { date: new Date(2020, 1, 14), label: "+30 days " },
+        { date: new Date(2020, 1, 29), label: "+45 days" }
+      ];
+
+      const timeSlider5 = new TimeSlider({
+        container: "timeSlider5",
+        mode: "instant",
+        fullTimeExtent: {
+          start: new Date(2020, 0, 15),
+          end: new Date(2020, 1, 29)
+        },
+        tickConfigs: [{
+          mode: "position",
+          values: outbreak.map((o) => o.date.getTime()),
+          labelsVisible: true,
+          labelFormatFunction: (value) => {
+            return outbreak.find(
+              (o) => o.date.getTime() === value
+            ).label; // find the matching date from the outbreak and display the label object
+          },
+          tickCreatedFunction: (value, tickElement, labelElement) => {
+            tickElement.classList.add("custom-ticks");
+            labelElement.classList.add("custom-labels");
+          }
+        }
+      ]
+      });
+    });
+  </script>
+</head>
+<body>
+    <div class="sample-heading">Default Ticks (no customization)</div>
+    <div id="timeSlider0" class="sample-slider"></div>
+
+    <div class="sample-heading">Custom Values</div>
+    <div id="timeSlider1" class="sample-slider"></div>
+
+    <div class="sample-heading">Custom Values and Styling</div>
+    <div id="timeSlider2" class="sample-slider"></div>
+
+    <div class="sample-heading">Multiple Tick Configurations</div>
+    <div id="timeSlider3" class="sample-slider"></div>
+
+    <div class="sample-heading">Famous Physicists Date of Birth</div>
+    <div id="timeSlider4" class="sample-slider"></div>
+
+    <div class="sample-heading">Novo Coronavirus Outbreak</div>
+    <div id="timeSlider5" class="sample-slider" style="margin-bottom: 50px;"></div>
+</body>
+</html>
