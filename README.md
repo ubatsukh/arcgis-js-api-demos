@@ -36,3 +36,7 @@ This sample demonstrates how to use the client-side projection engine in JavaScr
 ### Setting custom ticks and labels for TimeSlider
 
 This sample shows to how set custom ticks and labels for the [TimeSlider](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html) widget by setting its [tickConfigs](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html#tickConfigs) property. The `tickConfigs` was added at version 4.16 and opens up endless possibilities to style and set custom ticks and labels for your TimeSlider. 
+
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/timeSlider-tickConfigs)
+
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/timeSlider-tickConfigs/)
