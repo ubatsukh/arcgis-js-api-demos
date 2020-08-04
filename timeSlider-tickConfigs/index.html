@@ -273,6 +273,16 @@
         }
       ]
       });
+
+      // custom values
+      const timeSlider6 = new TimeSlider({
+        container: "timeSlider6",
+        fullTimeExtent: {
+          start: new Date(2010, 0, 1),
+          end: new Date(2020, 0, 1)
+        },
+        tickConfigs: []
+      });
     });
   </script>
 </head>
@@ -293,6 +303,9 @@
     <div id="timeSlider4" class="sample-slider"></div>
 
     <div class="sample-heading">Novo Coronavirus Outbreak</div>
-    <div id="timeSlider5" class="sample-slider" style="margin-bottom: 50px;"></div>
+    <div id="timeSlider5" class="sample-slider"></div>
+    
+    <div class="sample-heading">No ticks and labels</div>
+    <div id="timeSlider6" class="sample-slider" style="margin-bottom: 50px;"></div>
 </body>
 </html>
