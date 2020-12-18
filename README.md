@@ -19,24 +19,24 @@ services. The `multiply` blend mode multiplies the values of each pixel of the t
 
 [View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/blendlayer/)
 
-
-
 ### 2. Client-side projection versus GeometryService projection
 
 This sample was featured in [this blog post](https://blogs.esri.com/esri/arcgis/2017/10/27/creating-a-custom-tile-layer-with-typescript/) introducing the client-side projection engine.
 
-This sample demonstrates how to use the client-side projection engine in JavaScript application. It also compares the performance of client-side projection versus the geometryserver projection. 
-
+This sample demonstrates how to use the client-side projection engine in JavaScript application. It also compares the performance of client-side projection versus the geometryserver projection.
 
 [View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/pe-gs-projection)
 
 [View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/pe-gs-projection/)
 
+### 3. Setting custom ticks and labels for TimeSlider
 
-### Setting custom ticks and labels for TimeSlider
-
-This sample shows to how set custom ticks and labels for the [TimeSlider](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html) widget by setting its [tickConfigs](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html#tickConfigs) property. The `tickConfigs` was added at version 4.16 and opens up endless possibilities to style and set custom ticks and labels for your TimeSlider. 
+This sample shows to how set custom ticks and labels for the [TimeSlider](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html) widget by setting its [tickConfigs](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TimeSlider.html#tickConfigs) property. The `tickConfigs` was added at version 4.16 and opens up endless possibilities to style and set custom ticks and labels for your TimeSlider.
 
 [View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/timeSlider-tickConfigs)
 
 [View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/timeSlider-tickConfigs/)
+
+### 4. Layer effects
+
+This sample shows how powerful layer effect can be to create what seems like news maps with a few lines of code.
