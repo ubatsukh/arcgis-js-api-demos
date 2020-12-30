@@ -1,9 +1,49 @@
-define(["require", "exports", "esri/layers/FeatureLayer", "esri/Map", "esri/views/MapView", "esri/widgets/TimeSlider", "esri/widgets/Legend", "esri/widgets/Expand", "esri/Basemap", "esri/renderers/SimpleRenderer", "esri/symbols/SimpleMarkerSymbol", "esri/renderers/visualVariables/SizeVariable"], function (require, exports, FeatureLayer, EsriMap, MapView, TimeSlider, Legend, Expand, Basemap, SimpleRenderer, SimpleMarkerSymbol, SizeVariable) {
+define(["require", "exports", "esri/layers/FeatureLayer", "esri/Map", "esri/views/MapView", "esri/widgets/TimeSlider", "esri/widgets/Legend", "esri/widgets/Expand", "esri/Basemap", "esri/renderers/SimpleRenderer", "esri/renderers/UniqueValueRenderer", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleFillSymbol", "esri/renderers/visualVariables/SizeVariable"], function (require, exports, FeatureLayer, EsriMap, MapView, TimeSlider, Legend, Expand, Basemap, SimpleRenderer, UniqueValueRenderer, SimpleMarkerSymbol, SimpleFillSymbol, SizeVariable) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    const colors = ["#FDF2DD", "#fed98e", "#fe9929", "#d95f0e", "#993404"];
     const smokeLayer = new FeatureLayer({
         url: "https://services9.arcgis.com/RHVPKKiFTONKtxq3/arcgis/rest/services/NDGD_SmokeForecast_v1/FeatureServer/0",
-        effect: "grayscale(90%) blur(8px) drop-shadow(5px 5px 3px) opacity(0.7)"
+        effect: "blur(5px) brightness(70%) drop-shadow(1px 1px 1px gray)",
+        opacity: 0.7,
+        popupTemplate: null,
+        renderer: new UniqueValueRenderer({
+            field: "smoke_classdesc",
+            defaultSymbol: {
+                color: null
+            },
+            uniqueValueInfos: [{
+                    value: "0 - 3",
+                    symbol: new SimpleFillSymbol({
+                        outline: null,
+                        color: colors[0],
+                    })
+                }, {
+                    value: "3 - 25",
+                    symbol: new SimpleFillSymbol({
+                        color: colors[1],
+                        outline: null,
+                    })
+                }, {
+                    value: "25 - 63",
+                    symbol: new SimpleFillSymbol({
+                        color: colors[2],
+                        outline: null,
+                    })
+                }, {
+                    value: "63 - 158",
+                    symbol: new SimpleFillSymbol({
+                        color: colors[3],
+                        outline: null,
+                    })
+                }, {
+                    value: "158 - 1000",
+                    symbol: new SimpleFillSymbol({
+                        color: colors[4],
+                        outline: null,
+                    })
+                }],
+        })
     });
     const firesLayer = new FeatureLayer({
         url: "https://services9.arcgis.com/RHVPKKiFTONKtxq3/arcgis/rest/services/USA_Wildfires_v1/FeatureServer/0",
@@ -28,6 +68,7 @@ define(["require", "exports", "esri/layers/FeatureLayer", "esri/Map", "esri/view
             ]
         })
     });
+    firesLayer.createPopupTemplate();
     // Firefly Imagery Hybrid
     const basemap = new Basemap({
         portalItem: {
@@ -42,7 +83,13 @@ define(["require", "exports", "esri/layers/FeatureLayer", "esri/Map", "esri/view
         map: map,
         container: "viewDiv",
         zoom: 4,
-        center: [-100, 38]
+        center: [-100, 38],
+        constraints: {
+            minScale: 73957191
+        },
+        popup: {
+            defaultPopupTemplateEnabled: true
+        }
     });
     view.ui.add("titleDiv", "top-right");
     view.ui.add("effectsDiv", "top-right");
@@ -57,7 +104,7 @@ define(["require", "exports", "esri/layers/FeatureLayer", "esri/Map", "esri/view
             firesLayer.effect = null;
             return;
         }
-        smokeLayer.effect = "grayscale(90%) blur(8px) drop-shadow(5px 5px 3px) opacity(0.7)";
+        smokeLayer.effect = "blur(5px) brightness(70%) drop-shadow(1px 1px 1px gray)";
         firesLayer.effect = "bloom(2.8, 1.2px, 0.2)";
     }
     // set up time slider
