@@ -39,4 +39,10 @@ This sample shows to how set custom ticks and labels for the [TimeSlider](https:
 
 ### 4. Layer effects
 
-This sample shows how powerful layer effect can be to create what seems like news maps with a few lines of code.
+The following samples show how powerful layer effects can be to create what seems like news maps with a few lines of code.
+
+#### 4.a Current wildfires and smoke forecast
+
+The following sample shows how bloom and blur effects are used to create fire maps.
+
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/effect-wildfires/)
