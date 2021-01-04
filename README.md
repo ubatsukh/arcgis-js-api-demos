@@ -45,4 +45,6 @@ The following samples show how powerful layer effects can be to create what seem
 
 The following sample shows how bloom and blur effects are used to create fire maps.
 
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/effect-wildfires)
+
 [View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/effect-wildfires/)
