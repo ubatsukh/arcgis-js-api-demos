@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "jsx": "react",
+    "jsxFactory": "tsx",
+    "target": "ES2019",
+    "experimentalDecorators": true,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "importHelpers": true,
+    "moduleResolution": "node"
+
+  },
+  "include": [
+    "./app/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
