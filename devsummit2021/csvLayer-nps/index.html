@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title> CSVLayer - national park established dates</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #timeSlider {
+      width: 400px;
+    }
+
+    #viewAlaska {
+      height: 300px;
+      width: 300px;
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      border-color: lightgray;
+      border-width: 2px;
+      border-style: solid;
+    }
+
+    #viewHawaii {
+      height: 200px;
+      width: 200px;
+      position: absolute;
+      bottom: 20px;
+      left: 321px;
+      border-color: lightgray;
+      border-width: 2px;
+      border-style: solid;
+    }
+
+    /* #infoDiv {
+      height: 440px;
+      width: 280px;
+      padding: 10px !important;
+    } */
+
+    .esri-time-slider__slider .esri-slider__tick.minorTick {
+      display: none;
+    }
+    .esri-time-slider__slider .esri-slider{
+      margin-top: 0px !important;
+    }
+    .esri-time-slider__layout--compact .esri-time-slider__row:nth-child(2){
+      height: 40px !important;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css"/>
+  <script>
+    var locationPath = location.pathname.replace(/\/[^\/]+$/, "");
+    window.dojoConfig = {
+      packages: [{
+        name: "app",
+        location: locationPath + "/app"
+      }]
+    }
+  </script>
+  <script src="https://js.arcgis.com/4.18"></script>
+
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <div id="viewAlaska"></div>
+  <div id="viewHawaii"></div>
+  <div id="timeSlider"></div>
+  <!-- <div id="infoDiv" class="esri-widget">
+    <h3 class="esri-widget__heading"> Parks </h3>
+    <div id="parksDiv" class="esri-widget"></div>
+  </div> -->
+  <script>
+    require(["app/main"]);
+</script>
+</body>
+
+</html>
