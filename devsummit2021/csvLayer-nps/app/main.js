@@ -35,8 +35,8 @@ define(["require", "exports", "esri/layers/CSVLayer", "esri/layers/FeatureLayer"
             }
         },
         popupTemplate: {
-            title: "College Info",
-            content: "Type: {type} <br/> Date: {date_est}",
+            title: "{unit_name}",
+            content: "Established on <b>{date_est}</b> <br/><br/> {description}",
         },
         renderer: new renderers_1.SimpleRenderer({
             symbol: new CIMSymbol({
@@ -227,12 +227,12 @@ define(["require", "exports", "esri/layers/CSVLayer", "esri/layers/FeatureLayer"
     });
     // const infoDiv = document.getElementById("infoDiv");
     // view.ui.add(infoDiv, "top-right");
-    view.when(function () {
+    view.when(() => {
         animateNParks(view);
         filterStates(view);
     });
     function filterStates(view) {
-        view.whenLayerView(states).then(function (layerView) {
+        view.whenLayerView(states).then((layerView) => {
             watchUtils.whenFalseOnce(layerView, "updating", function () {
                 layerView.filter = new FeatureFilter({
                     where: "(state_name <> 'Alaska') AND (state_name <> 'Hawaii')"
@@ -308,7 +308,7 @@ define(["require", "exports", "esri/layers/CSVLayer", "esri/layers/FeatureLayer"
     });
     view.ui.add(timeSlider, "bottom-right");
     function animateNParks(view) {
-        view.whenLayerView(csvLayer).then(function (layerView) {
+        view.whenLayerView(csvLayer).then((layerView) => {
             timeSlider.fullTimeExtent = csvLayer.timeInfo.fullTimeExtent.expandTo("years");
             timeSlider.values = [new Date(1873, 1, 1)];
             timeSlider.watch("timeExtent", function () {

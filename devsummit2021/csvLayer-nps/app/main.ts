@@ -50,8 +50,8 @@ const csvLayer = new CSVLayer({
     }
   },
   popupTemplate: {
-    title: "College Info",
-    content: "Type: {type} <br/> Date: {date_est}",
+    title: "{unit_name}",
+    content: "Established on <b>{date_est}</b> <br/><br/> {description}",
   },
   renderer: new SimpleRenderer({
     symbol: new CIMSymbol({
@@ -246,13 +246,13 @@ const view = new MapView({
 // const infoDiv = document.getElementById("infoDiv");
 // view.ui.add(infoDiv, "top-right");
 
-view.when(function(){
+view.when(() => {
   animateNParks(view);
   filterStates(view);
 });
 
 function filterStates(view: MapView){
-  view.whenLayerView(states).then(function(layerView){
+  view.whenLayerView(states).then((layerView) => {
     watchUtils.whenFalseOnce(layerView, "updating", function(){
       layerView.filter = new FeatureFilter({
         where: "(state_name <> 'Alaska') AND (state_name <> 'Hawaii')"
@@ -333,7 +333,7 @@ const timeSlider = new TimeSlider({
 view.ui.add(timeSlider, "bottom-right");
 
 function animateNParks(view: MapView) {
-  view.whenLayerView(csvLayer).then(function(layerView){
+  view.whenLayerView(csvLayer).then((layerView) => {
     timeSlider.fullTimeExtent = csvLayer.timeInfo.fullTimeExtent.expandTo("years");
     timeSlider.values = [new Date(1873, 1, 1)];
 

@@ -19,9 +19,9 @@ const smokeLayer = new FeatureLayer({
   popupTemplate: null,
   renderer: new UniqueValueRenderer({
     field: "smoke_classdesc",
-    defaultSymbol: { 
+    defaultSymbol: new SimpleFillSymbol({ 
       color: null
-    },
+    }),
       uniqueValueInfos: [{
         value: "0 - 3",
         symbol: new SimpleFillSymbol({
