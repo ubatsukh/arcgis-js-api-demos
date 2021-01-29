@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Create a FeatureLayer with client side graphics - 4.11</title>
+
+   <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    .slider {
+      width: 100%;
+      height: 60px;
+    }
+
+    #infoDiv {
+      padding: 15px;
+      width: 280px;
+    }
+   </style>
+  
+  <link rel="stylesheet" href="https://jsdev.arcgis.com/4.18/esri/css/main.css">
+  <script src="https://jsdev.arcgis.com/4.18/"></script>
+
+   <script>
+    require([
+      "esri/views/MapView",
+      "esri/Map",
+      "esri/layers/FeatureLayer",
+      "esri/widgets/Legend",
+      "esri/request",
+      "esri/core/urlUtils",
+      "esri/widgets/Slider"
+    ], function (MapView, Map, FeatureLayer, Legend,
+      esriRequest, urlUtils, Slider
+    ) {
+
+      let layer, featureLayerView;
+
+      var map = new Map({
+        basemap: "dark-gray"
+      });
+
+       // Create MapView
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-100, 38],
+        zoom: 5
+      });
+
+       view.when(function () {
+        // Request the earthquake data from USGS when the view resolves
+        getData()
+          .then(createGraphics) // then send it to the createGraphics() method
+          .then(createLayer)
+          .then(setupFilter)
+          .then(createLegend)
+          .catch(errback);
+      });
+
+      const slider = new Slider({
+        container: "sliderDiv",
+        min: 0,
+        max: 100,
+        values: [100],
+        steps: 1,
+        visibleElements: {
+          rangeLabels: true,
+          labels: true
+        }
+      });
+      view.ui.add("infoDiv", "bottom-left");
+
+      function setupFilter(){
+        view.whenLayerView(layer).then(layerView => {
+          featureLayerView = layerView;
+          const value = parseFloat(slider.value);
+          var expr = "percentile >= 100";
+          slider.on("thumb-drag", function (event) {
+            const value = 100 - parseFloat(slider.values[0]);
+            featureLayerView.filter = {
+              where: `percentile >= ${value}`
+            };
+          });
+        });
+      }
+
+      // Current Conditions Real-Time Stream flow Service
+      // https://waterwatch.usgs.gov/index.php?id=wwds_toc
+      // field descriptions: https://waterwatch.usgs.gov/webservices/
+      function getData() {
+        var url = "https://waterwatch.usgs.gov/webservices/realtime?region=us&format=json";
+         return esriRequest(url, {
+          responseType: "json"
+        });
+      }
+
+      function createGraphics(response) {
+        var data = response.data;
+        console.log(data);
+        // Create an array of Graphics from each GeoJSON feature
+        return data.sites.map(function (site, i) {
+          return {
+            geometry: {
+              type: "point",
+              x: site.dec_long_va,
+              y: site.dec_lat_va,
+              spatialReference: {
+                wkid: 4326
+              }
+            },
+            attributes: {
+              ObjectID: i,
+              class: site.class,
+              flow: site.flow.toString(),
+              flow_dt: site.flow_dt,
+              flow_unit: site.flow_unit,
+              percent_mean: site.percent_mean,
+              percent_median: site.percent_median,
+              percentile: site.percentile,
+              url: site.url
+            }
+          };
+        });
+      }
+
+      function createLayer(graphics) {
+        var fields = [{
+          name: "ObjectID",
+          alias: "ObjectID",
+          type: "oid"
+        },
+        {
+          name: "site_no",
+          alias: "site_no",
+          type: "integer"
+        }, {
+          name: "station_nm",
+          alias: "Station name",
+          type: "string"
+        }, {
+          name: "percentile",
+          alias: "percentile",
+          type: "double"
+        }, {
+          name: "percentile_median",
+          alias: "percent median",
+          type: "double"
+        }, {
+          name: "percentile_mean",
+          alias: "percentile mean",
+          type: "double"
+        }, {
+          name: "url",
+          alias: "url",
+          type: "string"
+        }];
+
+        var renderer = {
+          type: "simple",
+          symbol: {
+            type: "simple-marker",
+            style: "circle",
+            size: 4,
+            color: "#1ca3ec",
+            outline: {
+              width: 0.3,
+              color: "#1ca3ec",
+              style: "solid"
+            }
+          },
+          visualVariables: {
+            type: "color",
+            field: "percentile",
+            stops: [{
+                value: 10,
+                color: "#91312f"
+              }, {
+                value: 25,
+                color: "#f28226"
+              }, {
+                value: 75,
+                color: "#4dd11d"
+              }, {
+                value: 90,
+                color: "#3dc4ed"
+              },
+              {
+                value: 100,
+                color: "#3d55ed"
+              }
+            ]
+          }
+        };
+
+        layer = new FeatureLayer({
+          source: graphics,
+          fields: fields,
+          objectIdField: "ObjectID",
+          renderer: renderer,
+          spatialReference: {
+            wkid: 102100
+          },
+          title: "Current stream flow percentage"
+        });
+        map.add(layer);
+        return layer;
+      }
+
+      function createLegend(layer) {
+        var legend = new Legend({
+          view: view
+        });
+        view.ui.add(legend, "bottom-right");
+      }
+       // Executes if data retrieval was unsuccessful.
+      function errback(error) {
+        console.error("Creating legend failed. ", error);
+      }
+     });
+   </script>
+</head>
+ <body>
+  <div id="viewDiv"></div>
+  <div id="infoDiv" class="esri-widget">
+    <h3 class="esri-widget__heading">USGS streamflow percentage</h3><br/>
+    <div id="sliderDiv" class="slider"></div>
+  </div>
+</body>
+ </html>
