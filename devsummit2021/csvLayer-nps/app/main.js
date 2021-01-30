@@ -1,13 +1,6 @@
 define(["require", "exports", "esri/layers/CSVLayer", "esri/layers/FeatureLayer", "esri/Map", "esri/views/MapView", "esri/widgets/TimeSlider", "esri/Basemap", "esri/core/watchUtils", "esri/symbols/CIMSymbol", "esri/renderers", "esri/symbols", "esri/layers/support/LabelClass", "esri/TimeInterval", "esri/TimeExtent", "esri/views/layers/support/FeatureFilter", "esri/views/layers/support/FeatureEffect"], function (require, exports, CSVLayer, FeatureLayer, EsriMap, MapView, TimeSlider, Basemap, watchUtils, CIMSymbol, renderers_1, symbols_1, LabelClass, TimeInterval, TimeExtent, FeatureFilter, FeatureEffect) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    const constraints = {
-        snapToZoom: false,
-        minScale: 14295271
-    };
-    const spatialReference = {
-        wkid: 102003
-    };
     const states = new FeatureLayer({
         url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2",
         renderer: new renderers_1.SimpleRenderer({
@@ -216,17 +209,24 @@ define(["require", "exports", "esri/layers/CSVLayer", "esri/layers/FeatureLayer"
         container: "viewDiv",
         map: map,
         extent: {
-            spatialReference: spatialReference,
+            spatialReference: {
+                wkid: 102003
+            },
             xmax: 2262921.752044893,
             xmin: -2684324.0809117956,
             ymax: 1598284.4176881902,
             ymin: -1426003.6710097145
         },
-        constraints: constraints,
-        spatialReference: spatialReference
+        constraints: {
+            snapToZoom: false,
+            minScale: 14295271
+        },
+        spatialReference: {
+            wkid: 102003
+        }
     });
-    // const infoDiv = document.getElementById("infoDiv");
-    // view.ui.add(infoDiv, "top-right");
+    const infoDiv = document.getElementById("infoDiv");
+    view.ui.add(infoDiv, "top-right");
     view.when(() => {
         animateNParks(view);
         filterStates(view);
@@ -304,17 +304,22 @@ define(["require", "exports", "esri/layers/CSVLayer", "esri/layers/FeatureLayer"
                 unit: "years"
             })
         },
+        // view: view
         playRate: 300
     });
     view.ui.add(timeSlider, "bottom-right");
     function animateNParks(view) {
         view.whenLayerView(csvLayer).then((layerView) => {
-            timeSlider.fullTimeExtent = csvLayer.timeInfo.fullTimeExtent.expandTo("years");
-            timeSlider.values = [new Date(1873, 1, 1)];
+            timeSlider.fullTimeExtent = new TimeExtent({
+                start: new Date(1873, 11, 31),
+                end: new Date(2017, 11, 31)
+            });
             timeSlider.watch("timeExtent", function () {
                 csvLayer.definitionExpression = "date_est <= " + timeSlider.timeExtent.end.getTime();
+                console.log(timeSlider.timeExtent.start, timeSlider.timeExtent.end);
                 var start = new Date(timeSlider.timeExtent.end.getTime());
-                start.setFullYear(start.getFullYear() - 1);
+                start.setMonth(0);
+                start.setDate(1);
                 layerView.effect = new FeatureEffect({
                     // excludedLabelsVisible: true,
                     filter: new FeatureFilter({
@@ -326,17 +331,20 @@ define(["require", "exports", "esri/layers/CSVLayer", "esri/layers/FeatureLayer"
                     excludedEffect: "grayscale(80%) blur(2px) opacity(0.3)",
                     includedEffect: "bloom(1.2, 2px, 0.2)"
                 });
-                // const query = layerView.effect.filter.createQuery();
-                // let list = "";
-                // csvLayer.queryFeatures(query).then(function(results){
-                //   if (results.features.length > 0){
-                //     results.features.forEach(function(feature){
-                //       console.log(feature.attributes.unit_name);
-                //       list = list + `<br> ${feature.attributes.unit_name}`
-                //     });
-                //     document.getElementById("parksDiv").innerHTML = list;
-                //   }
-                // });
+                console.log(start.toLocaleDateString(), timeSlider.timeExtent.end.toLocaleDateString());
+                const query = layerView.effect.filter.createQuery();
+                query.orderByFields = ["date_est"];
+                let list = "";
+                csvLayer.queryFeatures(query).then(function (results) {
+                    // console.log(results.features.length);
+                    if (results.features.length > 0) {
+                        results.features.forEach(function (feature) {
+                            console.log(feature.attributes.unit_name);
+                            list = list + `<br/><a href="${feature.attributes.metadata}>${feature.attributes.unit_name}</a>`;
+                        });
+                        document.getElementById("parksDiv").innerHTML = list;
+                    }
+                });
             });
         });
     }
