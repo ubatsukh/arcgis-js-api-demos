@@ -127,7 +127,7 @@ function updateEffects() {
  }
 
 // set up time slider
-view.whenLayerView(smokeLayer).then(function (lv) {
+view.whenLayerView(smokeLayer).then((lv) => {
   const { fullTimeExtent, interval } = smokeLayer.timeInfo;
   
   const timeSlider = new TimeSlider({

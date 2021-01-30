@@ -316,7 +316,6 @@ define(["require", "exports", "esri/layers/CSVLayer", "esri/layers/FeatureLayer"
             });
             timeSlider.watch("timeExtent", function () {
                 csvLayer.definitionExpression = "date_est <= " + timeSlider.timeExtent.end.getTime();
-                console.log(timeSlider.timeExtent.start, timeSlider.timeExtent.end);
                 var start = new Date(timeSlider.timeExtent.end.getTime());
                 start.setMonth(0);
                 start.setDate(1);
@@ -331,15 +330,12 @@ define(["require", "exports", "esri/layers/CSVLayer", "esri/layers/FeatureLayer"
                     excludedEffect: "grayscale(80%) blur(2px) opacity(0.3)",
                     includedEffect: "bloom(1.2, 2px, 0.2)"
                 });
-                console.log(start.toLocaleDateString(), timeSlider.timeExtent.end.toLocaleDateString());
                 const query = layerView.effect.filter.createQuery();
                 query.orderByFields = ["date_est"];
                 let list = "";
                 csvLayer.queryFeatures(query).then(function (results) {
-                    // console.log(results.features.length);
                     if (results.features.length > 0) {
                         results.features.forEach(function (feature) {
-                            console.log(feature.attributes.unit_name);
                             list = list + `<br/><a href="${feature.attributes.metadata}>${feature.attributes.unit_name}</a>`;
                         });
                         document.getElementById("parksDiv").innerHTML = list;
