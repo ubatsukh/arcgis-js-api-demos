@@ -37,9 +37,7 @@ This sample shows to how set custom ticks and labels for the [TimeSlider](https:
 
 [View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/timeSlider-tickConfigs/)
 
-### 4. Layer effects
-
-The following samples show how powerful layer effects can be to create what seems like news maps with a few lines of code.
+### 4. Dev summit 2021 demos
 
 #### 4.a Current wildfires and smoke forecast
 
@@ -48,3 +46,13 @@ The following sample shows how bloom and blur effects are used to create fire ma
 [View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/effect-wildfires)
 
 [View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/effect-wildfires/)
+
+
+
+#### 4.b CSVLayer Demo
+
+The following sample shows how to create and add a time-aware CSVLayer to the map. It also shows how to use TimeSlider widget to animate through temporal data.
+
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/devsummit2021/csvLayer-nps)
+
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/csvLayer-nps/)
