@@ -3,7 +3,7 @@
  <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-  <title>Create a FeatureLayer with client side graphics - 4.11</title>
+  <title>Create a FeatureLayer with client side graphics</title>
 
    <style>
     html,
@@ -57,7 +57,7 @@
       });
 
        view.when(function () {
-        // Request the earthquake data from USGS when the view resolves
+        // Request the stream flow data from USGS when the view resolves
         getData()
           .then(createGraphics) // then send it to the createGraphics() method
           .then(createLayer)
