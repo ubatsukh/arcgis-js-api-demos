@@ -13,6 +13,7 @@ import TimeInterval = require("esri/TimeInterval");
 import TimeExtent = require("esri/TimeExtent");
 import FeatureFilter = require("esri/views/layers/support/FeatureFilter");
 import FeatureEffect = require("esri/views/layers/support/FeatureEffect");
+import CSVLayerView = require("esri/views/layers/CSVLayerView");
 
 const states = new FeatureLayer({
   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2",
@@ -335,37 +336,48 @@ view.ui.add(timeSlider, "bottom-right");
 function animateNParks(view: MapView) {
   view.whenLayerView(csvLayer).then((layerView) => {
     timeSlider.fullTimeExtent = new TimeExtent({
-      start: new Date(1873, 11, 31),
+      start: new Date(1872, 11, 31),
       end: new Date(2017, 11, 31)
+    });
+
+    watchUtils.whenFalseOnce(layerView, "updating", function(){
+      setLayerEffect(layerView);
     });
 
     timeSlider.watch("timeExtent", function() {
       csvLayer.definitionExpression = "date_est <= " + timeSlider.timeExtent.end.getTime();
-      var start = new Date(timeSlider.timeExtent.end.getTime());
-      start.setMonth(0);
-      start.setDate(1);
-      layerView.effect = new FeatureEffect({
-        // excludedLabelsVisible: true,
-        filter: new FeatureFilter({
-          timeExtent: new TimeExtent({
-            start: start,
-            end: timeSlider.timeExtent.end
-          })
-        }),
-        excludedEffect: "grayscale(80%) blur(2px) opacity(0.3)",
-        includedEffect: "bloom(1.2, 2px, 0.2)"
-      });
-      const query = layerView.effect.filter.createQuery();
-      query.orderByFields = ["date_est"];
-      let list = "";
-      csvLayer.queryFeatures(query).then(function(results){
-        if (results.features.length > 0){
-          results.features.forEach(function(feature){
-            list = list + `<br/><a href="${feature.attributes.metadata}>${feature.attributes.unit_name}</a>`
-          });
-          document.getElementById("parksDiv").innerHTML = list;
-        }
-      });
+      setLayerEffect(layerView);
     });
+  });
+}
+
+function setLayerEffect(layerView: CSVLayerView){
+  const start = new Date(timeSlider.timeExtent.end.getTime());
+  start.setMonth(0);
+  start.setDate(1);
+  const timeExtent = new TimeExtent({
+    start: start,
+    end: timeSlider.timeExtent.end
+  });
+  layerView.effect = new FeatureEffect({
+    // excludedLabelsVisible: true,
+    filter: new FeatureFilter({
+     timeExtent
+    }),
+    excludedEffect: "grayscale(80%) blur(2px) opacity(0.3)",
+    includedEffect: "bloom(1.2, 2px, 0.2)"
+  });
+
+  const query = layerView.effect.filter.createQuery();
+  query.orderByFields = ["date_est"];
+  let list = "";
+  csvLayer.queryFeatures(query).then(function(results){
+    if (results.features.length > 0) {
+      results.features.forEach(function(feature){
+        list = list + `<a href="${feature.attributes.metadata}">${feature.attributes.unit_name}</a><br/>`
+      });
+      document.getElementById("parksDiv").innerHTML = list;
+      console.log(list, "html", document.getElementById("parksDiv").innerHTML);
+    }
   });
 }
