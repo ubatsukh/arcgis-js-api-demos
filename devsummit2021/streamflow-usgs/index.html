@@ -37,9 +37,10 @@
       "esri/widgets/Legend",
       "esri/request",
       "esri/core/urlUtils",
-      "esri/widgets/Slider"
+      "esri/widgets/Slider",
+      "esri/widgets/Expand"
     ], function (MapView, Map, FeatureLayer, Legend,
-      esriRequest, urlUtils, Slider
+      esriRequest, urlUtils, Slider, Expand
     ) {
 
       let layer, featureLayerView;
@@ -216,10 +217,13 @@
       }
 
       function createLegend(layer) {
-        var legend = new Legend({
-          view: view
-        });
-        view.ui.add(legend, "bottom-right");
+        var expand = new Expand({
+          view: view,
+          content: new Legend({
+            view: view
+          })
+        })
+        view.ui.add(expand, "bottom-right");
       }
        // Executes if data retrieval was unsuccessful.
       function errback(error) {
