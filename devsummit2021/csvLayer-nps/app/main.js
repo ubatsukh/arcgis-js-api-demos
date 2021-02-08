@@ -348,7 +348,6 @@ define(["require", "exports", "esri/layers/CSVLayer", "esri/layers/FeatureLayer"
                     list = list + `<a href="${feature.attributes.metadata}">${feature.attributes.unit_name}</a><br/>`;
                 });
                 document.getElementById("parksDiv").innerHTML = list;
-                console.log(list, "html", document.getElementById("parksDiv").innerHTML);
             }
         });
     }
