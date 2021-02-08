@@ -298,10 +298,6 @@ define(["require", "exports", "esri/layers/CSVLayer", "esri/layers/FeatureLayer"
         container: "timeSlider",
         layout: "compact",
         mode: "cumulative-from-start",
-        fullTimeExtent: new TimeExtent({
-            start: new Date(1872, 11, 31),
-            end: new Date(2017, 11, 31)
-        }),
         stops: {
             interval: new TimeInterval({
                 value: 1,
@@ -314,6 +310,10 @@ define(["require", "exports", "esri/layers/CSVLayer", "esri/layers/FeatureLayer"
     view.ui.add(timeSlider, "bottom-right");
     function animateNParks(view) {
         view.whenLayerView(csvLayer).then((layerView) => {
+            timeSlider.fullTimeExtent = new TimeExtent({
+                start: new Date(1872, 11, 31),
+                end: new Date(2017, 11, 31)
+            });
             watchUtils.whenFalseOnce(layerView, "updating", function () {
                 setLayerEffect(layerView);
             });
