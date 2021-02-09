@@ -14,7 +14,7 @@ This app was used to demonstrate how to create client-side featurelayer from an 
 
 [View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/streamflow-usgs/)
 
-<a name="time-enable-csv"/>
+<a name="time-enabled-csv"/>
 
 #### Demo 2. Time enabled CSVLayer
 
