@@ -37,7 +37,7 @@ This app was used to demonstrate how to filter data based on a given time extent
 
 [![smoke-forecast](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2021/images/wildfire-effect.gif)](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/devsummit2021/fire-perimeter)
 
-[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/devsummit2021/fire-perimeter)
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/devsummit2021/effect-wildfires)
 
 [View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/effect-wildfires/)
 
@@ -47,9 +47,9 @@ This app was used to demonstrate how to filter data based on a given time extent
 
 This app was used to demonstrate how to filter data based on a date field. In this app, we add 2019 fire perimeters feature service as a feature layer. The service does not have timeInfo information published with it but has a date field that was updated whenever the fire perimeters were updated. We watch TimeSlider's timeExtent property to filter out the fire perimeters if they do not fall on a date where the timeslider thumb is. This is done by setting an attribute filter on the layer view that represent the fire perimeter layer. 
 
-[![fire-perimeter](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2021/images/wildfire-effect.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/fire-perimeter/)
+[![fire-perimeter](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2021/images/fire-perimeter.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/fire-perimeter/)
 
-[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/devsummit2021/effect-wildfires)
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/devsummit2021/fire-perimeter)
 
 [View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/fire-perimeter/)
 
