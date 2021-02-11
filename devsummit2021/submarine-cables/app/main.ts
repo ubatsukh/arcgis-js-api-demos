@@ -40,27 +40,30 @@ const cityLayer = new FeatureLayer({
   effect: "bloom(1.5, 1px, 0.3)"
 });
 
+const tileLayer = new TileLayer({
+  portalItem: {
+  id: "a66bfb7dd3b14228bf7ba42b138fe2ea"
+},
+  blendMode: "luminosity"
+});
+
+const vtLayer = new VectorTileLayer({
+  portalItem: {
+  id: "1ddbb25aa29c4811aaadd94de469856a"
+  },
+  blendMode: "soft-light"
+});
+
+const miLayer = new MapImageLayer({
+  url: "https://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Reference/MapServer",
+  blendMode: "hard-light",
+  effect: "invert() saturate(0)",
+  maxScale: 36112
+});
+
 const map = new EsriMap({
    basemap: {
-    baseLayers: [
-      new TileLayer({
-        portalItem: {
-        id: "a66bfb7dd3b14228bf7ba42b138fe2ea"
-      },
-        blendMode: "luminosity"
-      }), 
-      new VectorTileLayer({
-        portalItem: {
-        id: "1ddbb25aa29c4811aaadd94de469856a"
-        },
-        blendMode: "soft-light"
-      }),
-      new MapImageLayer({
-        url: "https://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Reference/MapServer",
-        blendMode: "hard-light",
-        effect: "invert() saturate(0)",
-        maxScale: 36112
-      })]
+    baseLayers: [tileLayer, vtLayer, miLayer]
   },
   layers: [cablesLayer, cityLayer]
 });
@@ -74,6 +77,25 @@ const view = new MapView({
   }
 });
 // view.ui.add("infoDiv", "top-right");
+view.ui.add("blendDiv", "top-right");
+
+// get a reference to the applyBloom check box
+const chkToggleBlending = <HTMLInputElement>document.getElementById("toggleBlending");
+// call updateEffects function when user clicks the checkbox
+chkToggleBlending.addEventListener("click", updateBlending);
+
+function updateBlending() {
+  // set the layer effect to null if the user unchecked the applyBloom checkbox
+  if (!chkToggleBlending.checked) {
+    tileLayer.blendMode = "normal";
+    vtLayer.blendMode = "normal";
+    miLayer.blendMode = "normal";
+    return;
+  }
+  tileLayer.blendMode = "luminosity";
+  vtLayer.blendMode = "soft-light";
+  miLayer.blendMode = "hard-light";
+ }
 
 const cablesLayerView = await view.whenLayerView(cablesLayer) as FeatureLayerView;
 

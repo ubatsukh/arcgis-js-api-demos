@@ -16,20 +16,8 @@
       width: 100%;
     }
 
-    /* #timeSlider {
-      position: absolute;
-      left: 100px;
-      right: 100px;
-      bottom: 20px;
-    } */
-
-    #infoDiv {
+    #blendDiv {
       padding: 10px;
-    }
-    #titleText {
-      font-size: 20pt;
-      font-weight: 60;
-      padding-bottom: 10px;
     }
   </style>
   <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/dark/main.css"/>
@@ -48,9 +36,9 @@
 
 <body>
   <div id="viewDiv"></div>
-  <div id="infoDiv" class="esri-widget">
-    <h3 class="esri-widget__heading">Submarine cables<h3>
-      <div id="stats"></div>
+  <div id="blendDiv" class="esri-widget">
+    <input type="checkbox" id="toggleBlending" name="bloom" checked />
+    <label for="toggleBlending"> Toggle blendMode</label>
   </div>
   <div id="timeSlider"></div>
   <script>
