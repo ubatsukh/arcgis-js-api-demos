@@ -53,3 +53,20 @@ This app was used to demonstrate how to filter data based on a date field. In th
 
 [View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/fire-perimeter/)
 
+### ArcGIS API for JavaScript: Photoshop-style Graphics Effects for Your Layers and Data
+
+<a name="submarine-cables"/>
+
+#### Demo 1. Submarine cables built since 1990 
+
+This app was used to demonstrate how to layer blendMode and effects can be used to create visually appealing effects to your layers. This demo uses `luminosity`, `soft-light` and `hard-light` blend modes on layers to change the look and feel of the basemap. It also applies effects on the `bloom` effect on the submarine cables layer to have them pop on the map.
+
+[![submarine-cables](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2021/images/submarine-cables.png)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/submarine-cables/)
+
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/devsummit2021/submarine-cables)
+
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/submarine-cables/)
+
+
+
+
