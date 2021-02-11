@@ -58,7 +58,7 @@ define(["require", "exports", "esri/layers/FeatureLayer", "esri/layers/MapImageL
         });
         // view.ui.add("infoDiv", "top-right");
         view.ui.add("blendDiv", "top-right");
-        // get a reference to the applyBloom check box
+        // get a reference to the toggleBlending check box
         const chkToggleBlending = document.getElementById("toggleBlending");
         // call updateEffects function when user clicks the checkbox
         chkToggleBlending.addEventListener("click", updateBlending);
@@ -73,6 +73,18 @@ define(["require", "exports", "esri/layers/FeatureLayer", "esri/layers/MapImageL
             tileLayer.blendMode = "luminosity";
             vtLayer.blendMode = "soft-light";
             miLayer.blendMode = "hard-light";
+        }
+        // get a reference to the toggleEffects check box
+        const chkToggleEffects = document.getElementById("toggleEffects");
+        // call updateEffects function when user clicks the checkbox
+        chkToggleEffects.addEventListener("click", updateEffects);
+        function updateEffects() {
+            // set the layer effect to null if the user unchecked the applyBloom checkbox
+            if (!chkToggleEffects.checked) {
+                miLayer.effect = null;
+                return;
+            }
+            miLayer.effect = "invert() saturate(0)";
         }
         const cablesLayerView = await view.whenLayerView(cablesLayer);
         // watch for time slider timeExtent change
