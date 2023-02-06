@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raster function snippets</title>
+  <script type="module" src=https://js.arcgis.com/calcite-components/1.0.3/calcite.esm.js></script>
+  <link rel="stylesheet" type="text/css" href=https://js.arcgis.com/calcite-components/1.0.3/calcite.css />
+  <style>
+    html,
+    body,
+    {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    }
+
+    #functions {
+      display: flex;
+      width: 100%;
+    }
+
+    .leftSideDivs {
+      width: 65%;
+    }
+
+    #snippets {
+      width: 35%;
+      padding-left: 10px !important;
+    }
+
+    .chipSpacing {
+      margin: 5px;
+      background-color: #eaeaea;
+    }
+    .snippet {
+      padding-left: 10px;
+    }
+
+  </style>
+  <script type="text/javascript">
+    const local1Description = "Perform a per-pixel operation using one raster.";
+    const local2Description = "Perform a per-pixel operation using two rasters, one of them can be a constant number";
+    const functions = [
+      {
+        category: "Conditional",
+        name: "SetNull",
+        desc: "Set the pixel to null if the pixel value is truthy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/set-null-function.htm' target='_blank'>Set Null function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "SetNull",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Conditional",
+        name: "Con",
+        desc: "Performs a conditional if/else evaluation on each of the input cells of an input raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/con-function.htm' target='_blank'>Con function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Con",
+            Rasters: [] // 3 rasters
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Plus",
+        desc: "Adds (sums) the values of two rasters on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Plus",
+            Rasters: ["$$", 10]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Minus",
+        desc: "Subtracts the value of the second input raster from the value of the first input raster on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Minus",
+            Rasters: ["$$", 10]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Times",
+        desc: "Multiplies the values of two rasters on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Times",
+            Rasters: ["$$", 10]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "SquareRoot",
+        desc: "Calculates the square root of the pixel values in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "SquareRoot",
+            Rasters: ["$$"]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Power",
+        desc: "Raises the pixel values in a raster to the power of the values found in another raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Power",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Abs",
+        desc: "Calculates the absolute value of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/abs-function.htm' target='_blank'>Abs function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Abs",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Divide",
+        desc: "Divides the values of two rasters on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/divide-function.htm' target='_blank'>Divide function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Divide",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Exp",
+        desc: "Calculates the base e exponential of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/exp-function.htm' target='_blank'>Exp function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Exp",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Exp10",
+        desc: "Calculates the base 10 exponential of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/exp10-function.htm' target='_blank'>Exp10 function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Exp10",
+            Rasters: ["$$"]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Exp2",
+        desc: "Calculates the base 2 exponential of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/exp2-function.htm' target='_blank'>Exp2 function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Exp2",
+            Rasters: ["$$"]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Int",
+        desc: "Converts each pixel value of a raster to an integer by truncation. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/int-function.htm' target='_blank'>Int function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Int",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Ln",
+        desc: "Calculates the natural logarithm (base e) of each pixel in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/ln-function.htm' target='_blank'>Ln function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Ln",
+            Rasters: ["$$"]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Log10",
+        desc: "Calculates the base 10 logarithm of each pixel in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/log10abs-function.htm' target='_blank'>Log10 function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Log10",
+            Rasters: ["$$"]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Log2",
+        desc: "Calculates the base 2 logarithm of each pixel in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/log2-function.htm' target='_blank'>Log2 function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Log2",
+            Rasters: ["$$"]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Mod",
+        desc: "Finds the remainder (modulo) of the first raster when divided by the second raster on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/mod-function.htm' target='_blank'>Mod function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Mod",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Negate",
+        desc: "Multiply the pixel value of the input raster by -1 on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/negate-function.htm' target='_blank'>Negate function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Negate",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "Square",
+        desc: "Calculates the square of the pixel values in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/square-function.htm' target='_blank'>Square function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Square",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "FloorDivide",
+        desc: "Perform a per-pixel floor divide operation using two rasters, one of them can be a constant number. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/floor-divide-function.htm' target='_blank'>Floor Divide function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "FloorDivide",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "BitwiseAnd",
+        desc: "Performs a Bitwise And operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-and-function.htm' target='_blank'>BitwiseAnd function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "BitwiseAnd",
+            Rasters: ["$$", 3]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "BitwiseLeftShift",
+        desc: "Performs a Bitwise Left Shift operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-left-shift-function.htm' target='_blank'>Bitwise Left Shift function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "BitwiseLeftShift",
+            Rasters: ["$$", 3]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "BitwiseNot",
+        desc: "Performs a Bitwise Not (complement) operation on the binary value of an input raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-not-function.htm' target='_blank'>Bitwise not function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "BitwiseNot",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "BitwiseOr",
+        desc: "Performs a Bitwise Or operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-or-function.htm' target='_blank'>Bitwise Or function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "BitwiseOr",
+            Rasters: ["$$", 3]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "BitwiseRightShift",
+        desc: "Performs a Bitwise Right Shift operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-right-shift-function.htm' target='_blank'>Bitwise Right Shift function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "BitwiseRightShift",
+            Rasters: ["$$", 3]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "BitwiseXOr",
+        desc: "Performs a Bitwise eXclusive Or operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-xor-function.htm' target='_blank'>Bitwise Xor function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "BitwiseXOr",
+            Rasters: ["$$", 3]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "BooleanAnd",
+        desc: "Performs a Boolean And operation on the pixel values of two input rasters. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/boolean-and-function.htm' target='_blank'>Boolean And function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "BooleanAnd",
+            Rasters: ["$$", 3]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "BooleanNot",
+        desc: "Performs a Boolean Not (complement) operation on the pixel values of the input raster. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/boolean-not-function.htm' target='_blank'>Boolean Not function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "BooleanNot",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "BooleanOr",
+        desc: "Performs a Boolean eXclusive Or operation on the cell values of two input rasters. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/boolean-or-function.htm' target='_blank'>Boolean Or function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "BooleanOr",
+            Rasters: ["$$", 3]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "BooleanXOr",
+        desc: "Performs a Boolean eXclusive Or operation on the cell values of two input rasters. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/boolean-xor-function.htm' target='_blank'>Boolean Xor function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "BooleanXOr",
+            Rasters: ["$$", 3]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "GreaterThan",
+        desc: "Performs a Relational greater-than operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/greater-than-function.htm' target='_blank'>Greater than function</a> for more info.",
+
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "GreaterThan",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "GreaterThanEqual",
+        desc: "Performs a Relational greater-than-or-equal-to operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/greater-than-equal-function.htm' target='_blank'>Greater than equal function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "GreaterThanEqual",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "EqualTo",
+        desc: "Performs an equal-to operation on two rasters on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/equal-to-function.htm' target='_blank'>Equal To function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "EqualTo",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "IsNull",
+        desc: "Determines which values from the input raster are NoData on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/is-null-function.htm' target='_blank'>Is Null function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "IsNull",
+            Rasters: ["$$"]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "LessThan",
+        desc: "Performs a Relational less-than operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/less-than-function.htm' target='_blank'>Less than function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "LessThan",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "LessThanEqual",
+        desc: "Performs a Relational less-than-or-equal-to operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/less-than-equal-function.htm' target='_blank'>Less Than Equal function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "LessThanEqual",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Logical",
+        name: "NotEqual",
+        desc: "Performs a Relational not-equal-to operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "NotEqual",
+            Rasters: ["$$", 2]
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "ACos",
+        desc: "Calculates the inverse cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/acos-function.htm' target='_blank'>ACos function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "ACos",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "ASin",
+        desc: "Calculates the inverse hyperbolic cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/asin-function.htm' target='_blank'>ASin function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "ASin",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "ATan",
+        desc: "Calculates the inverse tangent of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/atan-function.htm' target='_blank'>ATan function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "ATan",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "ATanh",
+        desc: "Calculates the inverse tangent (based on x,y) of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/atan-function.htm' target='_blank'>ATanh function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "ATanh",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "Cos",
+        desc: "Calculates the cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cos-function.htm' target='_blank'>Cos function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Cos",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "CosH",
+        desc: "Calculates the hyperbolic cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cosh-function.htm' target='_blank'>CosH function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "CosH",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "Sin",
+        desc: "Calculates the sine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/sin-function.htm' target='_blank'>Sin function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Sin",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "SinH",
+        desc: "Calculates the hyperbolic sine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/sinh-function.htm' target='_blank'>SinH function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "SinH",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "Tan",
+        desc: "Calculates the tangent of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/tan-function.htm' target='_blank'>Tan function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Tan",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "TanH",
+        desc: "Calculates the hyperbolic tangent of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/tanh-function.htm' target='_blank'>TanH function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "TanH",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "ACosH",
+        desc: "Calculates the inverse hyperbolic cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/acosh-function.htm' target='_blank'>ACosH function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "ACosH",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "ASinH",
+        desc: "Calculates the inverse hyperbolic sine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/asinh-function.htm' target='_blank'>ASinH function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "ASinH",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Trignometric",
+        name: "ATan2",
+        desc: "Calculates the inverse tangent (based on x,y) of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/atan2-function.htm' target='_blank'>ATan2 function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "ATan2",
+            Rasters: [] // two rasters
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "Majority",
+        desc: "Determines the value that occurs most often on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Majority",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "Max",
+        desc: "Determines the largest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Max",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "Mean",
+        desc: "Calculates the average on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "mean",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "Median",
+        desc: "Calculates the middle value of the pixels on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Median",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "Min",
+        desc: "Determines the smallest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Min",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "Minority",
+        desc: "Determines the value that occurs least often on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Minority",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "Range",
+        desc: "Calculates the difference between the largest and the smallest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Range",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "RoundDown",
+        desc: "Round the pixel value down to the next lower integer. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "RoundDown",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "RoundUp",
+        desc: "Round the pixel value up to the next higher integer. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "RoundUp",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "Standard Deviation",
+        desc: "Calculates the standard deviation of the pixels on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "StandardDeviation",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "Sum",
+        desc: "Calculates the total value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Sum",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "Variety",
+        desc: "Calculates the number of unique values on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "Variety",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "MajorityIgnoreNoData",
+        desc: "Determines the value that occurs most often on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "MajorityIgnoreNoData",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "MaxIgnoreNoData",
+        desc: "Determines the largest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "MaxIgnoreNoData",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "MeanIgnoreNoData",
+        desc: "Calculates the average on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "MeanIgnoreNoData",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "MedianIgnoreNoData",
+        desc: "Calculates the middle value of the pixels on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "MedianIgnoreNoData",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "MinIgnoreNoData",
+        desc: "Determines the smallest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "MinIgnoreNoData",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "MinorityIgnoreNoData",
+        desc: "Determines the value that occurs least often on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "MinorityIgnoreNoData",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "RangeIgnoreNoData",
+        desc: "Calculates the difference between the largest and the smallest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "RangeIgnoreNoData",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "StandardDeviationIgnoreNoData",
+        desc: "Calculates the standard deviation of the pixels on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "StandardDeviationIgnoreNoData",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "SumIgnoreNoData",
+        desc: "Calculates the total value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "SumIgnoreNoData",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "CellStatistics",
+        name: "VarietyIgnoreNoData",
+        desc: "Calculates the number of unique values on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "VarietyIgnoreNoData",
+            Rasters: [] // 2 or more
+          }
+        }
+      },
+      {
+        category: "Surface",
+        name: "Slope",
+        desc: "Slope represents the rate of change of elevation. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/slope-function.htm' target='_blank'>Slope function</a> for more info.",
+        snippet: {
+          functionName: "Slope",
+          functionArguments: {
+            ZFactor: 1,
+            // SlopeType: 1,  //optional 1=DEGREE, 2=PERCENTRISE, 3=SCALED. default is 1.	
+            // PSPower: 0.01,  //optional used together with SCALED slope type	
+            // PSZFactor: 0.01, //optional. double, used together with SCALED slope type	
+            // "Raster": <raster>  //optional
+          }
+        }
+      },
+      {
+        category: "Surface",
+        name: "Aspect",
+        desc: "Calculates the down slope direction of the maximum rate of change in value from each cell to its neighbors. Aspect can be thought of as the slope direction. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/aspect-function.htm' target='_blank'>Aspect function</a> for more info.",
+        snippet: {
+          functionName: "Aspect",
+          functionArguments: {
+            // "Raster": <raster>  //optional
+          }
+        }
+      },
+      {
+        category: "Reclass",
+        name: "Remap",
+        desc: "Remap pixel values in a defined range to a new value. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/remap-function.htm' target='_blank'>Remap function</a> for more info.",
+        snippet: {
+          functionName: "Remap",
+          functionArguments: {
+            inputRanges: [-1, 50], // for each band, provide two elements representing lowerbound (inclusive) and upperbound (exclusive).
+            outputValues: [10], // for each band, provide one elements representing output value for pixel values in the corresponding range.
+            noDataRanges: [100, 500],
+            allowUnmatched: false
+          }
+        }
+      },
+      {
+        category: "Data Management",
+        name: "Mask",
+        desc: "Creates NoData by defining a range of pixel values. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/mask-function.htm' target='_blank'>Mask function</a> for more info.",
+        snippet: {
+          functionName: "Mask",
+          functionArguments: {
+            includedRanges: [100, 500],
+            noDataValues: [5]
+          }
+        }
+      },
+      {
+        category: "Data Management",
+        name: "Extract Band",
+        desc: "Extracts and reoders bands from a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/extract-bands-function.htm' target='_blank'>Extract Bands function</a> for more info.",
+        snippet: {
+          functionName: "ExtractBand",
+          functionArguments: {
+            bandIDs: [3, 2, 1]
+          }
+        }
+      },
+      {
+        category: "Data Management",
+        name: "Composite Bands",
+        desc: "Combines multiple rasters into one multiband raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/composite-bands-function.htm' target='_blank'>Composite Bands function</a> for more info.",
+        snippet: {
+          functionName: "CompositeBand",
+          functionArguments: {
+            rasters: []
+          }
+        }
+      },
+      {
+        category: "Data Management",
+        name: "Colormap",
+        desc: "Add a colormap to the input raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/colormap-function.htm' target='_blank'>Colormap function</a> for more info. <br> The colormapName possible values: NDVI, NDVI12, NDVI13, Elevation, Gray, Hillshade, Random.",
+        snippets: [{
+          functionName: "Colormap",
+          functionArguments: {
+            colormap: [[0, 255, 0, 0],
+            [1, 0, 255, 0],
+            [2, 0, 0, 255],
+            [3, 255, 255, 0]]
+          }
+        },
+        {
+          functionName: "Colormap",
+          functionArguments: {
+            colormapName: "NDVI3"
+          }
+        },
+        {
+          functionName: "Colormap",
+          functionArguments: {
+            colorRampName: "Yellow To Red"
+          }
+        },
+        {
+          functionName: "Colormap",
+          functionArguments: {
+            colorRamp: {
+              type: "algorithmic",
+              algorithm: "esriHSVAlgorithm",
+              fromColor: [0, 0, 255],
+              toColor: [255, 0, 0]
+            }
+          }
+        }]
+      },
+      {
+        category: "Appearance",
+        name: "StatisticsHistogram",
+        desc: "Add statistics and histograms information to the input raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/aspect-function.htm' target='_blank'>Aspect function</a> for more info.",
+        snippet: {
+          functionName: "StatisticsHistogram",
+          functionArguments: {
+            statistics: [
+              {
+                min: 0,
+                max: 23.5,
+                mean: 4.547517,
+                standardDeviation: 2.6870280000000002,
+                count: 10000,
+                median: 5,
+                mode: 6
+              }
+            ],
+            histograms: [
+              {
+                size: 5,
+                min: 0,
+                max: 23.5,
+                counts: [
+                  559,
+                  172,
+                  217,
+                  203,
+                  352
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        category: "Appearance",
+        name: "Stretch",
+        desc: "Enhances an image through multiple linear stretch types and gamma adjustment. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/aspect-function.htm' target='_blank'>Aspect function</a> for more info.",
+        snippets: [{
+          functionName: "Stretch",
+          functionArguments: {
+            stretchType: 3,
+            numberOfStandardDeviations: 2.5,
+            statistics: [
+              [0, 255, 56.7, 54.8],
+              [0, 255, 97.5, 94.5],
+              [0, 255, 87.5, 87.3]
+            ],
+            min: 100,
+            max: 255,
+            useGamma: true,
+            gamma: [1.25, 1.25, 1.25],
+          }
+        },
+        {
+          functionName: "Stretch",
+          functionArguments: {
+            StretchType: 5,
+            Statistics: [
+              [50, 200, 56.7, 54.8],
+              [50, 200, 97.5, 94.5],
+              [50, 200, 87.5, 87.3]
+            ],
+            Min: 100,
+            Max: 255,
+            UseGamma: false,
+          }
+        }]
+      },
+      {
+        category: "Appearance",
+        name: "Convolution",
+        desc: "Filters an image using various kernels to change image appearence or detect edges. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/aspect-function.htm' target='_blank'>Aspect function</a> for more info.",
+        desc2: "type: -1=UserDefined, 0=LineDetectionHorizontal, 1=LineDetectionVertical, 2=LineDetectionLeftDiagonal, 3=LineDetectionRightDiagonal, 4=GradientNorth, 5=GradientWest, 6=GradientEast, 7=GradientSouth, 8=GradientNorthEast, 9=GradientNorthWest, 10=SmoothArithmeticMean, 11=Smoothing3x3, 12=Smoothing5x5, 13=Sharpening3x3, 14=Sharpening5x5, 15=Laplacian3x3, 16=Laplacian5x5, 17=SobelHorizontal, 18=SobelVertical, 19=Sharpen, 20=Sharpen2",
+        snippet: {
+          functionName: "Convolution",
+          functionArguments: {
+            type: 11
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "NDVI",
+        desc: "Calculates the Normalized Difference Vegetation Index allowing you to generate an image displaying greenness, also known as relative biomass. By default is scaled to 0 - 200: (IR - R)/(IR + R)) * 100 + 100. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/ndvi-function.htm' target='_blank'>NDVI function</a> for more info.",
+        snippet: {
+          functionName: "NDVI",
+          functionArguments: {
+            visibleBandID: 3,
+            infraredBandID: 4,
+            scientificOutput: false
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "NDVI (general syntax)",
+        desc: "Calculates the Normalized Difference Vegetation Index. (NIR - Red)/(NIR + Red). See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/ndvi-function.htm' target='_blank'>NDVI function</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR Red"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "NDVI",
+            bandIndexes: "4 3"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "SAVI",
+        desc: "Calculates the Modified Soil Adjusted Vegetation Index. (1/2)*(2(NIR+1)-sqrt((2*NIR+1)**2-8(NIR-Red))). See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>SAVI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR Red"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "SAVI",
+            bandIndexes: "5 3"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "TSAVI",
+        desc: "Calculates the Transformed Soil Adjusted Vegetation Index. (s * (NIR - s * Red - a)) / (a * NIR + Red - a * s + X * (1 + s*s)). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Transformed SAVI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR Red s a X". s=soil line slope, a=the soil line intercept, X=an adjustment factor that is set to minimize soil noise',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "TSAVI",
+            bandIndexes: "3 1 0.33 0.50 1.50"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "MSAVI",
+        desc: "Calculates the Modified Soil Adjusted Vegetation Index. (1/2)*(2(NIR+1)-sqrt((2*NIR+1)**2-8(NIR-Red))). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Modified SAVI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR Red".',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "MSAVI",
+            bandIndexes: "4 3"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "GEMI",
+        desc: "Global Environmental Monitoring Index (GEMI) method is a nonlinear vegetation index for global environmental monitoring from satellite imagery. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>GEMI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR Red".',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "GEMI",
+            bandIndexes: "4 3"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "PVI",
+        desc: "The Perpendicular Vegetation Index (PVI) method is similar to a difference vegetation index; however, it is sensitive to atmospheric variations. (NIR - a*Red - b) / (sqrt(1 + a2)). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>PVI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR Red a b" a=slope of the soil line, b=gradient of the soil line',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "PVI",
+            bandIndexes: "4 3 0.3 0.5"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "GVITM",
+        desc: "Calculates the Green Vegetation Index for Landsat TM Imagery. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>GVI (Landsat TM) method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "Band1 Band2 Band3 Band4 Band5 Band7", excluding thermal',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "GVITM",
+            bandIndexes: "1 2 3 4 5 6"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "Sultan",
+        desc: "Calculates the index using Sultan's Formula Vegetation Index for Lansat TM/ETM imagery. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Sultan's Formula method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "Band1 Band2 Band3 Band4 Band5 Band7", excluding thermal',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "Sultan",
+            bandIndexes: "1 2 3 4 5 6"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "VARI",
+        desc: "Calculates the Visible Atmospherically Resistant Index. (Green - Red) / (Green + Red  -  Blue). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>VARI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "Red Green Blue".',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "VARI",
+            bandIndexes: "1 2 3"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "GNDVI",
+        desc: "The Green Normalized Difference Vegetation Index (GNDVI) method is a vegetation index for estimating photo synthetic activity and is a commonly used vegetation index to determine water and nitrogen uptake into the plant canopy. (NIR-Green)/(NIR+Green). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>GNDVI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR Green"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "GNDVI",
+            bandIndexes: "4 3"
+          }
+        }
+      },
+
+      {
+        category: "Band Index",
+        name: "SR",
+        desc: "The Simple Ratio (SR) method is a common vegetation index for estimating the amount of vegetation. (NIR / Red). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>SR method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR Red"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "SR",
+            bandIndexes: "4 3"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "NDVIRe",
+        desc: "The Red-Edge NDVI (NDVIre) method is a vegetation index for estimating vegetation health using the red-edge band. (NIR - RedEdge)/(NIR + RedEdge). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDVIre method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR RedEdge"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "NDVIRe",
+            bandIndexes: "4 3"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "SRre",
+        desc: "The Red-Edge Simple Ratio (SRre) method is a vegetation index for estimating the amount of healthy and stressed vegetation. (NIR / RedEdge). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>SRre method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR RedEdge"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "SRre",
+            bandIndexes: "7 6"
+          }
+        }
+      },
+
+      {
+        category: "Band Index",
+        name: "MTVI2",
+        desc: "The Modified Triangular Vegetation Index (MTVI2) method is a vegetation index for detecting leaf chlorophyll content at the canopy scale while being relatively insensitive to leaf area index. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>GEMI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR Red Green"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "MTVI2",
+            bandIndexes: "7 5 3"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "RTVICore",
+        desc: "The Red-Edge Triangulated Vegetation Index (RTVICore) method is a vegetation index for estimating leaf area index and biomass. 100(NIR-RedEdge)-10(NIR-Green). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>RTVICore method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR RedEdge Green"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "RTVICore",
+            bandIndexes: "7 6 3"
+          }
+        }
+      },
+
+      {
+        category: "Band Index",
+        name: "CIre",
+        desc: "Calculates the Chlorophyll Index - RedEdge index. (NIR / RedEdge)-1. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>CIre method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR RedEdge"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "CIre",
+            bandIndexes: "5 3"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "CIg",
+        desc: "The Chlorophyll Index - Green (CIg) method is a vegetation index for estimating the chlorophyll content in leaves using the ratio of reflectivity in the NIR and green bands. (NIR / Green)-1. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>CIg method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR Green"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "CIg",
+            bandIndexes: "5 3"
+          }
+        }
+      },
+
+      {
+        category: "Band Index",
+        name: "NDWI",
+        desc: "The Normalized Difference Water Index (NDWI) method is an index for delineating and monitoring content changes in surface water. (Green - NIR) / (Green + NIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDWI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "Green NIR"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "NDWI",
+            bandIndexes: "5 3"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "EVI",
+        desc: "The Enhanced Vegetation Index (EVI) method is an optimized vegetation index that accounts for atmospheric influences and vegetation background signal. 2.5*(NIR - Red) / (NIR + 6*Red - 7.5*Blue + 1). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>EVI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR Red Blue"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "EVI",
+            bandIndexes: "5 4 2"
+          }
+        }
+      },
+
+      {
+        category: "Band Index",
+        name: "Iron Oxide",
+        desc: "The Iron Oxide ratio method is a geological index for identifying rock features that have experienced oxidation of iron-bearing sulfides using the red and blue bands. IronOxide is useful in identifying iron oxide features below vegetation canopies and is used in mineral composite mapping. (Red/Blue). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>IronOxide method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "Red Blue"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "IronOxide",
+            bandIndexes: "4 2"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "Ferrous Minerals",
+        desc: "The Ferrous Minerals ratio method is a geological index for identifying rock features containing some quantity of iron-bearing minerals using the SWIR and NIR bands. FM is used in mineral composite mapping. (SWIR/NIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Ferrous Minerals method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "SWIR NIR"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "FerrousMinerals",
+            bandIndexes: "6 5"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "Clay Minerals",
+        desc: "The Clay Minerals ratio method is a geological index for identifying mineral features containing clay and alunite using two shortwave infrared (SWIR) bands. CM is used in mineral composite mapping. SWIR1 / SWIR2. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Clay Minerals method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "SWIR1 SWIR2"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "ClayMinerals",
+            bandIndexes: "6 7"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "WNDWI",
+        desc: "The Weighted Normalized Difference Water Index (WNDWI) method is a water index developed to reduce errors typically encountered in other water indices, including water turbidity, small water bodies, or shadow in remote sensing scenes. (Green - alpha * NIR - (1 - alpha) * SWIR ) / (Green + alpha * NIR + (1 - alpha) * SWIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>WNDWI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "Green NIR SWIR alpha"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "WNDWI",
+            bandIndexes: "2 5 6 0.5"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "BAI",
+        desc: "The Burn Area Index (BAI) uses the reflectance values in the red and NIR portion of the spectrum to identify the areas of the terrain affected by fire. 1/((0.1 -RED)^2 + (0.06 - NIR)^2). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>BAI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR Red"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "BAI",
+            bandIndexes: "4 3"
+          }
+        }
+      },
+
+      {
+        category: "Band Index",
+        name: "NBR",
+        desc: "The Normalized Burn Ratio Index (NBRI) uses the NIR and SWIR bands to emphasize burned areas, while mitigating illumination and atmospheric effects. (NIR - SWIR) / (NIR+ SWIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NBR method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR SWIR"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "NBR",
+            bandIndexes: "4 3"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "NDBI",
+        desc: "The Normalized Difference Built-up Index (NDBI) uses the NIR and SWIR bands to emphasize man-made built-up areas. It is ratio based to mitigate the effects of terrain illumination differences as well as atmospheric effects. (SWIR - NIR) / (SWIR + NIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDBI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "SWIR NIR"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "NDBI",
+            bandIndexes: "7 4"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "NDMI",
+        desc: "The Normalized Difference Moisture Index (NDMI) is sensitive to the moisture levels in vegetation. It is used to monitor droughts as well as monitor fuel levels in fire-prone areas. (NIR - SWIR1)/(NIR + SWIR1). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDMI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "NIR SWIR1"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "NDMI",
+            bandIndexes: "3 7"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "NDSI",
+        desc: "The Normalized Difference Snow Index (NDSI) is designed to use MODIS (band 4 and band 6) and Landsat TM (band 2 and band 5) for identification of snow cover while ignoring cloud cover. (Green - SWIR) / (Green + SWIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDSI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "Green SWIR"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "NDSI",
+            bandIndexes: "4 3"
+          }
+        }
+      },
+
+      {
+        category: "Band Index",
+        name: "MNDVI",
+        desc: "Calculates the Modified Normalized Difference Water Index. (Green - SWIR) / (Green + SWIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>MNDVI method</a> for more info.",
+        desc2: 'BandIndexes (1-based): "Green SWIR"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "MNDVI",
+            bandIndexes: "3 7"
+          }
+        }
+      },
+      {
+        category: "Band Index",
+        name: "User Defined",
+        desc: "Calculates the custom index using user defined formula. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Band Arithmetic function</a> for more info.",
+        desc2: 'BandIndexes (1-based): "user-defined formula"',
+        snippet: {
+          functionName: "BandArithmetic",
+          functionArguments: {
+            method: "Custom",
+            bandIndexes: "(b4 - b3) / (b4 + b3)"
+          }
+        }
+      }
+    ];
+
+    function addFunctionCategories() {
+      const functionCategories = document.getElementById("functionCategories");
+      const categories = [];
+      functions.forEach(({ category }) => !categories.includes(category) && categories.push(category));
+
+      categories.forEach((category) => {
+        let categoryHTML = document.createElement("div");
+        categoryHTML.innerHTML = `<h3>${category}</h3>`;
+
+        // calcite card for each function categories
+        let categoryFunctionsHtml = document.createElement("calcite-card");
+        categoryFunctionsHtml.appendChild(categoryHTML);
+        const memberFunctions = functions.filter((func) => category === func.category);
+        memberFunctions.forEach((func)=>{
+          // create calcite-chip for each function in a given category
+          const functionNameChip = document.createElement("calcite-chip");
+          functionNameChip.setAttribute("value", func.name);
+          functionNameChip.setAttribute("kind", "inverse");
+          functionNameChip.setAttribute("appearance", "outline-fill");
+          functionNameChip.innerHTML = func.name;
+          functionNameChip.classList.add("chipSpacing");
+
+          // display description and code snippet for the clicked function
+          functionNameChip.addEventListener("click", (event) => {
+            addFunctionSnippet(functionNameChip.value);
+            window.scrollTo(0, 0);
+          });
+
+          categoryFunctionsHtml.appendChild(functionNameChip);
+          functionCategories.appendChild(categoryFunctionsHtml);
+        });
+        const linebreak = document.createElement("br");
+        functionCategories.appendChild(linebreak);
+      });
+    }
+
+    function addFunctionSnippet(name) {
+      const snippetDiv = document.createElement("div");
+      snippetDiv.className = "snippet";
+
+      const selectedFunction = functions.find((func) => func.name === name);
+      const descNode = document.createElement("p");
+      descNode.innerHTML = `<b>${name}</b>:<br><br> ${selectedFunction.desc}`;
+      snippetDiv.appendChild(descNode);
+      const snippets = selectedFunction.snippets || [selectedFunction.snippet];
+      snippets.forEach((snippet, i) => {
+        let snippetStr = JSON.stringify(snippet, null, 2);
+        if (selectedFunction.desc2) {
+          snippetStr = `<br>// ${selectedFunction.desc2}</br>` + snippetStr;
+        }
+        const codeNode = document.createElement("pre");
+        codeNode.innerHTML = snippetStr;
+        snippetDiv.appendChild(codeNode);
+      });
+
+      const snippetsElement = document.getElementById("snippets");
+      snippetsElement.innerHTML = "";
+      snippetsElement.appendChild(snippetDiv);
+    }
+  </script>
+</head>
+
+<body onload="addFunctionCategories();">
+  <h2>ImageryTileLayer: snippets for client side raster functions</h2>
+  <calcite-panel class="leftSideDivs">
+    <div style="background-color: white;">
+      The raster functions allow you to define processing operations that can be applied to one or more rasters.
+      These functions are applied to the raster data on the fly as the data is accessed and viewed.<br><br>
+
+      You can click on the raster function you are interested in and this application will show a brief description and code snippet.
+    </div>
+  </calcite-panel><br>
+  <div id="functions">
+    <calcite-panel id="functionCategories" class="leftSideDivs"> </calcite-panel>
+    <calcite-panel id="snippets"></calcite-panel>
+  </div>
+</body>
+
+</html>
