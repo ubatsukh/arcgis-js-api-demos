@@ -6,16 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Raster function snippets</title>
-  <script type="module" src=https://js.arcgis.com/calcite-components/1.0.3/calcite.esm.js></script>
-  <link rel="stylesheet" type="text/css" href=https://js.arcgis.com/calcite-components/1.0.3/calcite.css />
+  <script type="module" src=https://js.arcgis.com/calcite-components/1.0.5/calcite.esm.js></script>
+  <link rel="stylesheet" type="text/css" href=https://js.arcgis.com/calcite-components/1.0.5/calcite.css />
+  <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css"/>
   <style>
     html,
-    body,
-    {
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    width: 100%;
+    body {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
     }
 
     #functions {
@@ -42,17 +42,18 @@
 
   </style>
   <script type="text/javascript">
+
     const local1Description = "Perform a per-pixel operation using one raster.";
     const local2Description = "Perform a per-pixel operation using two rasters, one of them can be a constant number";
     const functions = [
       {
         category: "Conditional",
         name: "SetNull",
-        desc: "Set the pixel to null if the pixel value is truthy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/set-null-function.htm' target='_blank'>Set Null function</a> for more info.",
+        desc: "Set the pixel to null if the pixel value is truthy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/set-null-function.htm' target='_blank'>Set Null function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localConditionalOperation.SetNull</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "SetNull",
+            Operation: "rasterFunctionConstants.localConditionalOperation.SetNull",
             Rasters: ["$$"] // optional
           }
         }
@@ -60,11 +61,11 @@
       {
         category: "Conditional",
         name: "Con",
-        desc: "Performs a conditional if/else evaluation on each of the input cells of an input raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/con-function.htm' target='_blank'>Con function</a> for more info.",
+        desc: "Performs a conditional if/else evaluation on each of the input cells of an input raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/con-function.htm' target='_blank'>Con function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localConditionalOperation.conditional</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Con",
+            Operation: "rasterFunctionConstants.localConditionalOperation.conditional",
             Rasters: [] // 3 rasters
           }
         }
@@ -72,11 +73,11 @@
       {
         category: "Math",
         name: "Plus",
-        desc: "Adds (sums) the values of two rasters on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info.",
+        desc: "Adds (sums) the values of two rasters on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.plus</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Plus",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.plus",
             Rasters: ["$$", 10]
           }
         }
@@ -84,11 +85,11 @@
       {
         category: "Math",
         name: "Minus",
-        desc: "Subtracts the value of the second input raster from the value of the first input raster on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info.",
+        desc: "Subtracts the value of the second input raster from the value of the first input raster on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.minus</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Minus",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.minus",
             Rasters: ["$$", 10]
           }
         }
@@ -96,11 +97,11 @@
       {
         category: "Math",
         name: "Times",
-        desc: "Multiplies the values of two rasters on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info.",
+        desc: "Multiplies the values of two rasters on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.times</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Times",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.times",
             Rasters: ["$$", 10]
           }
         }
@@ -108,11 +109,11 @@
       {
         category: "Math",
         name: "SquareRoot",
-        desc: "Calculates the square root of the pixel values in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info.",
+        desc: "Calculates the square root of the pixel values in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.sqrt</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "SquareRoot",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.sqrt",
             Rasters: ["$$"]
           }
         }
@@ -120,11 +121,11 @@
       {
         category: "Math",
         name: "Power",
-        desc: "Raises the pixel values in a raster to the power of the values found in another raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info.",
+        desc: "Raises the pixel values in a raster to the power of the values found in another raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/arithmetic-function.htm' target='_blank'>Arithmetic function</a> for more info. <br><br> For functionArguments.Operation use <code>rrasterFunctionConstants.localArithmeticOperation.power</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Power",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.power",
             Rasters: ["$$", 2]
           }
         }
@@ -132,11 +133,11 @@
       {
         category: "Math",
         name: "Abs",
-        desc: "Calculates the absolute value of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/abs-function.htm' target='_blank'>Abs function</a> for more info.",
+        desc: "Calculates the absolute value of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/abs-function.htm' target='_blank'>Abs function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.abs</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Abs",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.abs",
             Rasters: ["$$", 2]
           }
         }
@@ -144,11 +145,11 @@
       {
         category: "Math",
         name: "Divide",
-        desc: "Divides the values of two rasters on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/divide-function.htm' target='_blank'>Divide function</a> for more info.",
+        desc: "Divides the values of two rasters on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/divide-function.htm' target='_blank'>Divide function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.divide</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Divide",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.divide",
             Rasters: ["$$", 2]
           }
         }
@@ -156,11 +157,11 @@
       {
         category: "Math",
         name: "Exp",
-        desc: "Calculates the base e exponential of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/exp-function.htm' target='_blank'>Exp function</a> for more info.",
+        desc: "Calculates the base e exponential of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/exp-function.htm' target='_blank'>Exp function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.exp</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Exp",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.exp",
             Rasters: ["$$", 2]
           }
         }
@@ -168,11 +169,11 @@
       {
         category: "Math",
         name: "Exp10",
-        desc: "Calculates the base 10 exponential of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/exp10-function.htm' target='_blank'>Exp10 function</a> for more info.",
+        desc: "Calculates the base 10 exponential of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/exp10-function.htm' target='_blank'>Exp10 function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.exp10</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Exp10",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.exp10",
             Rasters: ["$$"]
           }
         }
@@ -180,11 +181,11 @@
       {
         category: "Math",
         name: "Exp2",
-        desc: "Calculates the base 2 exponential of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/exp2-function.htm' target='_blank'>Exp2 function</a> for more info.",
+        desc: "Calculates the base 2 exponential of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/exp2-function.htm' target='_blank'>Exp2 function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.exp2</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Exp2",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.exp2",
             Rasters: ["$$"]
           }
         }
@@ -192,11 +193,11 @@
       {
         category: "Math",
         name: "Int",
-        desc: "Converts each pixel value of a raster to an integer by truncation. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/int-function.htm' target='_blank'>Int function</a> for more info.",
+        desc: "Converts each pixel value of a raster to an integer by truncation. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/int-function.htm' target='_blank'>Int function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.int</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Int",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.int",
             Rasters: ["$$", 2]
           }
         }
@@ -204,11 +205,11 @@
       {
         category: "Math",
         name: "Ln",
-        desc: "Calculates the natural logarithm (base e) of each pixel in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/ln-function.htm' target='_blank'>Ln function</a> for more info.",
+        desc: "Calculates the natural logarithm (base e) of each pixel in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/ln-function.htm' target='_blank'>Ln function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.ln</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Ln",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.ln",
             Rasters: ["$$"]
           }
         }
@@ -216,11 +217,11 @@
       {
         category: "Math",
         name: "Log10",
-        desc: "Calculates the base 10 logarithm of each pixel in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/log10abs-function.htm' target='_blank'>Log10 function</a> for more info.",
+        desc: "Calculates the base 10 logarithm of each pixel in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/log10abs-function.htm' target='_blank'>Log10 function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.log10</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Log10",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.log10",
             Rasters: ["$$"]
           }
         }
@@ -228,11 +229,11 @@
       {
         category: "Math",
         name: "Log2",
-        desc: "Calculates the base 2 logarithm of each pixel in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/log2-function.htm' target='_blank'>Log2 function</a> for more info.",
+        desc: "Calculates the base 2 logarithm of each pixel in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/log2-function.htm' target='_blank'>Log2 function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.log2</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Log2",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.log2",
             Rasters: ["$$"]
           }
         }
@@ -240,11 +241,11 @@
       {
         category: "Math",
         name: "Mod",
-        desc: "Finds the remainder (modulo) of the first raster when divided by the second raster on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/mod-function.htm' target='_blank'>Mod function</a> for more info.",
+        desc: "Finds the remainder (modulo) of the first raster when divided by the second raster on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/mod-function.htm' target='_blank'>Mod function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.mod</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Mod",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.mod",
             Rasters: ["$$", 2]
           }
         }
@@ -252,11 +253,11 @@
       {
         category: "Math",
         name: "Negate",
-        desc: "Multiply the pixel value of the input raster by -1 on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/negate-function.htm' target='_blank'>Negate function</a> for more info.",
+        desc: "Multiply the pixel value of the input raster by -1 on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/negate-function.htm' target='_blank'>Negate function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.negate</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Negate",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.negate",
             Rasters: ["$$", 2]
           }
         }
@@ -264,35 +265,47 @@
       {
         category: "Math",
         name: "Square",
-        desc: "Calculates the square of the pixel values in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/square-function.htm' target='_blank'>Square function</a> for more info.",
+        desc: "Calculates the square of the pixel values in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/square-function.htm' target='_blank'>Square function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.square</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Square",
+            Operation: "rasterFunctionConstants.localArithmeticOperation.square",
             Rasters: ["$$"] // optional
           }
         }
       },
       {
         category: "Math",
-        name: "FloorDivide",
-        desc: "Perform a per-pixel floor divide operation using two rasters, one of them can be a constant number. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/floor-divide-function.htm' target='_blank'>Floor Divide function</a> for more info.",
+        name: "RoundDown",
+        desc: "Round the pixel value down to the next lower integer. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/round-down-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.roundDown</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "FloorDivide",
-            Rasters: ["$$", 2]
+            Operation: "rasterFunctionConstants.localArithmeticOperation.roundDown",
+            Rasters: ["$$"] // optional
+          }
+        }
+      },
+      {
+        category: "Math",
+        name: "RoundUp",
+        desc: "Round the pixel value up to the next higher integer. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/round-up-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localArithmeticOperation.roundUp</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        snippet: {
+          functionName: "Local",
+          functionArguments: {
+            Operation: "rasterFunctionConstants.localArithmeticOperation.roundUp",
+            Rasters: ["$$"] // optional
           }
         }
       },
       {
         category: "Logical",
         name: "BitwiseAnd",
-        desc: "Performs a Bitwise And operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-and-function.htm' target='_blank'>BitwiseAnd function</a> for more info.",
+        desc: "Performs a Bitwise And operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-and-function.htm' target='_blank'>BitwiseAnd function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.bitwiseAnd</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "BitwiseAnd",
+            Operation: "rasterFunctionConstants.localLogicalOperation.bitwiseAnd",
             Rasters: ["$$", 3]
           }
         }
@@ -300,11 +313,11 @@
       {
         category: "Logical",
         name: "BitwiseLeftShift",
-        desc: "Performs a Bitwise Left Shift operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-left-shift-function.htm' target='_blank'>Bitwise Left Shift function</a> for more info.",
+        desc: "Performs a Bitwise Left Shift operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-left-shift-function.htm' target='_blank'>Bitwise Left Shift function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.bitwiseLeftShift</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "BitwiseLeftShift",
+            Operation: "rasterFunctionConstants.localLogicalOperation.bitwiseLeftShift",
             Rasters: ["$$", 3]
           }
         }
@@ -312,11 +325,11 @@
       {
         category: "Logical",
         name: "BitwiseNot",
-        desc: "Performs a Bitwise Not (complement) operation on the binary value of an input raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-not-function.htm' target='_blank'>Bitwise not function</a> for more info.",
+        desc: "Performs a Bitwise Not (complement) operation on the binary value of an input raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-not-function.htm' target='_blank'>Bitwise not function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.bitwiseNot</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "BitwiseNot",
+            Operation: "rasterFunctionConstants.localLogicalOperation.bitwiseNot",
             Rasters: ["$$"] // optional
           }
         }
@@ -324,11 +337,11 @@
       {
         category: "Logical",
         name: "BitwiseOr",
-        desc: "Performs a Bitwise Or operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-or-function.htm' target='_blank'>Bitwise Or function</a> for more info.",
+        desc: "Performs a Bitwise Or operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-or-function.htm' target='_blank'>Bitwise Or function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.bitwiseOr</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "BitwiseOr",
+            Operation: "rasterFunctionConstants.localLogicalOperation.bitwiseOr",
             Rasters: ["$$", 3]
           }
         }
@@ -336,11 +349,11 @@
       {
         category: "Logical",
         name: "BitwiseRightShift",
-        desc: "Performs a Bitwise Right Shift operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-right-shift-function.htm' target='_blank'>Bitwise Right Shift function</a> for more info.",
+        desc: "Performs a Bitwise Right Shift operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-right-shift-function.htm' target='_blank'>Bitwise Right Shift function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.bitwiseRightShift</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "BitwiseRightShift",
+            Operation: "rasterFunctionConstants.localLogicalOperation.bitwiseRightShift",
             Rasters: ["$$", 3]
           }
         }
@@ -348,11 +361,11 @@
       {
         category: "Logical",
         name: "BitwiseXOr",
-        desc: "Performs a Bitwise eXclusive Or operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-xor-function.htm' target='_blank'>Bitwise Xor function</a> for more info.",
+        desc: "Performs a Bitwise eXclusive Or operation on the binary values of two input rasters. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/bitwise-xor-function.htm' target='_blank'>Bitwise Xor function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.bitwiseXOr</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "BitwiseXOr",
+            Operation: "rasterFunctionConstants.localLogicalOperation.bitwiseXOr",
             Rasters: ["$$", 3]
           }
         }
@@ -360,11 +373,11 @@
       {
         category: "Logical",
         name: "BooleanAnd",
-        desc: "Performs a Boolean And operation on the pixel values of two input rasters. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/boolean-and-function.htm' target='_blank'>Boolean And function</a> for more info.",
+        desc: "Performs a Boolean And operation on the pixel values of two input rasters. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/boolean-and-function.htm' target='_blank'>Boolean And function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.booleanAnd</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "BooleanAnd",
+            Operation: "rasterFunctionConstants.localLogicalOperation.booleanAnd",
             Rasters: ["$$", 3]
           }
         }
@@ -372,11 +385,11 @@
       {
         category: "Logical",
         name: "BooleanNot",
-        desc: "Performs a Boolean Not (complement) operation on the pixel values of the input raster. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/boolean-not-function.htm' target='_blank'>Boolean Not function</a> for more info.",
+        desc: "Performs a Boolean Not (complement) operation on the pixel values of the input raster. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/boolean-not-function.htm' target='_blank'>Boolean Not function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.booleanNot</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "BooleanNot",
+            Operation: "rasterFunctionConstants.localLogicalOperation.booleanNot",
             Rasters: ["$$"] // optional
           }
         }
@@ -384,11 +397,11 @@
       {
         category: "Logical",
         name: "BooleanOr",
-        desc: "Performs a Boolean eXclusive Or operation on the cell values of two input rasters. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/boolean-or-function.htm' target='_blank'>Boolean Or function</a> for more info.",
+        desc: "Performs a Boolean eXclusive Or operation on the cell values of two input rasters. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/boolean-or-function.htm' target='_blank'>Boolean Or function</a> for more info. <br><br> For functionArguments.Operation use <coderasterFunctionConstants.localLogicalOperation.booleanOr</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "BooleanOr",
+            Operation: "rasterFunctionConstants.localLogicalOperation.booleanOr",
             Rasters: ["$$", 3]
           }
         }
@@ -396,11 +409,11 @@
       {
         category: "Logical",
         name: "BooleanXOr",
-        desc: "Performs a Boolean eXclusive Or operation on the cell values of two input rasters. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/boolean-xor-function.htm' target='_blank'>Boolean Xor function</a> for more info.",
+        desc: "Performs a Boolean eXclusive Or operation on the cell values of two input rasters. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/boolean-xor-function.htm' target='_blank'>Boolean Xor function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.booleanXOr</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "BooleanXOr",
+            Operation: "rasterFunctionConstants.localLogicalOperation.booleanXOr",
             Rasters: ["$$", 3]
           }
         }
@@ -408,12 +421,12 @@
       {
         category: "Logical",
         name: "GreaterThan",
-        desc: "Performs a Relational greater-than operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/greater-than-function.htm' target='_blank'>Greater than function</a> for more info.",
+        desc: "Performs a Relational greater-than operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/greater-than-function.htm' target='_blank'>Greater than function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.greaterThan</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
 
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "GreaterThan",
+            Operation: "rasterFunctionConstants.localLogicalOperation.greaterThan",
             Rasters: ["$$", 2]
           }
         }
@@ -421,11 +434,11 @@
       {
         category: "Logical",
         name: "GreaterThanEqual",
-        desc: "Performs a Relational greater-than-or-equal-to operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/greater-than-equal-function.htm' target='_blank'>Greater than equal function</a> for more info.",
+        desc: "Performs a Relational greater-than-or-equal-to operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/greater-than-equal-function.htm' target='_blank'>Greater than equal function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.greaterThanEqual</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "GreaterThanEqual",
+            Operation: "rasterFunctionConstants.localLogicalOperation.greaterThanEqual",
             Rasters: ["$$", 2]
           }
         }
@@ -433,11 +446,11 @@
       {
         category: "Logical",
         name: "EqualTo",
-        desc: "Performs an equal-to operation on two rasters on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/equal-to-function.htm' target='_blank'>Equal To function</a> for more info.",
+        desc: "Performs an equal-to operation on two rasters on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/equal-to-function.htm' target='_blank'>Equal To function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.equalTo</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "EqualTo",
+            Operation: "rasterFunctionConstants.localLogicalOperation.equalTo",
             Rasters: ["$$", 2]
           }
         }
@@ -445,11 +458,11 @@
       {
         category: "Logical",
         name: "IsNull",
-        desc: "Determines which values from the input raster are NoData on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/is-null-function.htm' target='_blank'>Is Null function</a> for more info.",
+        desc: "Determines which values from the input raster are NoData on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/is-null-function.htm' target='_blank'>Is Null function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.isNull</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "IsNull",
+            Operation: "rasterFunctionConstants.localLogicalOperation.isNull",
             Rasters: ["$$"]
           }
         }
@@ -457,11 +470,11 @@
       {
         category: "Logical",
         name: "LessThan",
-        desc: "Performs a Relational less-than operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/less-than-function.htm' target='_blank'>Less than function</a> for more info.",
+        desc: "Performs a Relational less-than operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/less-than-function.htm' target='_blank'>Less than function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.lessThan</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "LessThan",
+            Operation: "rasterFunctionConstants.localLogicalOperation.lessThan",
             Rasters: ["$$", 2]
           }
         }
@@ -469,11 +482,11 @@
       {
         category: "Logical",
         name: "LessThanEqual",
-        desc: "Performs a Relational less-than-or-equal-to operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/less-than-equal-function.htm' target='_blank'>Less Than Equal function</a> for more info.",
+        desc: "Performs a Relational less-than-or-equal-to operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/less-than-equal-function.htm' target='_blank'>Less Than Equal function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.lessThanEqual</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "LessThanEqual",
+            Operation: "rasterFunctionConstants.localLogicalOperation.lessThanEqual",
             Rasters: ["$$", 2]
           }
         }
@@ -481,11 +494,11 @@
       {
         category: "Logical",
         name: "NotEqual",
-        desc: "Performs a Relational not-equal-to operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy.",
+        desc: "Performs a Relational not-equal-to operation on two inputs on a pixel-by-pixel basis. Result is 1 when truthy and 0 when falsy. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localLogicalOperation.notEqual</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "NotEqual",
+            Operation: "rasterFunctionConstants.localLogicalOperation.notEqual",
             Rasters: ["$$", 2]
           }
         }
@@ -493,11 +506,11 @@
       {
         category: "Trignometric",
         name: "ACos",
-        desc: "Calculates the inverse cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/acos-function.htm' target='_blank'>ACos function</a> for more info.",
+        desc: "Calculates the inverse cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/acos-function.htm' target='_blank'>ACos function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localTrigonometricOperation.acos</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "ACos",
+            Operation: "rasterFunctionConstants.localTrigonometricOperation.acos",
             Rasters: ["$$"] // optional
           }
         }
@@ -505,11 +518,11 @@
       {
         category: "Trignometric",
         name: "ASin",
-        desc: "Calculates the inverse hyperbolic cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/asin-function.htm' target='_blank'>ASin function</a> for more info.",
+        desc: "Calculates the inverse hyperbolic cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/asin-function.htm' target='_blank'>ASin function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localTrigonometricOperation.asin</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "ASin",
+            Operation: "rasterFunctionConstants.localTrigonometricOperation.asin",
             Rasters: ["$$"] // optional
           }
         }
@@ -517,11 +530,11 @@
       {
         category: "Trignometric",
         name: "ATan",
-        desc: "Calculates the inverse tangent of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/atan-function.htm' target='_blank'>ATan function</a> for more info.",
+        desc: "Calculates the inverse tangent of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/atan-function.htm' target='_blank'>ATan function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localTrigonometricOperation.atan</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "ATan",
+            Operation: "rasterFunctionConstants.localTrigonometricOperation.atan",
             Rasters: ["$$"] // optional
           }
         }
@@ -529,11 +542,11 @@
       {
         category: "Trignometric",
         name: "ATanh",
-        desc: "Calculates the inverse tangent (based on x,y) of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/atan-function.htm' target='_blank'>ATanh function</a> for more info.",
+        desc: "Calculates the inverse tangent (based on x,y) of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/atan-function.htm' target='_blank'>ATanh function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localTrigonometricOperation.atanh</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "ATanh",
+            Operation: "rasterFunctionConstants.localTrigonometricOperation.atanh",
             Rasters: ["$$"] // optional
           }
         }
@@ -541,11 +554,11 @@
       {
         category: "Trignometric",
         name: "Cos",
-        desc: "Calculates the cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cos-function.htm' target='_blank'>Cos function</a> for more info.",
+        desc: "Calculates the cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cos-function.htm' target='_blank'>Cos function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localTrigonometricOperation.cos</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Cos",
+            Operation: "rasterFunctionConstants.localTrigonometricOperation.cos",
             Rasters: ["$$"] // optional
           }
         }
@@ -553,11 +566,11 @@
       {
         category: "Trignometric",
         name: "CosH",
-        desc: "Calculates the hyperbolic cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cosh-function.htm' target='_blank'>CosH function</a> for more info.",
+        desc: "Calculates the hyperbolic cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cosh-function.htm' target='_blank'>CosH function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localTrigonometricOperation.cosh</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "CosH",
+            Operation: "rasterFunctionConstants.localTrigonometricOperation.cosh",
             Rasters: ["$$"] // optional
           }
         }
@@ -565,11 +578,11 @@
       {
         category: "Trignometric",
         name: "Sin",
-        desc: "Calculates the sine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/sin-function.htm' target='_blank'>Sin function</a> for more info.",
+        desc: "Calculates the sine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/sin-function.htm' target='_blank'>Sin function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localTrigonometricOperation.sin</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Sin",
+            Operation: "rasterFunctionConstants.localTrigonometricOperation.sin",
             Rasters: ["$$"] // optional
           }
         }
@@ -577,11 +590,11 @@
       {
         category: "Trignometric",
         name: "SinH",
-        desc: "Calculates the hyperbolic sine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/sinh-function.htm' target='_blank'>SinH function</a> for more info.",
+        desc: "Calculates the hyperbolic sine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/sinh-function.htm' target='_blank'>SinH function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.localTrigonometricOperation.sinh</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "SinH",
+            Operation: "rasterFunctionConstants.localTrigonometricOperation.sinh",
             Rasters: ["$$"] // optional
           }
         }
@@ -589,11 +602,11 @@
       {
         category: "Trignometric",
         name: "Tan",
-        desc: "Calculates the tangent of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/tan-function.htm' target='_blank'>Tan function</a> for more info.",
+        desc: "Calculates the tangent of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/tan-function.htm' target='_blank'>Tan function</a> for more info. <br><br> For functionArguments.Operation use <code>asterFunctionConstants.localTrigonometricOperation.tan</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Tan",
+            Operation: "asterFunctionConstants.localTrigonometricOperation.tan",
             Rasters: ["$$"] // optional
           }
         }
@@ -601,11 +614,11 @@
       {
         category: "Trignometric",
         name: "TanH",
-        desc: "Calculates the hyperbolic tangent of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/tanh-function.htm' target='_blank'>TanH function</a> for more info.",
+        desc: "Calculates the hyperbolic tangent of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/tanh-function.htm' target='_blank'>TanH function</a> for more info. <br><br> For functionArguments.Operation use <code>asterFunctionConstants.localTrigonometricOperation.tanh</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "TanH",
+            Operation: "asterFunctionConstants.localTrigonometricOperation.tanh",
             Rasters: ["$$"] // optional
           }
         }
@@ -613,11 +626,11 @@
       {
         category: "Trignometric",
         name: "ACosH",
-        desc: "Calculates the inverse hyperbolic cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/acosh-function.htm' target='_blank'>ACosH function</a> for more info.",
+        desc: "Calculates the inverse hyperbolic cosine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/acosh-function.htm' target='_blank'>ACosH function</a> for more info. <br><br> For functionArguments.Operation use <code>asterFunctionConstants.localTrigonometricOperation.acosh</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "ACosH",
+            Operation: "asterFunctionConstants.localTrigonometricOperation.acosh",
             Rasters: ["$$"] // optional
           }
         }
@@ -625,11 +638,11 @@
       {
         category: "Trignometric",
         name: "ASinH",
-        desc: "Calculates the inverse hyperbolic sine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/asinh-function.htm' target='_blank'>ASinH function</a> for more info.",
+        desc: "Calculates the inverse hyperbolic sine of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/asinh-function.htm' target='_blank'>ASinH function</a> for more info. <br><br> For functionArguments.Operation use <code>asterFunctionConstants.localTrigonometricOperation.asinh</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "ASinH",
+            Operation: "asterFunctionConstants.localTrigonometricOperation.asinh",
             Rasters: ["$$"] // optional
           }
         }
@@ -637,11 +650,11 @@
       {
         category: "Trignometric",
         name: "ATan2",
-        desc: "Calculates the inverse tangent (based on x,y) of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/atan2-function.htm' target='_blank'>ATan2 function</a> for more info.",
+        desc: "Calculates the inverse tangent (based on x,y) of the pixels in a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/atan2-function.htm' target='_blank'>ATan2 function</a> for more info. <br><br> For functionArguments.Operation use <code>asterFunctionConstants.localTrigonometricOperation.atan2</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "ATan2",
+            Operation: "asterFunctionConstants.localTrigonometricOperation.atan2",
             Rasters: [] // two rasters
           }
         }
@@ -649,11 +662,11 @@
       {
         category: "CellStatistics",
         name: "Majority",
-        desc: "Determines the value that occurs most often on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Determines the value that occurs most often on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.majority</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Majority",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.majority",
             Rasters: [] // 2 or more
           }
         }
@@ -661,11 +674,11 @@
       {
         category: "CellStatistics",
         name: "Max",
-        desc: "Determines the largest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Determines the largest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.max</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Max",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.max",
             Rasters: [] // 2 or more
           }
         }
@@ -673,11 +686,11 @@
       {
         category: "CellStatistics",
         name: "Mean",
-        desc: "Calculates the average on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Calculates the average on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.mean</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "mean",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.mean",
             Rasters: [] // 2 or more
           }
         }
@@ -685,11 +698,11 @@
       {
         category: "CellStatistics",
         name: "Median",
-        desc: "Calculates the middle value of the pixels on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Calculates the middle value of the pixels on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.median</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Median",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.median",
             Rasters: [] // 2 or more
           }
         }
@@ -697,11 +710,11 @@
       {
         category: "CellStatistics",
         name: "Min",
-        desc: "Determines the smallest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Determines the smallest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.min</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Min",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.min",
             Rasters: [] // 2 or more
           }
         }
@@ -709,11 +722,11 @@
       {
         category: "CellStatistics",
         name: "Minority",
-        desc: "Determines the value that occurs least often on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Determines the value that occurs least often on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.minority</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Minority",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.minority",
             Rasters: [] // 2 or more
           }
         }
@@ -721,47 +734,23 @@
       {
         category: "CellStatistics",
         name: "Range",
-        desc: "Calculates the difference between the largest and the smallest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Calculates the difference between the largest and the smallest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.range</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Range",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.range",
             Rasters: [] // 2 or more
           }
         }
       },
       {
         category: "CellStatistics",
-        name: "RoundDown",
-        desc: "Round the pixel value down to the next lower integer. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
-        snippet: {
-          functionName: "Local",
-          functionArguments: {
-            Operation: "RoundDown",
-            Rasters: ["$$"] // optional
-          }
-        }
-      },
-      {
-        category: "CellStatistics",
-        name: "RoundUp",
-        desc: "Round the pixel value up to the next higher integer. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
-        snippet: {
-          functionName: "Local",
-          functionArguments: {
-            Operation: "RoundUp",
-            Rasters: ["$$"] // optional
-          }
-        }
-      },
-      {
-        category: "CellStatistics",
         name: "Standard Deviation",
-        desc: "Calculates the standard deviation of the pixels on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Calculates the standard deviation of the pixels on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.stddev</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "StandardDeviation",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.stddev",
             Rasters: ["$$"] // optional
           }
         }
@@ -769,11 +758,11 @@
       {
         category: "CellStatistics",
         name: "Sum",
-        desc: "Calculates the total value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Calculates the total value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.sum</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Sum",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.sum",
             Rasters: ["$$"] // optional
           }
         }
@@ -781,11 +770,11 @@
       {
         category: "CellStatistics",
         name: "Variety",
-        desc: "Calculates the number of unique values on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Calculates the number of unique values on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.variety</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "Variety",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.variety",
             Rasters: ["$$"] // optional
           }
         }
@@ -793,11 +782,11 @@
       {
         category: "CellStatistics",
         name: "MajorityIgnoreNoData",
-        desc: "Determines the value that occurs most often on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Determines the value that occurs most often on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.majorityIgnoreNoData</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "MajorityIgnoreNoData",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.majorityIgnoreNoData",
             Rasters: [] // 2 or more
           }
         }
@@ -805,11 +794,11 @@
       {
         category: "CellStatistics",
         name: "MaxIgnoreNoData",
-        desc: "Determines the largest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Determines the largest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.maxIgnoreNoData</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "MaxIgnoreNoData",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.maxIgnoreNoData",
             Rasters: [] // 2 or more
           }
         }
@@ -817,11 +806,11 @@
       {
         category: "CellStatistics",
         name: "MeanIgnoreNoData",
-        desc: "Calculates the average on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Calculates the average on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.meanIgnoreNoData</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "MeanIgnoreNoData",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.meanIgnoreNoData",
             Rasters: [] // 2 or more
           }
         }
@@ -829,11 +818,11 @@
       {
         category: "CellStatistics",
         name: "MedianIgnoreNoData",
-        desc: "Calculates the middle value of the pixels on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Calculates the middle value of the pixels on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.medianIgnoreNoData</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "MedianIgnoreNoData",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.medianIgnoreNoData",
             Rasters: [] // 2 or more
           }
         }
@@ -841,11 +830,11 @@
       {
         category: "CellStatistics",
         name: "MinIgnoreNoData",
-        desc: "Determines the smallest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Determines the smallest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.minIgnoreNoData</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "MinIgnoreNoData",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.minIgnoreNoData",
             Rasters: [] // 2 or more
           }
         }
@@ -853,11 +842,11 @@
       {
         category: "CellStatistics",
         name: "MinorityIgnoreNoData",
-        desc: "Determines the value that occurs least often on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Determines the value that occurs least often on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.minorityIgnoreNoData</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "MinorityIgnoreNoData",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.minorityIgnoreNoData",
             Rasters: [] // 2 or more
           }
         }
@@ -865,11 +854,11 @@
       {
         category: "CellStatistics",
         name: "RangeIgnoreNoData",
-        desc: "Calculates the difference between the largest and the smallest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Calculates the difference between the largest and the smallest value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.rangeIgnoreNoData</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "RangeIgnoreNoData",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.rangeIgnoreNoData",
             Rasters: [] // 2 or more
           }
         }
@@ -877,11 +866,11 @@
       {
         category: "CellStatistics",
         name: "StandardDeviationIgnoreNoData",
-        desc: "Calculates the standard deviation of the pixels on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Calculates the standard deviation of the pixels on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.stddevIgnoreNoData</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "StandardDeviationIgnoreNoData",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.stddevIgnoreNoData",
             Rasters: [] // 2 or more
           }
         }
@@ -889,11 +878,11 @@
       {
         category: "CellStatistics",
         name: "SumIgnoreNoData",
-        desc: "Calculates the total value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Calculates the total value on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.sumIgnoreNoData</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "SumIgnoreNoData",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.sumIgnoreNoData",
             Rasters: [] // 2 or more
           }
         }
@@ -901,11 +890,11 @@
       {
         category: "CellStatistics",
         name: "VarietyIgnoreNoData",
-        desc: "Calculates the number of unique values on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info.",
+        desc: "Calculates the number of unique values on a pixel-by-pixel basis. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/cell-statistics-function.htm' target='_blank'>Cell Statistics function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.varietyIgnoreNoData</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Local",
           functionArguments: {
-            Operation: "VarietyIgnoreNoData",
+            Operation: "rasterFunctionConstants.cellStatisticalOperation.varietyIgnoreNoData",
             Rasters: [] // 2 or more
           }
         }
@@ -913,39 +902,38 @@
       {
         category: "Surface",
         name: "Slope",
-        desc: "Slope represents the rate of change of elevation. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/slope-function.htm' target='_blank'>Slope function</a> for more info.",
+        desc: "Slope represents the rate of change of elevation. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/slope-function.htm' target='_blank'>Slope function</a> for more info. <br><br> For functionArguments.Operation use <code>rasterFunctionConstants.cellStatisticalOperation.varietyIgnoreNoData</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Slope",
           functionArguments: {
             ZFactor: 1,
-            // SlopeType: 1,  //optional 1=DEGREE, 2=PERCENTRISE, 3=SCALED. default is 1.	
-            // PSPower: 0.01,  //optional used together with SCALED slope type	
-            // PSZFactor: 0.01, //optional. double, used together with SCALED slope type	
-            // "Raster": <raster>  //optional
+            SlopeType: "rasterFunctionConstants.slopeType.adjusted",
+            PSZFactor: 0.01,
+            Raster: "$$"
           }
         }
       },
       {
         category: "Surface",
         name: "Aspect",
-        desc: "Calculates the down slope direction of the maximum rate of change in value from each cell to its neighbors. Aspect can be thought of as the slope direction. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/aspect-function.htm' target='_blank'>Aspect function</a> for more info.",
+        desc: "Calculates the down slope direction of the maximum rate of change in value from each cell to its neighbors. Aspect can be thought of as the slope direction. See <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#:~:text=100%22%2C%0A%20%20%20%20%20%20%22Operation%22%20%3A%202%0A%20%20%7D%20%20%0A%7D-,%22rasterFunction%22%3A%20%22Aspect%22,-Aspect%20identifies%20the' target='_blank'>Aspect function</a> for more info.",
         snippet: {
           functionName: "Aspect",
           functionArguments: {
-            // "Raster": <raster>  //optional
+           Raster: "$$"  //optional
           }
         }
       },
       {
         category: "Reclass",
         name: "Remap",
-        desc: "Remap pixel values in a defined range to a new value. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/remap-function.htm' target='_blank'>Remap function</a> for more info.",
+        desc: "Remap pixel values in a defined range to a new value. See <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_B65D5E92E29547DCA80CAEEF6727B7F7' target='_blank'>Remap function</a> for more info. <br><br> <code>functionArguments.inputRanges</code> - or each band, provide one elements representing output value for pixel values in the corresponding range.",
         snippet: {
           functionName: "Remap",
           functionArguments: {
-            inputRanges: [-1, 50], // for each band, provide two elements representing lowerbound (inclusive) and upperbound (exclusive).
-            outputValues: [10], // for each band, provide one elements representing output value for pixel values in the corresponding range.
-            noDataRanges: [100, 500],
+            inputRanges: [0, 100, 101, 200], // for each band, provide two elements representing lowerbound (inclusive) and upperbound (exclusive).
+            outputValues: [10, 20], // for each band, provide one elements representing output value for pixel values in the corresponding range.
+            noDataRanges: [300, 500],
             allowUnmatched: false
           }
         }
@@ -953,19 +941,36 @@
       {
         category: "Data Management",
         name: "Mask",
-        desc: "Creates NoData by defining a range of pixel values. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/mask-function.htm' target='_blank'>Mask function</a> for more info.",
-        snippet: {
+        desc: "Creates NoData by defining a range of pixel values. See <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_5515B13D320B408B9F70B9B8344028FF' target='_blank'>Mask function</a> for more info.  <br><br> For functionArguments.noDataInterpretation use a desired constant from <code>rasterFunctionConstants.noDataInterpretation</code> in <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        snippet: [
+          {
+            functionName: "Mask",
+            functionArguments: {
+              noDataValues: [
+                "band0_val",
+                "band1_val",
+              ],
+              includedRanges: [
+                "band0_lowerbound",
+                "band0_upperbound",
+                "band1"
+              ],
+              noDataInterpretation: "matchAny | matchAll",
+            },
+            outputPixelType: "C128 | C64 | F32 | F64 | S16 | S32 | S8 | U1 | U16 | U2 | U32 | U4 | U8 | UNKNOWN"
+          },
+          {
           functionName: "Mask",
           functionArguments: {
             includedRanges: [100, 500],
             noDataValues: [5]
           }
-        }
+        }]
       },
       {
         category: "Data Management",
         name: "Extract Band",
-        desc: "Extracts and reoders bands from a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/extract-bands-function.htm' target='_blank'>Extract Bands function</a> for more info.",
+        desc: "Extracts and reorders bands from a raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/extract-bands-function.htm' target='_blank'>Extract Bands function</a> for more info.",
         snippet: {
           functionName: "ExtractBand",
           functionArguments: {
@@ -987,7 +992,7 @@
       {
         category: "Data Management",
         name: "Colormap",
-        desc: "Add a colormap to the input raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/colormap-function.htm' target='_blank'>Colormap function</a> for more info. <br> The colormapName possible values: NDVI, NDVI12, NDVI13, Elevation, Gray, Hillshade, Random.",
+        desc: "Add a colormap to the input raster. See <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#GUID-5DDFC961-A857-445F-A983-13AF67D45833' target='_blank'>Colormap function</a> for more info. <br><br> For <code>functionArguments.colormapName</code> use a desired constant from <code>rasterFunctionConstants.colormapName</code> in <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html#colormapName' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module. <br> For <code>functionArguments.colorRampName</code> use a desired constant from <code>rasterFunctionConstants.colorRampName</code> in <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html#colorRampName' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippets: [{
           functionName: "Colormap",
           functionArguments: {
@@ -1000,13 +1005,13 @@
         {
           functionName: "Colormap",
           functionArguments: {
-            colormapName: "NDVI3"
+            colormapName: "rasterFunctionConstants.colormapName.NDVI3"
           }
         },
         {
           functionName: "Colormap",
           functionArguments: {
-            colorRampName: "Yellow To Red"
+            colorRampName: "rasterFunctionConstants.colorRampName.blueGreenBright"
           }
         },
         {
@@ -1059,11 +1064,11 @@
       {
         category: "Appearance",
         name: "Stretch",
-        desc: "Enhances an image through multiple linear stretch types and gamma adjustment. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/aspect-function.htm' target='_blank'>Aspect function</a> for more info.",
+        desc: "Enhances an image through multiple linear stretch types and gamma adjustment. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/aspect-function.htm' target='_blank'>Aspect function</a> for more info. <br><br> For <code>functionArguments.stretchType</code> use a desired constant from <code>rasterFunctionConstants.stretchType</code> in <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html#stretchType' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippets: [{
           functionName: "Stretch",
           functionArguments: {
-            stretchType: 3,
+            stretchType: "rasterFunctionConstants.stretchType.standardDeviation",
             numberOfStandardDeviations: 2.5,
             statistics: [
               [0, 255, 56.7, 54.8],
@@ -1079,7 +1084,7 @@
         {
           functionName: "Stretch",
           functionArguments: {
-            StretchType: 5,
+            StretchType: "rasterFunctionConstants.stretchType.minMax",
             Statistics: [
               [50, 200, 56.7, 54.8],
               [50, 200, 97.5, 94.5],
@@ -1094,24 +1099,23 @@
       {
         category: "Appearance",
         name: "Convolution",
-        desc: "Filters an image using various kernels to change image appearence or detect edges. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/aspect-function.htm' target='_blank'>Aspect function</a> for more info.",
-        desc2: "type: -1=UserDefined, 0=LineDetectionHorizontal, 1=LineDetectionVertical, 2=LineDetectionLeftDiagonal, 3=LineDetectionRightDiagonal, 4=GradientNorth, 5=GradientWest, 6=GradientEast, 7=GradientSouth, 8=GradientNorthEast, 9=GradientNorthWest, 10=SmoothArithmeticMean, 11=Smoothing3x3, 12=Smoothing5x5, 13=Sharpening3x3, 14=Sharpening5x5, 15=Laplacian3x3, 16=Laplacian5x5, 17=SobelHorizontal, 18=SobelVertical, 19=Sharpen, 20=Sharpen2",
+        desc: "Filters an image using various kernels to change image appearence or detect edges. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/convolution-function.htm' target='_blank'>Convolution function</a> for more info. <br><br> For functionArguments.type use a desired constant from <code>rasterFunctionConstants.convolutionKernel</code> in <a href='https://next.sites.afd.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html#convolutionKernel' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         snippet: {
           functionName: "Convolution",
           functionArguments: {
-            type: 11
+            type: "rasterFunctionConstants.convolutionKernel.Smoothing3x3"
           }
         }
       },
       {
         category: "Band Index",
         name: "NDVI",
-        desc: "Calculates the Normalized Difference Vegetation Index allowing you to generate an image displaying greenness, also known as relative biomass. By default is scaled to 0 - 200: (IR - R)/(IR + R)) * 100 + 100. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/ndvi-function.htm' target='_blank'>NDVI function</a> for more info.",
+        desc: "Calculates the Normalized Difference Vegetation Index allowing you to generate an image displaying greenness, also known as relative biomass. By default is scaled to 0 - 200 range 8 bit result: (IR - R)/(IR + R)) * 100 + 100. See <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#GUID-B6F5DB53-E7CC-4285-91F8-F050D6CD9DA9' target='_blank'>NDVI function</a> for more info.",
         snippet: {
           functionName: "NDVI",
           functionArguments: {
-            visibleBandID: 3,
-            infraredBandID: 4,
+            visibleBandID: 3, // Red bandId
+            infraredBandID: 4, // Near infrared bandId
             scientificOutput: false
           }
         }
@@ -1119,130 +1123,130 @@
       {
         category: "Band Index",
         name: "NDVI (general syntax)",
-        desc: "Calculates the Normalized Difference Vegetation Index. (NIR - Red)/(NIR + Red). See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/ndvi-function.htm' target='_blank'>NDVI function</a> for more info.",
+        desc: "Calculates the Normalized Difference Vegetation Index. (NIR - Red)/(NIR + Red). See <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>NDVI function</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.NDVI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "NIR Red"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "NDVI",
-            bandIndexes: "4 3"
+            method: "rasterFunctionConstants.bandIndexType.NDVI",
+            bandIndexes: "5 4"
           }
         }
       },
       {
         category: "Band Index",
         name: "SAVI",
-        desc: "Calculates the Modified Soil Adjusted Vegetation Index. (1/2)*(2(NIR+1)-sqrt((2*NIR+1)**2-8(NIR-Red))). See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>SAVI method</a> for more info.",
-        desc2: 'BandIndexes (1-based): "NIR Red"',
+        desc: "Calculates the Soil Adjusted Vegetation Index. SAVI = ((NIR - Red) / (NIR + Red + L)) x (1 + L). L = the soil brightness correction factor. See <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>SAVI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.SAVI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        desc2: 'bandIndexes (1-based): "NIR Red L"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "SAVI",
-            bandIndexes: "5 3"
+            method: "rasterFunctionConstants.bandIndexType.SAVI",
+            bandIndexes: "5 4 0.33"
           }
         }
       },
       {
         category: "Band Index",
         name: "TSAVI",
-        desc: "Calculates the Transformed Soil Adjusted Vegetation Index. (s * (NIR - s * Red - a)) / (a * NIR + Red - a * s + X * (1 + s*s)). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Transformed SAVI method</a> for more info.",
-        desc2: 'BandIndexes (1-based): "NIR Red s a X". s=soil line slope, a=the soil line intercept, X=an adjustment factor that is set to minimize soil noise',
+        desc: "Calculates the Transformed Soil Adjusted Vegetation Index. TSAVI = (s * (NIR - s * Red - a)) / (a * NIR + Red - a * s + X * (1 + s*s)) where a = the soil line intercept, s = the soil line slope, X = an adjustment factor that is set to minimize soil noise. <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#:~:text=Transformed%20Soil%20Adjusted%20Vegetation%20Index' target='_blank'>Transformed SAVI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.TSAVI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        desc2: 'bandIndexes (1-based): "NIR Red s a X"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "TSAVI",
-            bandIndexes: "3 1 0.33 0.50 1.50"
+            method: "rasterFunctionConstants.bandIndexType.TSAVI",
+            bandIndexes: "5 4 0.33 0.50 1.50"
           }
         }
       },
       {
         category: "Band Index",
         name: "MSAVI",
-        desc: "Calculates the Modified Soil Adjusted Vegetation Index. (1/2)*(2(NIR+1)-sqrt((2*NIR+1)**2-8(NIR-Red))). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Modified SAVI method</a> for more info.",
-        desc2: 'BandIndexes (1-based): "NIR Red".',
+        desc: "Calculates the Modified Soil Adjusted Vegetation Index. (1/2)*(2(NIR+1)-sqrt((2*NIR+1)**2-8(NIR-Red))). <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>Modified SAVI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.MSAVI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        desc2: 'BandIndexes (1-based): "NIR Red"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "MSAVI",
-            bandIndexes: "4 3"
+            method: "rasterFunctionConstants.bandIndexType.MSAVI",
+            bandIndexes: "5 4"
           }
         }
       },
       {
         category: "Band Index",
         name: "GEMI",
-        desc: "Global Environmental Monitoring Index (GEMI) method is a nonlinear vegetation index for global environmental monitoring from satellite imagery. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>GEMI method</a> for more info.",
-        desc2: 'BandIndexes (1-based): "NIR Red".',
+        desc: "Global Environmental Monitoring Index (GEMI) method is a nonlinear vegetation index for global environmental monitoring from satellite imagery. <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>GEMI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.GEMI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        desc2: 'BandIndexes (1-based): "NIR Red"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "GEMI",
-            bandIndexes: "4 3"
+            method: "rasterFunctionConstants.bandIndexType.GEMI",
+            bandIndexes: "5 4"
           }
         }
       },
       {
         category: "Band Index",
         name: "PVI",
-        desc: "The Perpendicular Vegetation Index (PVI) method is similar to a difference vegetation index; however, it is sensitive to atmospheric variations. (NIR - a*Red - b) / (sqrt(1 + a2)). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>PVI method</a> for more info.",
-        desc2: 'BandIndexes (1-based): "NIR Red a b" a=slope of the soil line, b=gradient of the soil line',
+        desc: "The Perpendicular Vegetation Index (PVI) method is similar to a difference vegetation index; however, it is sensitive to atmospheric variations. PVI = (NIR - a*Red - b) / (sqrt(1 + a2)) where a = slope of the soil line b = gradient of the soil line. <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>PVI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.PVI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        desc2: 'BandIndexes (1-based): "NIR Red a b',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "PVI",
-            bandIndexes: "4 3 0.3 0.5"
+            method: "rasterFunctionConstants.bandIndexType.PVI",
+            bandIndexes: "5 4 0.3 0.5"
           }
         }
       },
       {
         category: "Band Index",
         name: "GVITM",
-        desc: "Calculates the Green Vegetation Index for Landsat TM Imagery. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>GVI (Landsat TM) method</a> for more info.",
-        desc2: 'BandIndexes (1-based): "Band1 Band2 Band3 Band4 Band5 Band7", excluding thermal',
+        desc: "Calculates the Green Vegetation Index for Landsat TM Imagery. <a href='https://pro.arcgis.com/en/pro-app/latest/arcpy/image-analyst/gvitm.htm' target='_blank'>GVI (Landsat TM) method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.GVITM</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        desc2: 'BandIndexes (1-based): "Band1 Band2 Band3 Band4 Band5 Band7"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "GVITM",
-            bandIndexes: "1 2 3 4 5 6"
+            method: "rasterFunctionConstants.bandIndexType.GVITM",
+            bandIndexes: "1 2 3 4 5 7"
           }
         }
       },
       {
         category: "Band Index",
         name: "Sultan",
-        desc: "Calculates the index using Sultan's Formula Vegetation Index for Lansat TM/ETM imagery. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Sultan's Formula method</a> for more info.",
-        desc2: 'BandIndexes (1-based): "Band1 Band2 Band3 Band4 Band5 Band7", excluding thermal',
+        desc: "Calculates the index using Sultan's Formula Vegetation Index for Lansat TM/ETM imagery. <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>Sultan's Formula method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.Sultan</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        desc2: 'BandIndexes (1-based): "Band1 Band3 Band4 Band5 Band6"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "Sultan",
-            bandIndexes: "1 2 3 4 5 6"
+            method: "rasterFunctionConstants.bandIndexType.Sultan",
+            bandIndexes: "1 3 4 5 6"
           }
         }
       },
       {
         category: "Band Index",
         name: "VARI",
-        desc: "Calculates the Visible Atmospherically Resistant Index. (Green - Red) / (Green + Red  -  Blue). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>VARI method</a> for more info.",
-        desc2: 'BandIndexes (1-based): "Red Green Blue".',
+        desc: "Calculates the Visible Atmospherically Resistant Index. VARI = (Green - Red) / (Green + Red – Blue). <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>VARI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.VARI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        desc2: 'BandIndexes (1-based): "Red Green Blue"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "VARI",
-            bandIndexes: "1 2 3"
+            method: "rasterFunctionConstants.bandIndexType.VARI",
+            bandIndexes: "4 3 2"
           }
         }
       },
       {
         category: "Band Index",
         name: "GNDVI",
-        desc: "The Green Normalized Difference Vegetation Index (GNDVI) method is a vegetation index for estimating photo synthetic activity and is a commonly used vegetation index to determine water and nitrogen uptake into the plant canopy. (NIR-Green)/(NIR+Green). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>GNDVI method</a> for more info.",
+        desc: "The Green Normalized Difference Vegetation Index (GNDVI) method is a vegetation index for estimating photo synthetic activity and is a commonly used vegetation index to determine water and nitrogen uptake into the plant canopy. GNDVI = (NIR - Green)/(NIR + Green). <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>GNDVI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.GNDVI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "NIR Green"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "GNDVI",
-            bandIndexes: "4 3"
+            method: "rasterFunctionConstants.bandIndexType.GNDVI",
+            bandIndexes: "5 3"
           }
         }
       },
@@ -1250,39 +1254,39 @@
       {
         category: "Band Index",
         name: "SR",
-        desc: "The Simple Ratio (SR) method is a common vegetation index for estimating the amount of vegetation. (NIR / Red). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>SR method</a> for more info.",
+        desc: "The Simple Ratio (SR) method is a common vegetation index for estimating the amount of vegetation. SR = NIR / Red. <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>SR method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.SR</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "NIR Red"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "SR",
-            bandIndexes: "4 3"
+            method: "rasterFunctionConstants.bandIndexType.SR",
+            bandIndexes: "5 4"
           }
         }
       },
       {
         category: "Band Index",
         name: "NDVIRe",
-        desc: "The Red-Edge NDVI (NDVIre) method is a vegetation index for estimating vegetation health using the red-edge band. (NIR - RedEdge)/(NIR + RedEdge). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDVIre method</a> for more info.",
-        desc2: 'BandIndexes (1-based): "NIR RedEdge"',
+        desc: "The Red-Edge NDVI (NDVIre) method is a vegetation index for estimating vegetation health using the red-edge band. NDVIre = (NIR - RedEdge)/(NIR + RedEdge). <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>NDVIre method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.NDVIRe</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        desc2: 'Sentinel-2 BandIndexes (1-based): "NIR RedEdge"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "NDVIRe",
-            bandIndexes: "4 3"
+            method: "rasterFunctionConstants.bandIndexType.NDVIRe",
+            bandIndexes: "8 5"
           }
         }
       },
       {
         category: "Band Index",
         name: "SRre",
-        desc: "The Red-Edge Simple Ratio (SRre) method is a vegetation index for estimating the amount of healthy and stressed vegetation. (NIR / RedEdge). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>SRre method</a> for more info.",
-        desc2: 'BandIndexes (1-based): "NIR RedEdge"',
+        desc: "The Red-Edge Simple Ratio (SRre) method is a vegetation index for estimating the amount of healthy and stressed vegetation. SRre = NIR / RedEdge. <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>SRre method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.SRre</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        desc2: 'Sentinel-2 BandIndexes (1-based): "NIR RedEdge"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "SRre",
-            bandIndexes: "7 6"
+            method: "rasterFunctionConstants.bandIndexType.SRre",
+            bandIndexes: "8 5"
           }
         }
       },
@@ -1290,26 +1294,26 @@
       {
         category: "Band Index",
         name: "MTVI2",
-        desc: "The Modified Triangular Vegetation Index (MTVI2) method is a vegetation index for detecting leaf chlorophyll content at the canopy scale while being relatively insensitive to leaf area index. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>GEMI method</a> for more info.",
+        desc: "The Modified Triangular Vegetation Index (MTVI2) method is a vegetation index for detecting leaf chlorophyll content at the canopy scale while being relatively insensitive to leaf area index. <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>GEMI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.MTVI2</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "NIR Red Green"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "MTVI2",
-            bandIndexes: "7 5 3"
+            method: "rasterFunctionConstants.bandIndexType.MTVI2",
+            bandIndexes: "5 4 3"
           }
         }
       },
       {
         category: "Band Index",
         name: "RTVICore",
-        desc: "The Red-Edge Triangulated Vegetation Index (RTVICore) method is a vegetation index for estimating leaf area index and biomass. 100(NIR-RedEdge)-10(NIR-Green). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>RTVICore method</a> for more info.",
-        desc2: 'BandIndexes (1-based): "NIR RedEdge Green"',
+        desc: "The Red-Edge Triangulated Vegetation Index (RTVICore) method is a vegetation index for estimating leaf area index and biomass. 100(NIR-RedEdge)-10(NIR-Green). <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>RTVICore method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.RTVICore</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        desc2: 'Sentinel-2 BandIndexes (1-based): "NIR RedEdge Green"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "RTVICore",
-            bandIndexes: "7 6 3"
+            method: "rasterFunctionConstants.bandIndexType.RTVICore",
+            bandIndexes: "8 5 4"
           }
         }
       },
@@ -1317,25 +1321,25 @@
       {
         category: "Band Index",
         name: "CIre",
-        desc: "Calculates the Chlorophyll Index - RedEdge index. (NIR / RedEdge)-1. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>CIre method</a> for more info.",
-        desc2: 'BandIndexes (1-based): "NIR RedEdge"',
+        desc: "Calculates the Chlorophyll Index - RedEdge index. (NIR / RedEdge)-1. See <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>CIre method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.CIre</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
+        desc2: 'Sentinel-2 BandIndexes (1-based): "NIR RedEdge"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "CIre",
-            bandIndexes: "5 3"
+            method: "rasterFunctionConstants.bandIndexType.CIre",
+            bandIndexes: "8 5"
           }
         }
       },
       {
         category: "Band Index",
         name: "CIg",
-        desc: "The Chlorophyll Index - Green (CIg) method is a vegetation index for estimating the chlorophyll content in leaves using the ratio of reflectivity in the NIR and green bands. (NIR / Green)-1. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>CIg method</a> for more info.",
+        desc: "The Chlorophyll Index - Green (CIg) method is a vegetation index for estimating the chlorophyll content in leaves using the ratio of reflectivity in the NIR and green bands. (NIR / Green)-1. <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_4D75298B90D94E6B87B0C9F28D5AE269' target='_blank'>CIg method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.CIg</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "NIR Green"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "CIg",
+            method: "rasterFunctionConstants.bandIndexType.CIg",
             bandIndexes: "5 3"
           }
         }
@@ -1344,25 +1348,25 @@
       {
         category: "Band Index",
         name: "NDWI",
-        desc: "The Normalized Difference Water Index (NDWI) method is an index for delineating and monitoring content changes in surface water. (Green - NIR) / (Green + NIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDWI method</a> for more info.",
+        desc: "The Normalized Difference Water Index (NDWI) method is an index for delineating and monitoring content changes in surface water. (Green - NIR) / (Green + NIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDWI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.NDWI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "Green NIR"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "NDWI",
-            bandIndexes: "5 3"
+            method: "rasterFunctionConstants.bandIndexType.NDWI",
+            bandIndexes: "3 5"
           }
         }
       },
       {
         category: "Band Index",
         name: "EVI",
-        desc: "The Enhanced Vegetation Index (EVI) method is an optimized vegetation index that accounts for atmospheric influences and vegetation background signal. 2.5*(NIR - Red) / (NIR + 6*Red - 7.5*Blue + 1). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>EVI method</a> for more info.",
+        desc: "The Enhanced Vegetation Index (EVI) method is an optimized vegetation index that accounts for atmospheric influences and vegetation background signal. 2.5*(NIR - Red) / (NIR + 6*Red - 7.5*Blue + 1). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>EVI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.EVI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "NIR Red Blue"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "EVI",
+            method: "rasterFunctionConstants.bandIndexType.EVI",
             bandIndexes: "5 4 2"
           }
         }
@@ -1371,12 +1375,12 @@
       {
         category: "Band Index",
         name: "Iron Oxide",
-        desc: "The Iron Oxide ratio method is a geological index for identifying rock features that have experienced oxidation of iron-bearing sulfides using the red and blue bands. IronOxide is useful in identifying iron oxide features below vegetation canopies and is used in mineral composite mapping. (Red/Blue). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>IronOxide method</a> for more info.",
+        desc: "The Iron Oxide ratio method is a geological index for identifying rock features that have experienced oxidation of iron-bearing sulfides using the red and blue bands. IronOxide is useful in identifying iron oxide features below vegetation canopies and is used in mineral composite mapping. (Red/Blue). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>IronOxide method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.ironOxide</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "Red Blue"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "IronOxide",
+            method: "rasterFunctionConstants.bandIndexType.ironOxide",
             bandIndexes: "4 2"
           }
         }
@@ -1384,12 +1388,12 @@
       {
         category: "Band Index",
         name: "Ferrous Minerals",
-        desc: "The Ferrous Minerals ratio method is a geological index for identifying rock features containing some quantity of iron-bearing minerals using the SWIR and NIR bands. FM is used in mineral composite mapping. (SWIR/NIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Ferrous Minerals method</a> for more info.",
+        desc: "The Ferrous Minerals ratio method is a geological index for identifying rock features containing some quantity of iron-bearing minerals using the SWIR and NIR bands. FM is used in mineral composite mapping. (SWIR/NIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Ferrous Minerals method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.ferrousMinerals</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "SWIR NIR"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "FerrousMinerals",
+            method: "rasterFunctionConstants.bandIndexType.ferrousMinerals",
             bandIndexes: "6 5"
           }
         }
@@ -1397,12 +1401,12 @@
       {
         category: "Band Index",
         name: "Clay Minerals",
-        desc: "The Clay Minerals ratio method is a geological index for identifying mineral features containing clay and alunite using two shortwave infrared (SWIR) bands. CM is used in mineral composite mapping. SWIR1 / SWIR2. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Clay Minerals method</a> for more info.",
+        desc: "The Clay Minerals ratio method is a geological index for identifying mineral features containing clay and alunite using two shortwave infrared (SWIR) bands. CM is used in mineral composite mapping. SWIR1 / SWIR2. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Clay Minerals method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.clayMinerals</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "SWIR1 SWIR2"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "ClayMinerals",
+            method: "rasterFunctionConstants.bandIndexType.clayMinerals",
             bandIndexes: "6 7"
           }
         }
@@ -1410,12 +1414,12 @@
       {
         category: "Band Index",
         name: "WNDWI",
-        desc: "The Weighted Normalized Difference Water Index (WNDWI) method is a water index developed to reduce errors typically encountered in other water indices, including water turbidity, small water bodies, or shadow in remote sensing scenes. (Green - alpha * NIR - (1 - alpha) * SWIR ) / (Green + alpha * NIR + (1 - alpha) * SWIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>WNDWI method</a> for more info.",
+        desc: "The Weighted Normalized Difference Water Index (WNDWI) method is a water index developed to reduce errors typically encountered in other water indices, including water turbidity, small water bodies, or shadow in remote sensing scenes. (Green - alpha * NIR - (1 - alpha) * SWIR ) / (Green + alpha * NIR + (1 - alpha) * SWIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>WNDWI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.WNDWI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "Green NIR SWIR alpha"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "WNDWI",
+            method: "rasterFunctionConstants.bandIndexType.WNDWI",
             bandIndexes: "2 5 6 0.5"
           }
         }
@@ -1423,13 +1427,13 @@
       {
         category: "Band Index",
         name: "BAI",
-        desc: "The Burn Area Index (BAI) uses the reflectance values in the red and NIR portion of the spectrum to identify the areas of the terrain affected by fire. 1/((0.1 -RED)^2 + (0.06 - NIR)^2). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>BAI method</a> for more info.",
+        desc: "The Burn Area Index (BAI) uses the reflectance values in the red and NIR portion of the spectrum to identify the areas of the terrain affected by fire. 1/((0.1 -RED)^2 + (0.06 - NIR)^2). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>BAI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.BAI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "NIR Red"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "BAI",
-            bandIndexes: "4 3"
+            method: "rasterFunctionConstants.bandIndexType.BAI",
+            bandIndexes: "5 4"
           }
         }
       },
@@ -1437,52 +1441,52 @@
       {
         category: "Band Index",
         name: "NBR",
-        desc: "The Normalized Burn Ratio Index (NBRI) uses the NIR and SWIR bands to emphasize burned areas, while mitigating illumination and atmospheric effects. (NIR - SWIR) / (NIR+ SWIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NBR method</a> for more info.",
+        desc: "The Normalized Burn Ratio Index (NBRI) uses the NIR and SWIR bands to emphasize burned areas, while mitigating illumination and atmospheric effects. (NIR - SWIR) / (NIR+ SWIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NBR method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.NBR</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "NIR SWIR"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "NBR",
-            bandIndexes: "4 3"
+            method: "rasterFunctionConstants.bandIndexType.NBR",
+            bandIndexes: "5 6"
           }
         }
       },
       {
         category: "Band Index",
         name: "NDBI",
-        desc: "The Normalized Difference Built-up Index (NDBI) uses the NIR and SWIR bands to emphasize man-made built-up areas. It is ratio based to mitigate the effects of terrain illumination differences as well as atmospheric effects. (SWIR - NIR) / (SWIR + NIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDBI method</a> for more info.",
+        desc: "The Normalized Difference Built-up Index (NDBI) uses the NIR and SWIR bands to emphasize man-made built-up areas. It is ratio based to mitigate the effects of terrain illumination differences as well as atmospheric effects. (SWIR - NIR) / (SWIR + NIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDBI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.NDBI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "SWIR NIR"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "NDBI",
-            bandIndexes: "7 4"
+            method: "rasterFunctionConstants.bandIndexType.NDBI",
+            bandIndexes: "6 5"
           }
         }
       },
       {
         category: "Band Index",
         name: "NDMI",
-        desc: "The Normalized Difference Moisture Index (NDMI) is sensitive to the moisture levels in vegetation. It is used to monitor droughts as well as monitor fuel levels in fire-prone areas. (NIR - SWIR1)/(NIR + SWIR1). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDMI method</a> for more info.",
+        desc: "The Normalized Difference Moisture Index (NDMI) is sensitive to the moisture levels in vegetation. It is used to monitor droughts as well as monitor fuel levels in fire-prone areas. (NIR - SWIR1)/(NIR + SWIR1). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDMI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.NDMI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "NIR SWIR1"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "NDMI",
-            bandIndexes: "3 7"
+            method: "rasterFunctionConstants.bandIndexType.NDMI",
+            bandIndexes: "5 6"
           }
         }
       },
       {
         category: "Band Index",
         name: "NDSI",
-        desc: "The Normalized Difference Snow Index (NDSI) is designed to use MODIS (band 4 and band 6) and Landsat TM (band 2 and band 5) for identification of snow cover while ignoring cloud cover. (Green - SWIR) / (Green + SWIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDSI method</a> for more info.",
+        desc: "The Normalized Difference Snow Index (NDSI) is designed to use MODIS (band 4 and band 6) and Landsat TM (band 2 and band 5) for identification of snow cover while ignoring cloud cover. (Green - SWIR) / (Green + SWIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>NDSI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.NDSI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "Green SWIR"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "NDSI",
-            bandIndexes: "4 3"
+            method: "rasterFunctionConstants.bandIndexType.NDSI",
+            bandIndexes: "3 6"
           }
         }
       },
@@ -1490,25 +1494,25 @@
       {
         category: "Band Index",
         name: "MNDVI",
-        desc: "Calculates the Modified Normalized Difference Water Index. (Green - SWIR) / (Green + SWIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>MNDVI method</a> for more info.",
+        desc: "Calculates the Modified Normalized Difference Water Index. (Green - SWIR) / (Green + SWIR). <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>MNDVI method</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.MNDVI</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "Green SWIR"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "MNDVI",
-            bandIndexes: "3 7"
+            method: "rasterFunctionConstants.bandIndexType.MNDVI",
+            bandIndexes: "3 6"
           }
         }
       },
       {
         category: "Band Index",
         name: "User Defined",
-        desc: "Calculates the custom index using user defined formula. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Band Arithmetic function</a> for more info.",
+        desc: "Calculates the custom index using user defined formula. <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/band-arithmetic-function.htm' target='_blank'>Band Arithmetic function</a> for more info. Band indices are 1-based for Band Index functions. <br><br> For functionArguments.method use <code>rasterFunctionConstants.bandIndexType.userDefined</code> from <a href='https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html' target='_blank'>esri/layers/support/rasterFunctionConstants</a> module.",
         desc2: 'BandIndexes (1-based): "user-defined formula"',
         snippet: {
           functionName: "BandArithmetic",
           functionArguments: {
-            method: "Custom",
+            method: "rasterFunctionConstants.bandIndexType.userDefined",
             bandIndexes: "(b4 - b3) / (b4 + b3)"
           }
         }
@@ -1579,14 +1583,16 @@
 
 <body onload="addFunctionCategories();">
   <h2>ImageryTileLayer: snippets for client side raster functions</h2>
-  <calcite-panel class="leftSideDivs">
-    <div style="background-color: white;">
-      The raster functions allow you to define processing operations that can be applied to one or more rasters.
-      These functions are applied to the raster data on the fly as the data is accessed and viewed.<br><br>
+    <div class="esri-widget leftSideDivs">
+      The client-side raster functions are operations that apply processing directly to the source image pixels.
+      The calculations are only applied to the source pixels that are visible in the map as you pan and zoom within the map.
+      The following raster functions can be applied to an <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html" target="_blank"> ImageryTileLayer </a>
+      by setting its <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#rasterFunction" target="_blank">rasterFunction</a>  property.
+      The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionConstants.html" target="_blank">rasterFunctionConstants</a>  module provides constant
+      values that can be used as parameters of different raster functions when setting the layer's rasterFunction.<br><br>
 
       You can click on the raster function you are interested in and this application will show a brief description and code snippet.
-    </div>
-  </calcite-panel><br>
+    </div><br>
   <div id="functions">
     <calcite-panel id="functionCategories" class="leftSideDivs"> </calcite-panel>
     <calcite-panel id="snippets"></calcite-panel>
