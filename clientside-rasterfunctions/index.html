@@ -44,6 +44,8 @@
   </style>
   <script type="text/javascript">
 
+    console.log("rasterFunctionConstants.bandIndexType.TSAVI".replace(/\"/g, ""))
+
     const local1Description = "Perform a per-pixel operation using one raster.";
     const local2Description = "Perform a per-pixel operation using two rasters, one of them can be a constant number";
     const functions = [
@@ -1567,6 +1569,12 @@
       const snippets = selectedFunction.snippets || [selectedFunction.snippet];
       snippets.forEach((snippet, i) => {
         let snippetStr = JSON.stringify(snippet, null, 2);
+        enumIndex = snippetStr.indexOf("\"rasterFunctionConstants");
+        if (enumIndex > -1) {
+          enumEndIndex = snippetStr.indexOf("\"", enumIndex + 1);
+          enumPart = snippetStr.slice(enumIndex, enumEndIndex + 1);
+          snippetStr = snippetStr.replace(enumPart, enumPart.slice(1, enumPart.length-1));
+        }
         if (selectedFunction.desc2) {
           snippetStr = `<br>// ${selectedFunction.desc2}</br>` + snippetStr;
         }
