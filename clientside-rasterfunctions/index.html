@@ -928,6 +928,18 @@
         }
       },
       {
+        category: "Surface",
+        name: "Curvature",
+        desc: "Added at version 4.27. Calculates the shape or curvature of the slope. A part of a surface can be concave or convex; you can determine which by reviewing the curvature value. See <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_F80E20840BFB4A35B217240F849B969D' target='_blank'>Curvature function</a> for more info.",
+        snippet: {
+          functionName: "Curvature",
+          functionArguments: {
+            "Type": 0,
+            "ZFactor": 1
+          }
+        }
+      },
+      {
         category: "Reclass",
         name: "Remap",
         desc: "Remap pixel values in a defined range to a new value. See <a href='https://developers.arcgis.com/documentation/common-data-types/raster-function-objects.htm#ESRI_SECTION1_B65D5E92E29547DCA80CAEEF6727B7F7' target='_blank'>Remap function</a> for more info. <br><br> <code>functionArguments.inputRanges</code> - or each band, provide one elements representing output value for pixel values in the corresponding range.",
@@ -1028,6 +1040,242 @@
             }
           }
         }]
+      },
+      {
+        category: "Data Management",
+        name: "Table",
+        desc: "Added at version 4.27. Use table function to attach an attribute table for the processed single band raster. This way, each pixel value can have a corresponding categorical information.",
+        snippet: {
+          functionName: "Table",
+          functionArguments: {
+            outputPixelType: "u8",
+            attributeTableAsRecordSet: {
+              fields: [
+                {
+                  name: "OID",
+                  type: "esriFieldTypeOID",
+                  alias: "OID",
+                  domain: null
+                },
+                {
+                  name: "Value",
+                  type: "esriFieldTypeInteger",
+                  alias: "Value",
+                  domain: null
+                },
+                {
+                  name: "Count",
+                  type: "esriFieldTypeDouble",
+                  alias: "Count",
+                  domain: null
+                },
+                {
+                  name: "Red",
+                  type: "esriFieldTypeSmallInteger",
+                  alias: "Red",
+                  domain: null
+                },
+                {
+                  name: "Green",
+                  type: "esriFieldTypeSmallInteger",
+                  alias: "Green",
+                  domain: null
+                },
+                {
+                  name: "Blue",
+                  type: "esriFieldTypeSmallInteger",
+                  alias: "Blue",
+                  domain: null
+                },
+                {
+                  name: "ClassName",
+                  type: "esriFieldTypeString",
+                  alias: "ClassName",
+                  domain: null,
+                  length: 50
+                }
+                ],
+                features: [
+                  {
+                    attributes: {
+                      OID: 0,
+                      Value: 11,
+                      Count: 466650898,
+                      Red: 71,
+                      Green: 107,
+                      Blue: 161,
+                      ClassName: "Open Water"
+                    }
+                  },
+                  {
+                    attributes: {
+                      OID: 1,
+                      Value: 12,
+                      Count: 1731114,
+                      Red: 209,
+                      Green: 222,
+                      Blue: 250,
+                      ClassName: "Perennial Snow/Ice"
+                    }
+                  },
+                  {
+                    attributes: {
+                      OID: 2,
+                      Value: 21,
+                      Count: 287572411,
+                      Red: 222,
+                      Green: 202,
+                      Blue: 202,
+                      ClassName: "Developed, Open Space"
+                    }
+                  },
+                  {
+                    attributes: {
+                      OID: 3,
+                      Value: 22,
+                      Count: 124755469,
+                      Red: 217,
+                      Green: 148,
+                      Blue: 130,
+                      ClassName: "Developed, Low Intensity"
+                    }
+                  },
+                  {
+                  attributes: {
+                    OID: 4,
+                    Value: 23,
+                    Count: 48230587,
+                    Red: 238,
+                    Green: 0,
+                    Blue: 0,
+                    ClassName: "Developed, Medium Intensity"
+                    }
+                  },
+                  {
+                  attributes: {
+                    OID: 5,
+                    Value: 24,
+                    Count: 16773628,
+                    Red: 171,
+                    Green: 0,
+                    Blue: 0,
+                    ClassName: "Developed, High Intensity"
+                    }
+                  },
+                  {
+                  attributes: {
+                    OID: 6,
+                    Value: 31,
+                    Count: 106587346,
+                    Red: 179,
+                    Green: 174,
+                    Blue: 163,
+                    ClassName: "Barren Land"
+                    }
+                  },
+                  {
+                  attributes: {
+                    OID: 7,
+                    Value: 41,
+                    Count: 992056320,
+                    Red: 104,
+                    Green: 171,
+                    Blue: 99,
+                    ClassName: "Deciduous Forest"
+                    }
+                  },
+                  {
+                  attributes: {
+                    OID: 8,
+                    Value: 42,
+                    Count: 1087386133,
+                    Red: 28,
+                    Green: 99,
+                    Blue: 48,
+                    ClassName: "Evergreen Forest"
+                    }
+                  },
+                  {
+                    attributes: {
+                      OID: 9,
+                      Value: 43,
+                      Count: 189936312,
+                      Red: 181,
+                      Green: 202,
+                      Blue: 143,
+                      ClassName: "Mixed Forest"
+                    }
+                  },
+                  {
+                  attributes: {
+                      OID: 10,
+                      Value: 52,
+                      Count: 1906471766,
+                      Red: 204,
+                      Green: 186,
+                      Blue: 125,
+                      ClassName: "Shrub/Scrub"
+                    }
+                  },
+                  {
+                  attributes: {
+                      OID: 11,
+                      Value: 71,
+                      Count: 1285120838,
+                      Red: 227,
+                      Green: 227,
+                      Blue: 194,
+                      ClassName: "Herbaceuous"
+                    }
+                  },
+                  {
+                  attributes: {
+                      OID: 12,
+                      Value: 81,
+                      Count: 610323595,
+                      Red: 220,
+                      Green: 217,
+                      Blue: 61,
+                      ClassName: "Hay/Pasture"
+                    }
+                  },
+                  {
+                  attributes: {
+                      OID: 13,
+                      Value: 82,
+                      Count: 1394827778,
+                      Red: 171,
+                      Green: 112,
+                      Blue: 40,
+                      ClassName: "Cultivated Crops"
+                    }
+                  },
+                  {
+                  attributes: {
+                      OID: 14,
+                      Value: 90,
+                      Count: 348297894,
+                      Red: 186,
+                      Green: 217,
+                      Blue: 235,
+                      ClassName: "Woody Wetlands"
+                    }
+                  },
+                  {
+                  attributes: {
+                      OID: 15,
+                      Value: 95,
+                      Count: 111141959,
+                      Red: 112,
+                      Green: 163,
+                      Blue: 186,
+                      ClassName: "Emergent Herbaceuous Wetlands"
+                    }
+                  }
+                ]
+              }
+            }
+        }
       },
       {
         category: "Appearance",
