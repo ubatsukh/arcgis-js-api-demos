@@ -22,7 +22,7 @@ This application loads Beverly Hills trees data to the map and the top five comm
 
 This app was used to demonstrate how to filter New York restaurants within 0.5 or 1 km/mile of a moving car along a designated route. The restaurants are filtered by setting the feature layer view's [featureEffect.filter.geometry](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html) property along with `featureEffect.filter.distance` and `featureEffect.filter.units` parameters.
 
-[![geometry-filter](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2021/images/nyc-restaraunts-filter.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/)
+[![geometry-filter](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/images/nyc-restaraunts-filter.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/)
 
 [View the code](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/filter-restaurants.html)
 
