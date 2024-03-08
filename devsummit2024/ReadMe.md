@@ -4,15 +4,17 @@
 
 <a name="client-side-featurelayer"/>
 
-#### Demo 1. Client-side featurelayer - USGS Stream flow data
+#### Demo 1. Filter data based on attributes - Beverly Hills Trees
 
-This app was used to demonstrate how to create client-side featurelayer from an array of client-side graphics. It also shows how to filter data from the client-side feature layer by on their attributes.
+This app was used to demonstrate how to filter data on the client-side by setting the feature layer view's [featureEffect.filter.where](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html) property.
 
-[![client-side-featurelayer](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2021/images/client-side-featurelayer.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/streamflow-usgs/)
+This application loads Beverly Hills trees data to the map and the top five common species are queried when the layer is loaded. The top five tree species are listed on the right hand side of the app. Users can move the pointer over the list or click the tree to highlight the tree specie on the map. The application set the `where` property of the filter parameter on the layer view.
 
-[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/devsummit2021/streamflow-usgs)
+[![attribute-filter](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/images/beverly-hills-trees.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/beverly-hills-trees.html)
 
-[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/streamflow-usgs/)
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/beverly-hills-trees.html)
+
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/beverly-hills-trees.html)
 
 <a name="time-enabled-csv"/>
 
