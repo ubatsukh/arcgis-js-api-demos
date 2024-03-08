@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Filter restaurants by geometry</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    #infoDiv {
+      background-color: white;
+      padding: 10px;
+    }
+
+    calcite-shell-panel {
+      --calcite-shell-panel-min-width: 450px;
+      --calcite-shell-panel-width: 450px;
+      --calcite-shell-panel-max-width: 80%;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+  <script type="module" src="https://js.arcgis.com/calcite-components/2.5.1/calcite.esm.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/2.5.1/calcite.css" />
+  <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.29/"></script>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/Graphic",
+      "esri/geometry/geometryEngine",
+      "esri/geometry/Point",
+      "esri/geometry/Polyline",
+      "esri/layers/FeatureLayer"
+    ], (Map, MapView, Graphic, geometryEngine, Point, Polyline, FeatureLayer) =>
+    (async () => {
+      // used for filtering restaurants on the map
+      let path;
+      let unit = "kilometers";
+      let distance = 0.5;
+
+      const map = new Map({
+        basemap: "gray-vector"
+      });
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        zoom: 12,
+        center: [-73.958, 40.75]
+      });
+
+      // add the NYC restaurants layer
+      const layer = new FeatureLayer({
+        url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Restaurants/FeatureServer/0"
+      });
+      map.add(layer);
+
+      const layerView = await view.whenLayerView(layer);
+
+      // line graphic showing the route of the moving "car"
+      const routeGraphic = new Graphic({
+        geometry: new Polyline({
+          paths: [
+            [-8237303, 4972801],
+            [-8234951, 4977064]
+          ],
+          spatialReference: view.spatialReference
+        })
+      });
+
+      // add points at 10 meters along the polyline and this will be used for the animation
+      routeGraphic.geometry = geometryEngine.densify(routeGraphic.geometry, 10, "meters");
+      path = routeGraphic.geometry.paths[0];
+      view.graphics.add(routeGraphic);
+
+      // starting location of the moving "car"
+      let point = new Point({
+        x: -8237303,
+        y: 4972801,
+        spatialReference: view.spatialReference
+      });
+
+      let pointGraphic = new Graphic({
+        symbol: {
+          type: "text",
+          color: "#7A003C",
+          text: "\ue666",
+          font: {
+            size: 26,
+            family: "calcite-web-icons"
+          }
+        },
+        geometry: point
+      });
+      view.graphics.add(pointGraphic);
+
+      view.ui.add("infoDiv", "bottom-left");
+
+      let chartData = [];
+      // prepare the total counts chart
+      const chart = updateChart([]);
+
+      // start the animation of the moving "car"
+      animate();
+
+      // move the "car" point graphic along the route and
+      // filter the restaurants within specified distance and unit
+      function animate() {
+        let index = 0;
+
+        function updateStep() {
+          if (index >= path.length) {
+            index = 0;
+            chartData = [];
+          }
+          const point = new Point({
+            x: path[index][0],
+            y: path[index][1],
+            spatialReference: view.spatialReference
+          });
+
+          pointGraphic.geometry = point;
+          layerView.featureEffect = {
+            filter: {
+              geometry: point,
+              distance: distance,
+              units: unit
+            },
+            excludedEffect: "blur(2px) opacity(0.2) grayscale(0.2)"
+          };
+
+          // get the number of restaurants within specified distance and unit
+          const query = layerView.featureEffect.filter.createQuery();
+          layerView.queryFeatureCount(query).then((results) => {
+            chartData.push(results);
+            chart.data.datasets[0].data = chartData;
+            chart.data.labels = Array(chartData.length);
+            chart.update();
+
+            document.getElementById("chart-block").heading = `Total restaurants - ${results}`;
+          });
+
+          index = index + 1;
+          setTimeout(() => {
+            // Tells the browser to perform an animation. Call updateStep function before the next repaint.
+            requestAnimationFrame(updateStep);
+          }, 50);
+        }
+
+        setTimeout(() => {
+          // call requestAnimationFrame after 300 milliseconds to start the moving car animation
+          requestAnimationFrame(updateStep);
+        }, 300);
+      }
+
+      function updateChart(data) {
+        const ctx = document.getElementById("chart");
+        let chart = new Chart(ctx.getContext("2d"), {
+          type: "line",
+          data: {
+            labels: [],
+            datasets: [{
+              backgroundColor: "#007AC2",
+              data: data,
+              fill: false,
+              pointRadius: (ctx) => {
+                const pointsArray = [];
+                const length = ctx.chart.data.datasets[ctx.datasetIndex].data.length - 1;
+                for (let i = 0; i <= length; i++){
+                  if (i === length){
+                    pointsArray.push(ctx.chart.data.datasets[ctx.datasetIndex].data[length]/30)
+                  } else {
+                    pointsArray.push(0);
+                  }
+                }
+                return pointsArray;
+              },
+              pointBackgroundColor: "rgba(89,198,173, 0.5)"
+            }]
+          },
+          options: {
+            responsive: false,
+            legend: {
+              display: false
+            },
+            scales: {
+              yAxes: [{
+                ticks: {
+                  min: 150
+                }
+              }]
+            }
+          }
+        });
+        return chart;
+      }
+
+      document.getElementById("distanceNum").addEventListener("calciteSelectChange", distanceUnitChanged);
+      document.getElementById("distanceUnit").addEventListener("calciteSelectChange", distanceUnitChanged);
+
+      function distanceUnitChanged() {
+        unit = distanceUnit.value;
+        distance = parseFloat(distanceNum.value);
+        document.getElementById("messageSlot").innerHTML = `Showing total number of restaurants within ${distance} ${unit} of the location.`
+      }
+    })());
+  </script>
+</head>
+
+<body>
+  <calcite-shell content-behind>
+  <div id="viewDiv"></div>
+  <div id="infoDiv">
+    <div>
+      <b>Filter restaurants by distance</b>
+    </div> <br />
+    <calcite-label>
+      Select distance:
+      <calcite-select id="distanceNum">
+        <calcite-option value="0.5">0.5</calcite-option>
+        <calcite-option value="1">1</calcite-option>
+      </calcite-select>
+    </calcite-label>
+    <calcite-label>
+      Select distance unit:
+      <calcite-select id="distanceUnit">
+        <calcite-option value="kilometers" selected>kilometers</calcite-option>
+        <calcite-option value="miles">miles</calcite-option>
+      </calcite-select>
+    </calcite-label>
+  </div>
+  <calcite-shell-panel id="rightPanel" slot="panel-end" display-mode="float">
+    <calcite-panel id="statsPanel" heading="Restaurants within a driving distance" description="Explore restaurants">
+      <calcite-block open id="chart-block" heading="Total restaurants">
+        <canvas class="canvas" id="chart" height="200" width="410"></canvas>
+      </calcite-block>
+      <calcite-notice slot="footer" open width="full" icon>
+        <span slot="title">Note</span>
+        <span slot="message" id="messageSlot">Showing total number of restaurants within 0.5 kilometers of the location.</span>
+      </calcite-notice>
+  </calcite-panel>
+</calcite-shell-panel>
+</calcite-shell>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <!--
+     ArcGIS Maps SDK for JavaScript, https://js.arcgis.com
+     For more information about the featurelayer-query sample,
+     read the original sample description at developers.arcgis.com.
+     https://developers.arcgis.com/javascript/latest/sample-code/featurelayer-query/
+     -->
+  <title>
+    Query top features from a FeatureLayer | Sample | ArcGIS Maps SDK for
+    JavaScript 4.26
+  </title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script type="module" src="https://jsdev.arcgis.com/calcite-components/2.4.0/calcite.esm.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://jsdev.arcgis.com/calcite-components/2.4.0/calcite.css" />
+  <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.29/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    #info ul {
+      margin: 0;
+      padding: 1em;
+      list-style: none;
+    }
+
+    #info li {
+      line-height: 2.5em;
+    }
+
+    #info li.yes {
+      color: #008000;
+    }
+
+    #info li.no {
+      color: red;
+    }
+
+    calcite-icon {
+      vertical-align: middle;
+    }
+
+    .tree-thumbnail {
+      pointer-events: none;
+      padding: 10px
+    }
+
+    calcite-shell-panel {
+      --calcite-shell-panel-min-width: 420px;
+      --calcite-shell-panel-width: 420px;
+      --calcite-shell-panel-max-width: 80%;
+    }
+
+    .inner-panel {
+      padding:5px
+    }
+  </style>
+
+  <script>
+    require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/layers/GroupLayer",
+        "esri/layers/VectorTileLayer",
+        "esri/smartMapping/statistics/uniqueValues",
+        "esri/core/reactiveUtils"
+      ], (
+        Map,
+        MapView,
+        FeatureLayer,
+        GroupLayer,
+        VectorTileLayer,
+        uniqueValues,
+        reactiveUtils
+      ) =>
+      (async () => {
+        const airbnbLayer = new FeatureLayer({
+          portalItem: {
+            id: "dd47987ce796415e92f447a6ba0d89aa"
+          },
+          outFields: ["*"]
+        });
+
+        // can I use this data? https://hub.arcgis.com/maps/lacounty::la-county-city-boundaries-web-map/about
+        const boundaries = new FeatureLayer({
+          url: "https://public.gis.lacounty.gov/public/rest/services/LACounty_Dynamic/Political_Boundaries/MapServer/19",
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "simple-line",
+              color: "#636363",
+              width: "0.5px"
+            }
+          },
+          minScale: 0,
+          maxScale:0
+        });
+
+        const countyBoundary = new FeatureLayer({
+          url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/3/",
+          definitionExpression: "name = 'Los Angeles'",
+          blendMode: "destination-in",
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "simple-fill",
+              color: "rgba(255, 255, 255, 1)",
+              outline: null
+            }
+          }
+        });
+
+        const vtlLayer1 = new VectorTileLayer({
+          portalItem: {
+            id: "273bf8d5c8ac400183fc24e109d20bcf"
+          },
+          effect: "blur(3px) grayscale(0.8)"
+        });
+
+        const vtlLayer2 = new VectorTileLayer({
+          portalItem: {
+            id: "273bf8d5c8ac400183fc24e109d20bcf"
+          }
+        });
+
+        const groupLayer = new GroupLayer({
+          layers: [vtlLayer2, countyBoundary, boundaries, airbnbLayer],
+          effect: "drop-shadow(0, 0px, 12px)"
+          // opacity: 0
+        });
+
+        // can I use this data? https://www.arcgis.com/home/item.html?id=0a7911afdad945c3972e4b2a76292b2c
+        // const boundaries = new FeatureLayer({
+        //   url: "https://services1.arcgis.com/p84PN4WZvOWzi2j2/arcgis/rest/services/CityBoundary/FeatureServer/0"
+        // });
+        const map = new Map({
+          // layers: [countyBoundary, boundaries, layer]
+          layers: [vtlLayer1, groupLayer]
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [-118.07515, 34.242],
+          zoom: 9
+        });
+
+        let layerView = await view.whenLayerView(airbnbLayer);
+
+        let citiesLayerView = await view.whenLayerView(boundaries);
+
+        const cityNamesSelect = document.getElementById("cityNamesSelect");
+        cityNamesSelect.addEventListener("calciteSelectChange", async ()=>{
+          if (cityNamesSelect.value === "Los Angeles county") {
+            totalCountDiv.innerHTML = totalCount;
+            citiesLayerView.featureEffect = undefined;
+            layerView.featureEffect = undefined;
+            view.goTo(boundaries.fullExtent);
+            queryChartsData("1=1", "room_type", "chart-type", backgroundColors, "x");
+            queryChartsData("1=1", "host_name", "chart-hosts", ["#00B9F2"], 'y');
+          } else {
+            cityResult = await boundaries.queryFeatures({
+              where: `CITY_NAME = '${cityNamesSelect.value}'`,
+              returnGeometry: true
+            });
+
+            citiesLayerView.featureEffect = {
+              filter: {
+                geometry: cityResult.features[0].geometry
+              },
+              excludedEffect: "opacity(0)", //"blur(2px) opacity(0.2) grayscale(0.2)",
+              includedEffect: "brightness(200%)" //"drop-shadow(2px, 2px, 2px)"
+            };
+
+            layerView.featureEffect = {
+              filter: {
+                geometry: cityResult.features[0].geometry
+              },
+              excludedEffect: "blur(2px) opacity(0.2) grayscale(0.2)",
+              includedEffect: "drop-shadow(1px, 1px, 2px)"
+            };
+
+            cityCount = await layerView.queryFeatureCount({
+              where: "1=1",
+              geometry: cityResult.features[0].geometry
+            });
+
+            totalCountDiv.innerHTML = cityCount;
+            queryChartsData(`neighbourhood = '${cityNamesSelect.value}'`, "room_type", "chart-type", backgroundColors, 'x');
+            queryChartsData(`neighbourhood = '${cityNamesSelect.value}'`, "host_name", "chart-hosts", ["#00B9F2"], 'y');
+            view.goTo(cityResult.features[0].geometry.extent);
+          }
+        });
+
+        const cityNames = await uniqueValues({
+          layer: boundaries,
+          field: "CITY_NAME"
+        });
+
+        // prints each unique value and the count of features containing that value
+        const option = document.createElement("calcite-option");
+        option.value = "Los Angeles county";
+        option.label = "Los Angeles county";
+        cityNamesSelect.append(option);
+
+        let infos = cityNames.uniqueValueInfos;
+        infos.forEach(function(info){
+          const option = document.createElement("calcite-option");
+          option.value = info.value;
+          option.label = info.value;
+          cityNamesSelect.append(option);
+        });
+
+        await reactiveUtils.whenOnce(() => !layerView.updating);
+
+        const totalCount = await layerView.queryFeatureCount();
+        const totalCountDiv = document.getElementById("totalCountDiv");
+        totalCountDiv.innerHTML = totalCount;
+        const outOfStatDiv = document.getElementById("outOfStatDiv");
+        outOfStatDiv.innerHTML = "out of " + totalCount + " listings";
+
+        const backgroundColors = ["#ED5151",  "#00B9F2", "#A7C636", "#9E559C"];
+        queryChartsData("1=1", "room_type", "chart-type", backgroundColors, "x");
+        queryChartsData("1=1", "host_name", "chart-hosts", ["#00B9F2"], 'y');
+
+        async function queryChartsData(where, field, chartName, backgroundColors, axis) {
+          // room types stats query on startup
+          let chartData = [], chartLabels = [];
+          const queryResult = await runQuery(where, field, field, "countStats desc");
+
+          if (field === "host_name") {
+            for (let [index, feature] of queryResult.features.entries()) {
+              if (index <= 9){
+                chartData.push(feature.attributes["countStats"]);
+                chartLabels.push(feature.attributes["host_name"]);
+              }
+            }
+          } else {
+            for (let feature of queryResult.features) {
+              chartData.push(feature.attributes["countStats"]);
+              chartLabels.push(feature.attributes[field]);
+            }
+          }
+          updateChart(chartName, chartData, chartLabels, backgroundColors, axis);
+        }
+
+        async function runQuery(where, statFieldName, groupStats, orderBy) {
+          // create a query object that honors the layer settings
+          let query = airbnbLayer.createQuery();
+          query.where = where;
+          query.outStatistics = [
+            {
+              statisticType: "count",
+              onStatisticField: statFieldName,
+              outStatisticFieldName: "countStats"
+            }
+          ];
+          query.groupByFieldsForStatistics = [groupStats];
+          query.orderByFields = [orderBy];
+          let result;
+          if (layerView.hasAllFeatures) {
+            result = await layerView.queryFeatures(query);
+          } else {
+            result = await airbnbLayer.queryFeatures(query);
+          }
+          return result;
+        }
+
+        function updateChart(canvas, data, labels, backgroundColors, indexAxis){
+          let chart = Chart.getChart(canvas);
+          if (chart) {
+            chart.data.datasets[0].data = data;
+            chart.data.labels = labels;
+            chart.update();
+            console.log("UNDRAL YOU ARE HERE", data, labels)
+          } else {
+            const canvasElement = document.getElementById(canvas);
+            chart = new Chart(canvasElement.getContext("2d"), {
+              type: "bar",
+              data: {
+                labels: labels,
+                datasets: [
+                  {
+                    backgroundColor: backgroundColors,
+                    data: data
+                  }
+                ]
+              },
+              options: {
+                indexAxis: indexAxis,
+                onClick: (event) => {
+                  applyFilterToListings("1=1");
+                },
+                responsive: false,
+                plugins: {
+                  title: {
+                    display: false,
+                    text: 'Custom Chart Title'
+                  },
+                  legend: {
+                    display: false
+                  },
+                  tooltip: {
+                    displayColors: false,
+                    callbacks: {
+                      label: (tooltipItem) => {
+                        if (tooltipItem.chart.canvas.id === "chart-type") {
+                          const where = "room_type = '" + tooltipItem.label + "'";
+                          applyFilterToListings(where);
+                          return tooltipItem.label + " - " + tooltipItem.parsed.y;
+                        } else if (tooltipItem.chart.canvas.id === "chart-hosts"){
+                          const where = "host_name = '" + tooltipItem.label + "'";
+                          applyFilterToListings(where);
+                          return tooltipItem.label + " - " + tooltipItem.parsed.x;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            });
+          }
+        }
+
+        const hostList = document.getElementById("hostList");
+        async function applyFilterToListings(where) {
+          if (layerView.featureEffect) {
+            layerView.featureEffect.filter.where = where
+          } else {
+            layerView.featureEffect = {
+              filter: {
+                where
+              },
+              excludedEffect: "blur(2px) opacity(0.2) grayscale(0.2)"
+            };
+          }
+          var hostName = where.match(/'([^']+)'/)[1];
+          console.log(hostName);
+
+
+          const query = {
+            where: where,
+            outStatistics: [
+              {
+                statisticType: "count",
+                onStatisticField: "room_type",
+                outStatisticFieldName: "countStats"
+              },
+            ],
+            groupByFieldsForStatistics: ["room_type"],
+            orderByFields: ["room_type"]
+          };
+
+         const hostResult = await layerView.queryFeatures(query);
+         document.getElementById("list-block").heading = "Rental type break down for " + hostName;
+         hostList.innerHTML = "";
+         for (let feature of hostResult.features) {
+            const list = document.createElement("calcite-list-item");
+            list.label = feature.attributes["room_type"] + " - count: " + feature.attributes["countStats"];
+            list.value = feature.attributes["room_type"];
+            hostList.append(list);
+          }
+        }
+
+      // function estimateNightsBooked(minimumStay, price, numReviews) {
+      //   // Coefficients for the linear regression model
+      //   const coefMinimumStay = 0.5; // Adjust as needed
+      //   const coefPrice = 0.2; // Adjust as needed
+      //   const coefNumReviews = 0.3; // Adjust as needed
+
+      //   // Intercept term (optional, adjust as needed)
+      //   const intercept = 10;
+
+      //   // Calculate the estimated number of nights booked
+      //   const estimatedNights = intercept + coefMinimumStay * ${minimum_nights} + coefPrice * ${price} + coefNumReviews * ${number_of_reviews};
+
+      //   // Ensure the result is non-negative
+      //     return Math.max(estimatedNights, 0);
+      // }
+
+      // // Example usage
+      // const minimumStay = 2;
+      // const price = 50;
+      // const numReviews = 30;
+
+      // const estimatedNightsBooked = estimateNightsBooked(minimumStay, price, numReviews);
+      // console.log("Estimated nights booked:", estimatedNightsBooked);
+
+      })());
+  </script>
+</head>
+
+<body>
+  <calcite-shell content-behind class="custom-example-theme">
+    <div id="viewDiv"></div>
+
+    <calcite-shell-panel slot="panel-end" display-mode="float">
+      <calcite-panel heading="Los Angeles - 2023" description="AirBnB rentals" class="toggle-panel" data-toggle="top-tree-list">
+        <div>
+        <div style="width:40%;text-align:center;float:left;">
+          <calcite-block open heading="Filter by:">
+            <calcite-select id="cityNamesSelect">
+            </calcite-select>
+          </calcite-block>
+        </div>
+        <div style="width:60%;text-align:center;float:left;">
+          <calcite-block open>
+            <div id="totalCountDiv" style="font-size: 42px;"></div>
+            <div id="outOfStatDiv"></div>
+          </calcite-block>
+        </div>
+        </div>
+
+        <calcite-block open id="chart-block" heading="Rental types">
+          <canvas class="canvas" id="chart-type" height="200" width="380"></canvas>
+        </calcite-block>
+
+        <calcite-block open id="chart-block2" heading="Top hosts">
+          <canvas class="canvas" id="chart-hosts" height="200" width="380"></canvas>
+        </calcite-block>
+
+        <calcite-block open id="list-block" heading="">
+          <calcite-list id="hostList"></calcite-list>
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>
+
+</body>
+
+</html>

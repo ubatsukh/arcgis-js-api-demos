@@ -1,0 +1,199 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>
+    Beverly hills block group top 5 tree filters
+  </title>
+  <script type="module" src="https://jsdev.arcgis.com/calcite-components/2.4.0/calcite.esm.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://jsdev.arcgis.com/calcite-components/2.4.0/calcite.css" />
+  <link rel="stylesheet" href="https://jsdev.arcgis.com/4.29/esri/themes/light/main.css" />
+  <script src="https://jsdev.arcgis.com/4.29/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .tree-thumbnail {
+      pointer-events: none;
+      padding: 10px
+    }
+
+    calcite-shell {
+      --calcite-color-brand: #71c96e;
+      --calcite-color-brand-hover: #67b564;
+    }
+
+    calcite-button {
+      --calcite-color-brand: #538751
+    }
+  </style>
+
+  <script>
+    require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/core/reactiveUtils"
+      ], (
+        Map,
+        MapView,
+        FeatureLayer,
+        reactiveUtils
+      ) =>
+      (async () => {
+
+        // Beverly hills tree by blocks
+        const layer = new FeatureLayer({
+          url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/Bev%20Hills%20Trees/FeatureServer/0",
+          outFields: ["*"],
+          minScale: 0,
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "simple-marker",
+              color: "#71c96e",
+              size: "4px",
+              outline: null
+            }
+          },
+          // effect: "bloom(0.1, 0.3px, 0.1)"
+        });
+
+        const map = new Map({
+          basemap: "dark-gray-vector",
+          layers: [layer]
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [-118.4, 34.078],
+          zoom: 13
+        });
+
+        let layerView = await view.whenLayerView(layer);
+        await reactiveUtils.whenOnce(() => !layerView.updating);
+
+        // prepare UI settings
+        const treeTypeTemplate = document.getElementById('tree-type-template');
+        const createItemNode = () => {
+          const templateNode = treeTypeTemplate.content.cloneNode(true);
+          return templateNode.querySelector('calcite-tile-select');
+        };
+        const treesTilesGroup = document.getElementById("treesTilesGroup");
+
+        // layer is loaded, get the most common 5 tree species from the layer
+        const summaryQuery = layer.createQuery();
+        summaryQuery.set({
+          where: "(COMMON is not null)",
+          outFields: ["*"],
+          groupByFieldsForStatistics: ['COMMON', 'BOTANICAL'],
+          orderByFields: ['SpeciesCount desc'],
+          outStatistics: [{
+            statisticType: "count",
+            onStatisticField: "COMMON",
+            outStatisticFieldName: "SpeciesCount"
+          }],
+          num: 5
+        });
+
+        // check if the layerView has all the tree features from the service
+        // if it does then use the client-side queries
+        if (layerView.hasAllFeatures) {
+          const result = await layerView.queryFeatures(summaryQuery);
+          processTreeQueryResults(result);
+          const count = await layerView.queryFeatureCount();
+          processFeatureCount(count);
+        } else {
+          // if not run the query on the server against all the features available in the service
+          const result = await layer.queryFeatures(summaryQuery);
+          processTreeQueryResults(result);
+          const count = await layer.queryFeatureCount();
+          processFeatureCount(count);
+        }
+
+        treesTilesGroup.addEventListener("mousemove", async (event) => {
+          highlightSelectedTreeSpecies(event)
+        });
+        treesTilesGroup.addEventListener("calciteTileSelectChange", async (event) => {
+          highlightSelectedTreeSpecies(event)
+        });
+
+        function highlightSelectedTreeSpecies (event) {
+          const treeSpecies = event.srcElement.value;
+          layerView.featureEffect = {
+            filter: {
+              where: `COMMON = '${treeSpecies}'`
+            },
+            excludedEffect: "opacity(0.3) blur(5px)",
+            includedEffect: "drop-shadow(1px, 1px, 1px)"
+          };
+        }
+
+        function processFeatureCount(count) {
+          document.getElementById("totalTrees").innerHTML = "There are <b>" + count + "</b> trees. <br> This layer has all tree features from the service loaded in the map.";
+        }
+
+        function processTreeQueryResults(result) {
+          const treeTypeItemNodes = result.features.map(feature => {
+            const species = feature.getAttribute('COMMON');
+            const latin = feature.getAttribute('BOTANICAL');
+            const count = feature.getAttribute('SpeciesCount');
+            const treeItemNode = createItemNode();
+            treeItemNode.setAttribute('heading', species.toUpperCase());
+            treeItemNode.setAttribute('title', latin);
+            treeItemNode.setAttribute('description', `count: ${ count.toLocaleString() }`);
+            treeItemNode.setAttribute('value', species);
+            const treeThumb = treeItemNode.querySelector('.tree-thumbnail');
+            treeThumb.src = `data/trees/${species.toLowerCase()}.png`
+            return treeItemNode;
+          });
+          treesTilesGroup.replaceChildren(...treeTypeItemNodes);
+        }
+
+        const clearSelectionBtn = document.getElementById('clear-selection-btn');
+        clearSelectionBtn.addEventListener('click', () => {
+          treesTilesGroup.querySelectorAll('calcite-tile-select').forEach(tileSelect => {
+            tileSelect.toggleAttribute('checked', false);
+          });
+          layerView.featureEffect = undefined;
+        });
+      })());
+  </script>
+</head>
+
+<body>
+  <calcite-shell content-behind class="custom-example-theme">
+    <div id="viewDiv"></div>
+
+    <calcite-shell-panel slot="panel-end" width - scale="">
+      <calcite-panel heading="Filter by Tree Type" description="Top 5 species" class="toggle-panel" data - toggle="top-tree-list">
+        <calcite-button id="clear-selection-btn" width="full" icon-end="reset" appearance="brand"> Clear type filter </calcite-button><br>
+        <calcite-tile-select-group id="treesTilesGroup" layout="vertical">
+        </calcite-tile-select-group>
+        <calcite-panel id="info" slot="footer" heading="This layerView">
+          <calcite-notice open width="full" icon>
+            <span slot="title"> Note </span>
+            <span id="totalTrees" slot="message"></span>
+          </calcite-notice>
+        </calcite-panel>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <template id="tree-type-template">
+      <calcite-tile-select heading="" description="" value="" name="tree-type-item" input-enabled="true" input-alignment="end" type="radio" width="full">
+        <img class="tree-thumbnail" height="60">
+      </calcite-tile-select>
+    </template>
+  </calcite-shell>
+
+</body>
+
+</html>

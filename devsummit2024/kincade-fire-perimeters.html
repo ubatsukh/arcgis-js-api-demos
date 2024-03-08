@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title> Kincade fire perimeters</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #timeSlider {
+      width: 400px;
+    }
+
+    #infoDiv {
+      padding: 10px;
+    }
+  </style>
+
+<link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/dark/main.css" />
+<script src="https://js.arcgis.com/4.29/"></script>
+  <script>
+    require([
+        "esri/Map",
+        "esri/Basemap",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/renderers/SimpleRenderer",
+        "esri/symbols/SimpleFillSymbol",
+        "esri/layers/support/FeatureFilter",
+        "esri/widgets/TimeSlider",
+        "esri/TimeExtent",
+      ], (Map, Basemap, MapView, FeatureLayer, SimpleRenderer, SimpleFillSymbol,
+      FeatureFilter, TimeSlider, TimeExtent) =>
+      (async () => {
+
+      // Firefly Imagery Hybrid
+      const basemap = new Basemap({
+        portalItem: {
+          id: "9e557abc61ce41c9b8ec8b15800c20d3"
+        }
+      });
+
+      const map = new Map({
+        basemap
+      });
+
+      // center around sonoma county
+      const view = new MapView({
+        container: "viewDiv",
+        map,
+        center: [-122.7798, 38.6837],
+        zoom: 11
+      });
+
+      // only load kincade fire perimeters from 2019 CA fire perimeters
+      const featureLayer = new FeatureLayer({
+        url: "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/Historic_GeoMAC_Perimeters_2019/FeatureServer/0",
+        definitionExpression: "incidentname =	'KINCADE'",
+        outFields: ["*"],
+        renderer: new SimpleRenderer({
+          symbol: new SimpleFillSymbol({
+            color: "#FAD0C6",
+            outline: {
+              color: "#520B02",
+              width: "2px"
+            }
+          })
+        }),
+        effect: "brightness(600%)",
+        blendMode: "overlay",
+      });
+      map.add(featureLayer);
+
+      let dates = new Array;
+      const layerView = await view.whenLayerView(featureLayer);
+      const query = featureLayer.createQuery();
+      query.orderByFields = ["perimeterdatetime"];
+
+      // query all features from the kincade fire perimeters
+      // loop through perimeterdatetime field and add dates to
+      // dates array and set the time slider stops to dates array
+     const queryResult = await featureLayer.queryFeatures(query);
+     queryResult.features.forEach((feature) => {
+      const dt = new Date(feature.attributes.perimeterdatetime);
+      dates.push(dt);
+     });
+
+      // add a new time slider without view settings
+      const timeSlider = new TimeSlider({
+        container: "timeSlider",
+        mode: "instant",
+        timeVisible: true,
+        playRate: 200,
+        stops: {dates},
+        fullTimeExtent: new TimeExtent({
+          start: dates[0],
+          end: dates[dates.length-1]
+        })
+      });
+      view.ui.add(timeSlider, "bottom-left");
+
+      // watch time slider timeExtent event and
+      // set layer view filter on fires perimeter layer
+      // to show fire perimeter that falls within the time extent
+      timeSlider.watch("timeExtent", () => {
+        const start = timeSlider.timeExtent.start.toISOString().replace("T"," ").substring(0, 19);
+        const where = `perimeterdatetime = TIMESTAMP '${start}'`;
+        layerView.filter = new FeatureFilter({
+          where
+        });
+      });
+
+      view.ui.add("infoDiv", "top-right")
+    })());
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <div id="timeSlider"></div>
+  <div id="infoDiv" class="esri-widget">
+    <h2>Kincade fire perimeters</h2>
+  </div>
+</body>
+
+</html>

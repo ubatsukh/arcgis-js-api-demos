@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title> CSVLayer - national park established dates</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #timeSlider {
+      width: 400px;
+    }
+
+    #infoDiv {
+      padding: 10px;
+    }
+
+    .esri-time-slider__slider .esri-slider__tick.minorTick {
+      display: none;
+    }
+    .esri-time-slider__slider .esri-slider{
+      margin-top: 0px !important;
+    }
+    .esri-time-slider__layout--compact .esri-time-slider__row:nth-child(2){
+      height: 40px !important;
+    }
+  </style>
+
+<link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+<script src="https://js.arcgis.com/4.29/"></script>
+  <script>
+    require([
+        "esri/Map",
+        "esri/Basemap",
+        "esri/views/MapView",
+        "esri/layers/CSVLayer",
+        "esri/layers/FeatureLayer",
+        "esri/renderers/SimpleRenderer",
+        "esri/symbols/SimpleFillSymbol",
+        "esri/symbols/TextSymbol",
+        "esri/layers/support/LabelClass",
+        "esri/symbols/WebStyleSymbol",
+        "esri/widgets/TimeSlider",
+        "esri/TimeInterval",
+        "esri/TimeExtent",
+        "esri/core/reactiveUtils",
+      ], (Map, Basemap, MapView, CSVLayer, FeatureLayer, SimpleRenderer,SimpleFillSymbol, TextSymbol, LabelClass, WebStyleSymbol,
+      TimeSlider, TimeInterval, TimeExtent, reactiveUtils) =>
+      (async () => {
+      // the base layer
+      const states = new FeatureLayer({
+        url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2",
+        renderer: new SimpleRenderer ({
+          symbol: new SimpleFillSymbol({
+            color: "#cebca3",
+            outline:{
+              color: "#DCDCDC",
+              width: "0.5px"
+            }
+          })
+        }),
+        spatialReference: {
+          wkid: 102003
+        },
+        effect: "drop-shadow(-10px, 10px, 6px gray)",
+      });
+
+      // national parks layer
+      const csvLayer = new CSVLayer({
+        url: "data/nps_establishments.csv",
+        delimiter:  ",",
+        timeInfo: {
+          startField: "date_est",
+          interval: {
+            unit: "years",
+            value: 1
+          }
+        },
+        popupTemplate: {
+          title: "{unit_name}",
+          content: "Established on <b>{date_est}</b> <br/><br/> {description}",
+        },
+        effect: "drop-shadow(1px, 1px, 2px)",
+        renderer: new SimpleRenderer({
+          symbol: new WebStyleSymbol({
+            name: "park",
+            styleName: "Esri2DPointSymbolsStyle"
+          })
+        }),
+        labelingInfo: [new LabelClass ({
+          symbol: new TextSymbol({
+            haloSize: 1,
+            color: "gray",
+            font: {
+              family: "Ubuntu Mono",
+              size: 8,
+              weight: "bold"
+            }
+          }),
+          labelPlacement: "above-right",
+          labelExpressionInfo: {
+            expression: "$feature.unit_name"
+          }
+        })]
+      });
+
+      const map = new Map({
+        basemap: new Basemap({
+          baseLayers: [states]
+        }),
+        layers: [csvLayer]
+      });
+
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        extent: {
+          spatialReference: {
+            wkid: 102003
+          },
+          xmax: 2262921.752044893,
+          xmin: -2684324.0809117956,
+          ymax: 1598284.4176881902,
+          ymin: -1426003.6710097145
+        },
+        constraints: {
+          snapToZoom: false,
+          minScale: 14295271
+        },
+        spatialReference: {
+          wkid: 102003
+        }
+      });
+
+      await view.whenLayerView(csvLayer);
+
+      const timeSlider = new TimeSlider({
+        container: "timeSlider",
+        layout: "compact",
+        mode: "cumulative-from-start",
+        stops: {
+          interval: new TimeInterval({
+            value: 1,
+            unit: "years"
+          })
+        },
+        // view: view
+        playRate: 300,
+        fullTimeExtent: new TimeExtent({
+          start: new Date(1872, 11, 31),
+          end: new Date(2017, 11, 31)
+        }),
+        view: view
+      });
+
+      view.ui.add(timeSlider, "bottom-right");
+      view.ui.add("infoDiv", "top-right")
+    })());
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <div id="timeSlider"></div>
+  <div id="infoDiv" class="esri-widget">
+    <h2>National parks established since 1872</h2>
+  </div>
+</body>
+
+</html>

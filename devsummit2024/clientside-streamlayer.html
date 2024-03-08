@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+  <title>Client-side StreamLayer</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.29/"></script>
+
+  <script>
+    require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/StreamLayer",
+        "esri/Graphic"
+      ], (Map, MapView, StreamLayer, Graphic) =>
+      (async () => {
+        const layer = new StreamLayer({
+          fields: [{
+              name: "OBJECTID",
+              alias: "ObjectId",
+              type: "oid",
+            },
+            {
+              name: "TRACKID",
+              alias: "TrackId",
+              type: "oid",
+            },
+            {
+              name: "STATUS",
+              alias: "STATUS",
+              type: "string",
+            }
+          ],
+          timeInfo: {
+            trackIdField: "TRACKID"
+          },
+          updateInterval: 100,
+          geometryType: "point",
+          renderer: {
+            type: "unique-value",
+            field: "status",
+            uniqueValueInfos: [{
+                value: "red",
+                symbol: {
+                  type: "simple-marker",
+                  size: "10px",
+                  color: [255, 0, 0, .4],
+                },
+              },
+              {
+                value: "green",
+                symbol: {
+                  type: "simple-marker",
+                  size: "10px",
+                  color: [0, 255, 0, .4],
+                },
+              },
+              {
+                value: "blue",
+                symbol: {
+                  type: "simple-marker",
+                  size: "10px",
+                  color: [0, 0, 255, .4],
+                },
+              }
+            ]
+          },
+        });
+
+        const map = new Map({
+          basemap: "gray-vector",
+          layers: [layer]
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map,
+          center: [-74.170, 40.614],
+          zoom: 8
+        });
+
+        let layerView = await view.whenLayerView(layer);
+
+        let objectIdCounter = 1;
+        let trackIdCounter = 2;
+        const status = ["red", "green", "blue"];
+        // Create a feature at map center that travels up the map
+        let lastX = view.center.x;
+        let lastY = view.center.y;
+        let i = 0;
+        let featureData = [];
+
+        function addFeature() {
+          featureData.push({
+            feature: {
+              attributes: {
+                TRACKID: trackIdCounter++,
+                OBJECTID: objectIdCounter++,
+                STATUS: "green"
+              },
+              geometry: {
+                x: view.center.x + (.5 - Math.random()) * 20000,
+                y: view.center.y + (.5 - Math.random()) * 20000,
+              }
+            },
+            alive: true,
+            delta: {
+              x: (.5 - Math.random()) * 10 * Math.random(),
+              y: (.5 - Math.random()) * 10 * Math.random(),
+            },
+          });
+        }
+
+        let j = 0;
+        setInterval(() => {
+          j++;
+          // Integrate positions
+          for (let i = 0; i < featureData.length; i++) {
+            const item = featureData[i];
+            item.feature.geometry.x += item.delta.x * 2000;
+            item.feature.geometry.y += item.delta.y * 2000;
+            item.feature.attributes.STATUS = status[(i + j) % 3];
+            // New observation, therefore we need to update the objectId
+            item.feature.attributes.OBJECTID = objectIdCounter++
+          }
+          // Very suboptimal!
+          const aliveItems = featureData.filter(item => item.alive);
+          const deadFeaturesTrackIds = featureData
+            .filter(item => !item.alive)
+            .map(item => item.feature.attributes.TRACKID);
+          // Send updated tracks
+          layer.sendMessageToClient({
+            type: "features",
+            features: aliveItems.map(item => item.feature)
+          });
+          // Send removed tracks
+          layer.sendMessageToClient({
+            type: "delete",
+            trackIds: deadFeaturesTrackIds
+          })
+          featureData = aliveItems;
+        }, 100)
+
+        for (let i = 0; i < 5000; i++) {
+          addFeature()
+        }
+      })());
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>
