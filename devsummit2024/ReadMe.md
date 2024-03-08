@@ -8,7 +8,7 @@
 
 This app was used to demonstrate how to filter data on the client-side by setting the feature layer view's [featureEffect.filter.where](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html) property.
 
-This application loads Beverly Hills trees data to the map and the top five common species are queried when the layer is loaded. The top five tree species are listed on the right hand side of the app. Users can move the pointer over the list or click the tree to highlight the tree specie on the map. The application set the `where` property of the filter parameter on the layer view.
+This application loads Beverly Hills trees data to the map and the top five common species are queried when the layer is loaded. The top five tree species are listed on the right hand side of the app. Users can move the pointer over the list or click the tree to highlight the tree type on the map. The application set the filter's [where](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where) property and then the [featureEffect](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#featureEffect) is applied to layer view.
 
 [![attribute-filter](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/images/beverly-hills-trees.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/beverly-hills-trees.html)
 
@@ -18,15 +18,15 @@ This application loads Beverly Hills trees data to the map and the top five comm
 
 <a name="time-enabled-csv"/>
 
-#### Demo 2. Time enabled CSVLayer
+#### Demo 2. Filter features based on geometry -  Filter New York restaurants by a geometry
 
-This app was used to demonstrate how to create a time enabled CSVLayer from a csv file downloaded from [this story map](http://storymaps.esri.com/stories/2016/nps-centennial/). This app applies `grayscale and blur` effects if the features do not meet the time filter and applies `bloom` effect if the features fall within the time extent filter. This is done by watching the `timeExtent` property on the TimeSlider widget. This app also queries the features that meet the time filter requirements. <br/>
+This app was used to demonstrate how to filter New York restaurants within 0.5 or 1 km/mile of a moving car along a designated route. The restaurants are filtered by setting the feature layer view's [featureEffect.filter.geometry](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html) property along with `featureEffect.filter.distance` and `featureEffect.filter.units` parameters.
 
-[![csvlayer](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2021/images/time-enabled-csvlayer.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/csvLayer-nps/)
+[![geometry-filter](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2021/images/nyc-restaraunts-filter.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/)
 
-[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/tree/master/devsummit2021/csvLayer-nps)
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/filter-restaurants.html)
 
-[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/csvLayer-nps/)
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/)
 
 ### ArcGIS API for JavaScript: Data-driven animations
 
