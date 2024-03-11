@@ -1,6 +1,11 @@
 # 2024 Dev Summit demos
 
-### ArcGIS Maps SDK for JavaScript: Animating Your Data​
+- [ArcGIS Maps SDK for JavaScript: Client-side Queries & Analysis](#client-side-query)
+- [ArcGIS Maps SDK for JavaScript: Animating Your Data​](#animating-data)
+
+<!-- TOC --><a name="client-side-query"></a>
+
+### ArcGIS Maps SDK for JavaScript: Client-side Queries & Analysis
 
 #### Demo 1. Client-side StreamLayer
 
@@ -53,6 +58,8 @@ This app was used to demonstrate how to filter New York restaurants within 0.5 o
 [View the code](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/filter-restaurants.html)
 
 [View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/filter-restaurants.html)
+
+<!-- TOC --><a name="animating-data"></a>
 
 ### ArcGIS Maps SDK for JavaScript: Animating Your Data​
 
