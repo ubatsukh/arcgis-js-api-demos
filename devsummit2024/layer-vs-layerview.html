@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Layer vs LayerView query</title>
+
+  <script type="module" src="https://js.arcgis.com/calcite-components/2.5.1/calcite.esm.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/2.5.1/calcite.css" />
+  <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.29/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  <script>
+    require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/CSVLayer",
+        "esri/Graphic",
+        "esri/core/reactiveUtils"
+      ], (
+        Map, MapView, CSVLayer, Graphic, reactiveUtils) =>
+      (async () => {
+        const url = "https://arcgis.github.io/arcgis-samples-javascript/sample-data/hurricanes.csv";
+        const csvLayer = new CSVLayer({
+          title: "Hurricanes",
+          url: url,
+          copyright: "NOAA",
+          renderer: {
+            type: "unique-value",
+            field: "Category",
+            uniqueValueInfos: createUniqueValueInfos()
+          }
+        });
+        const map = new Map({
+          basemap: "dark-gray-vector",
+          layers: [csvLayer]
+        });
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [-90, 25],
+          zoom: 5
+        });
+        const layerCountElement = document.getElementById("layer-count");
+        const lvCountElement = document.getElementById("layerview-initial-count");
+        const lvUpdateCountElement = document.getElementById("layerview-count");
+        const layerView = await view.whenLayerView(csvLayer);
+        const graphic = new Graphic({
+          geometry: view.extent,
+          symbol: {
+            type: "simple-fill",
+            color: null,
+            outline: {
+              color: "red",
+              width: "3px"
+            }
+          }
+        });
+        view.graphics.add(graphic)
+        await reactiveUtils.whenOnce(() => !layerView.updating);
+        queryFeatures(true);
+        reactiveUtils.watch(
+          () => layerView.updating,
+          () => {
+            if (!layerView.updating) {
+              queryFeatures(false);
+            }
+          });
+
+        function queryFeatures(initialLoad) {
+          /*****************************************
+           * Call queryFeatures method on the layer
+           *****************************************/
+          csvLayer.queryFeatures().then(function(results) {
+            layerCountElement.innerHTML = "feature count: " +
+              results.features.length +
+              "<br/> wkid: " + results.features[0].geometry.spatialReference.wkid;
+            console.log("layer.queryFeatures()", results.features.length);
+            console.log("layer.queryFeatures: graphic.geometry:", results.features[0].geometry);
+          });
+          /*****************************************
+           * Call queryFeatures method on the layerView
+           *****************************************/
+          layerView.queryFeatures().then(function(results) {
+            lvUpdateCountElement.innerHTML = "feature count: " +
+              results.features.length +
+              "<br/> wkid: " + results.features[0].geometry.spatialReference.wkid;
+            console.log("layerView.queryFeatures: graphic.geometry:", results.features[0].geometry);
+            console.log("layerView.queryFeatures()", results.features.length);
+            if (initialLoad) {
+              lvCountElement.innerHTML = "feature count: " +
+                results.features.length +
+                "<br/> wkid: " + results.features[0].geometry.spatialReference.wkid;
+            }
+          });
+        }
+
+        function createUniqueValueInfos() {
+          const fireflyImages = [
+            "cat1.png",
+            "cat2.png",
+            "cat3.png",
+            "cat4.png",
+            "cat5.png"
+          ];
+          const baseUrl =
+            "https://arcgis.github.io/arcgis-samples-javascript/sample-data/";
+          return fireflyImages.map(function(url, i) {
+            return {
+              value: i + 1, // Category number
+              symbol: {
+                type: "picture-marker",
+                url: baseUrl + url
+              }
+            };
+          });
+        }
+      })());
+  </script>
+</head>
+
+<body>
+  <calcite-shell content-behind class="custom-example-theme">
+    <div id="viewDiv"></div>
+    <calcite-shell-panel slot="panel-end" display-mode="float">
+      <calcite-panel id="statsPanel" heading="Layer vs LayerView" description="Compare layer and layerView queries">
+        <calcite-block open heading="Layer.queryFeatures">
+          <calcite-notice open>
+            <div slot="message" id="layer-count"></div>
+          </calcite-notice>
+        </calcite-block>
+        <calcite-block open heading="LayerView.queryFeatures - initial load">
+          <calcite-notice open>
+            <div slot="message" id="layerview-initial-count"></div>
+          </calcite-notice>
+        </calcite-block>
+        <calcite-block open heading="LayerView.queryFeatures - on zoom/pan">
+          <calcite-notice open>
+            <div slot="message" id="layerview-count"></div>
+          </calcite-notice>
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+  </calcite-shell>
+</body>
+
+</html>

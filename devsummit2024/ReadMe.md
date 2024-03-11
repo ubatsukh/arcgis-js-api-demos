@@ -6,11 +6,43 @@
 
 This app was used to demonstrate how to create and add a [client-side StreamLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-StreamLayer.html#clientside-streamlayer) to thr 2D MapView. Client-side stream layers are a good replacement for client-side feature layers that are updated very frequently via `applyEdits()` method. 5000 random point features to the stream layer and their geometries are updated every 100 milliseconds.
 
-[![attribute-filter](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/images/client-side-streamlayer.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/clientside-streamlayer.html)
+[![client-side-streamlayer](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/images/client-side-streamlayer.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/clientside-streamlayer.html)
 
 [View the code](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/clientside-streamlayer.html)
 
 [View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/clientside-streamlayer.html)
+
+#### Demo 2. Layer versus LayerView - historical hurricanes data
+
+This app was used to demonstrate differences between layer and its layer view. Historical hurricanes csv file is added as a CSVLayer. The app calls [CSVLayer.queryFeatures()] and [CSVLayerView.queryFeatures()] methods. Then displays feature count and the spatial reference of the features returned from the layer and layer view query features results.
+
+[![layer-layerview](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/images/layer-vs-layerview.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/layer-vs-layerview.html)
+
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/layer-vs-layerview.html)
+
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/layer-vs-layerview.html)
+
+#### Demo 3. Filter features based on geometry -  Filter New York restaurants by a geometry
+
+This app was used to demonstrate how to filter New York restaurants within 0.5 or 1 km/mile of a moving car along a designated route. The restaurants are filtered by setting the feature layer view's [featureEffect.filter.geometry](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html) property along with `featureEffect.filter.distance` and `featureEffect.filter.units` parameters.
+
+[![geometry-filter](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/images/nyc-restaraunts-filter.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/filter-restaurants.html)
+
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/filter-restaurants.html)
+
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/filter-restaurants.html)
+
+#### Demo 4. Filter features based on attributes -  LA AirBnB listings
+
+This app was used to demonstrate how to filter Los Angeles AirBnB listings based on room types and host names. This app also filters the data on the map as user moves the pointer over the room types and host names charts. The filtering of the data is done directly on the client-side by querying features from the layerView.
+
+[![attributes-filter](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/images/la-airbnb-listings.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/la-airbnb-listings.html)
+
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/la-airbnb-listings.html)
+
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/la-airbnb-listings.html)
+
+### ArcGIS Maps SDK for JavaScript: Animating Your Data​
 
 #### Demo 2. Filter features based on geometry -  Filter New York restaurants by a geometry
 
