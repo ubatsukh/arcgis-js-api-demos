@@ -91,10 +91,9 @@
             id: "dd47987ce796415e92f447a6ba0d89aa"
           },
           outFields: ["*"],
-          copyright: "Inside AirBnB"
+          copyright: "Inside AirBnB" // downloaded from http://insideairbnb.com/los-angeles/
         });
 
-        // can I use this data? https://hub.arcgis.com/maps/lacounty::la-county-city-boundaries-web-map/about
         const boundaries = new FeatureLayer({
           url: "https://public.gis.lacounty.gov/public/rest/services/LACounty_Dynamic/Political_Boundaries/MapServer/19",
           renderer: {
@@ -142,12 +141,7 @@
           // opacity: 0
         });
 
-        // can I use this data? https://www.arcgis.com/home/item.html?id=0a7911afdad945c3972e4b2a76292b2c
-        // const boundaries = new FeatureLayer({
-        //   url: "https://services1.arcgis.com/p84PN4WZvOWzi2j2/arcgis/rest/services/CityBoundary/FeatureServer/0"
-        // });
         const map = new Map({
-          // layers: [countyBoundary, boundaries, layer]
           layers: [vtlLayer1, groupLayer]
         });
 
@@ -285,7 +279,6 @@
             chart.data.datasets[0].data = data;
             chart.data.labels = labels;
             chart.update();
-            console.log("UNDRAL YOU ARE HERE", data, labels)
           } else {
             const canvasElement = document.getElementById(canvas);
             chart = new Chart(canvasElement.getContext("2d"), {
@@ -347,58 +340,33 @@
               excludedEffect: "blur(2px) opacity(0.2) grayscale(0.2)"
             };
           }
-          var hostName = where.match(/'([^']+)'/)[1];
-          console.log(hostName);
 
+          if (where === "1=1"){
+            hostList.innerHTML = "";
+          } else {
+            let hostName = where.match(/'([^']+)'/)[1];
 
-          const query = {
-            where: where,
-            outStatistics: [
-              {
+            const query = {
+              where: where,
+              outStatistics: [{
                 statisticType: "count",
                 onStatisticField: "room_type",
                 outStatisticFieldName: "countStats"
-              },
-            ],
-            groupByFieldsForStatistics: ["room_type"],
-            orderByFields: ["room_type"]
-          };
-
-         const hostResult = await layerView.queryFeatures(query);
-         document.getElementById("list-block").heading = "Rental type break down for " + hostName;
-         hostList.innerHTML = "";
-         for (let feature of hostResult.features) {
-            const list = document.createElement("calcite-list-item");
-            list.label = feature.attributes["room_type"] + " - count: " + feature.attributes["countStats"];
-            list.value = feature.attributes["room_type"];
-            hostList.append(list);
+              }],
+              groupByFieldsForStatistics: ["room_type"],
+              orderByFields: ["room_type"]
+            };
+            const hostResult = await layerView.queryFeatures(query);
+            document.getElementById("list-block").heading = "Rental type break down for " + hostName;
+            hostList.innerHTML = "";
+            for (let feature of hostResult.features) {
+              const list = document.createElement("calcite-list-item");
+              list.label = feature.attributes["room_type"] + " - count: " + feature.attributes["countStats"];
+              list.value = feature.attributes["room_type"];
+              hostList.append(list);
+            }
           }
         }
-
-      // function estimateNightsBooked(minimumStay, price, numReviews) {
-      //   // Coefficients for the linear regression model
-      //   const coefMinimumStay = 0.5; // Adjust as needed
-      //   const coefPrice = 0.2; // Adjust as needed
-      //   const coefNumReviews = 0.3; // Adjust as needed
-
-      //   // Intercept term (optional, adjust as needed)
-      //   const intercept = 10;
-
-      //   // Calculate the estimated number of nights booked
-      //   const estimatedNights = intercept + coefMinimumStay * ${minimum_nights} + coefPrice * ${price} + coefNumReviews * ${number_of_reviews};
-
-      //   // Ensure the result is non-negative
-      //     return Math.max(estimatedNights, 0);
-      // }
-
-      // // Example usage
-      // const minimumStay = 2;
-      // const price = 50;
-      // const numReviews = 30;
-
-      // const estimatedNightsBooked = estimateNightsBooked(minimumStay, price, numReviews);
-      // console.log("Estimated nights booked:", estimatedNightsBooked);
-
       })());
   </script>
 </head>
