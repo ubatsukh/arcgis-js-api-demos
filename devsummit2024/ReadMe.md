@@ -2,6 +2,28 @@
 
 ### ArcGIS Maps SDK for JavaScript: Animating Your Data​
 
+#### Demo 1. Client-side StreamLayer
+
+This app was used to demonstrate how to create and add a [client-side StreamLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-StreamLayer.html#clientside-streamlayer) to thr 2D MapView. Client-side stream layers are a good replacement for client-side feature layers that are updated very frequently via `applyEdits()` method. 5000 random point features to the stream layer and their geometries are updated every 100 milliseconds.
+
+[![attribute-filter](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/images/client-side-streamlayer.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/clientside-streamlayer.html)
+
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/clientside-streamlayer.html)
+
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/clientside-streamlayer.html)
+
+#### Demo 2. Filter features based on geometry -  Filter New York restaurants by a geometry
+
+This app was used to demonstrate how to filter New York restaurants within 0.5 or 1 km/mile of a moving car along a designated route. The restaurants are filtered by setting the feature layer view's [featureEffect.filter.geometry](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html) property along with `featureEffect.filter.distance` and `featureEffect.filter.units` parameters.
+
+[![geometry-filter](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/images/nyc-restaraunts-filter.gif)](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/filter-restaurants.html)
+
+[View the code](https://github.com/ubatsukh/arcgis-js-api-demos/blob/master/devsummit2024/filter-restaurants.html)
+
+[View the live sample](https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2024/filter-restaurants.html)
+
+### ArcGIS Maps SDK for JavaScript: Animating Your Data​
+
 #### Demo 1. Filter data based on attributes - Beverly Hills Trees
 
 This app was used to demonstrate how to filter data on the client-side by setting the feature layer view's [featureEffect.filter.where](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html) property.
