@@ -136,7 +136,7 @@
             // New observation, therefore we need to update the objectId
             item.feature.attributes.OBJECTID = objectIdCounter++
           }
-          // Very suboptimal!
+
           const aliveItems = featureData.filter(item => item.alive);
           const deadFeaturesTrackIds = featureData
             .filter(item => !item.alive)
