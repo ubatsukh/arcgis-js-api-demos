@@ -83,9 +83,9 @@
            * Call queryFeatures method on the layer
            *****************************************/
           csvLayer.queryFeatures().then(function(results) {
-            layerCountElement.innerHTML = "feature count: " +
+            layerCountElement.innerHTML = "feature count:  <b>" +
               results.features.length +
-              "<br/> wkid: " + results.features[0].geometry.spatialReference.wkid;
+              "</b><br/> wkid: <b>" + results.features[0].geometry.spatialReference.wkid + "</b>";
             console.log("layer.queryFeatures()", results.features.length);
             console.log("layer.queryFeatures: graphic.geometry:", results.features[0].geometry);
           });
@@ -93,15 +93,15 @@
            * Call queryFeatures method on the layerView
            *****************************************/
           layerView.queryFeatures().then(function(results) {
-            lvUpdateCountElement.innerHTML = "feature count: " +
+            lvUpdateCountElement.innerHTML = "feature count: <b>" +
               results.features.length +
-              "<br/> wkid: " + results.features[0].geometry.spatialReference.wkid;
+              "</b><br/> wkid: <b>" + results.features[0].geometry.spatialReference.wkid + "</b></b>";
             console.log("layerView.queryFeatures: graphic.geometry:", results.features[0].geometry);
             console.log("layerView.queryFeatures()", results.features.length);
             if (initialLoad) {
-              lvCountElement.innerHTML = "feature count: " +
+              lvCountElement.innerHTML = "feature count: <b>" +
                 results.features.length +
-                "<br/> wkid: " + results.features[0].geometry.spatialReference.wkid;
+                "<b><br/> wkid: " + results.features[0].geometry.spatialReference.wkid + "<b>";
             }
           });
         }
@@ -136,17 +136,17 @@
     <calcite-shell-panel slot="panel-end" display-mode="float">
       <calcite-panel id="statsPanel" heading="Layer vs LayerView" description="Compare layer and layerView queries">
         <calcite-block open heading="Layer.queryFeatures">
-          <calcite-notice open>
+          <calcite-notice open scale="l">
             <div slot="message" id="layer-count"></div>
           </calcite-notice>
         </calcite-block>
         <calcite-block open heading="LayerView.queryFeatures - initial load">
-          <calcite-notice open>
+          <calcite-notice open scale="l">
             <div slot="message" id="layerview-initial-count"></div>
           </calcite-notice>
         </calcite-block>
         <calcite-block open heading="LayerView.queryFeatures - on zoom/pan">
-          <calcite-notice open>
+          <calcite-notice open scale="l">
             <div slot="message" id="layerview-count"></div>
           </calcite-notice>
         </calcite-block>
