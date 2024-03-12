@@ -142,19 +142,12 @@
           }
 
           const aliveItems = featureData.filter(item => item.alive);
-          const deadFeaturesTrackIds = featureData
-            .filter(item => !item.alive)
-            .map(item => item.feature.attributes.TRACKID);
           // Send updated tracks
           layer.sendMessageToClient({
             type: "features",
             features: aliveItems.map(item => item.feature)
           });
-          // Send removed tracks
-          layer.sendMessageToClient({
-            type: "delete",
-            trackIds: deadFeaturesTrackIds
-          })
+
           featureData = aliveItems;
         }, 100);
       })());
