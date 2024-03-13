@@ -16,23 +16,23 @@
       width: 100%;
     }
 
-    #timeSlider {
-      position: absolute;
-      left: 100px;
-      right: 100px;
-      bottom: 20px;
-    }
-
     #effectsDiv, #titleDiv {
       padding: 10px;
+      width: 170px;
     }
     #titleText {
       font-size: 20pt;
       font-weight: 60;
       padding-bottom: 10px;
     }
+
+    calcite-input-time-zone {
+      width: 100%;
+    }
   </style>
 
+<script type="module" src="https://js.arcgis.com/calcite-components/2.5.1/calcite.esm.js"></script>
+<link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/2.5.1/calcite.css"/>
 <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
 <script src="https://js.arcgis.com/4.29/"></script>
   <script>
@@ -165,9 +165,8 @@
             interval
           }
         });
-        view.ui.add(timeSlider, "manual");
-        view.ui.add("titleDiv", "top-right");
-        view.ui.add("effectsDiv", "top-right");
+        view.ui.add(timeSlider, "bottom-left");
+        view.ui.add("infoDiv", "top-right");
 
         // get a reference to the applyBloom check box
         const chkToggleEffects = document.getElementById("toggleEffects");
@@ -184,6 +183,15 @@
           smokeLayer.effect = "blur(5px) brightness(70%) drop-shadow(1px 1px 1px gray)";
           firesLayer.effect = "bloom(2.8, 1.2px, 0.2)";
         }
+
+        // calcite input time zone component allows users to pick from one of the IANA
+        // time zones without having to add the time zones manually to a drop down
+        const timezonePicker = document.getElementById("timezone-picker");
+
+        // Change the map view's time zone when user picks a time zone from the component
+        timezonePicker.addEventListener("calciteInputTimeZoneChange", () => {
+          view.timeZone = timezonePicker.value;
+        });
 
         const legendExpand = new Expand({
           expandIconClass: "esri-icon-collection",
@@ -207,14 +215,18 @@
 <body>
   <div id="viewDiv"></div>
   <div id="timeSlider"></div>
-  <div id="titleDiv" class="esri-widget">
-    <div id="titleText">Wild fires</div>
-    <div>Fires - last 7 days</div>
-    <div>48 hour smoke forecast</div>
-  </div>
-  <div id="effectsDiv" class="esri-widget">
-      <input type="checkbox" id="toggleEffects" name="bloom" checked />
-      <label for="toggleEffects"> Toggle effects</label>
-  </div>
+  <calcite-panel id="infoDiv" heading="Wildfires" description="Fires - last 7 days and 48 hour smoke forecast">
+    <calcite-block heading="Change map time zone" open>
+      <calcite-label layout="inline">
+        <calcite-input-time-zone mode="name" id="timezone-picker"></calcite-input-time-zone>
+      </calcite-label>
+    </calcite-block>
+    <calcite-block heading="Toggle feature effect" open>
+      <calcite-label layout="inline">
+        <calcite-checkbox id="toggleEffects" checked></calcite-checkbox>
+        Toggle effect
+      </calcite-label>
+    </calcite-block>
+  </calcite-panel>
 </body>
 </html>
