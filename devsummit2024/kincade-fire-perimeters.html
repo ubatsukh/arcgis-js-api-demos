@@ -37,8 +37,9 @@
         "esri/layers/support/FeatureFilter",
         "esri/widgets/TimeSlider",
         "esri/TimeExtent",
+        "esri/core/reactiveUtils"
       ], (Map, Basemap, MapView, FeatureLayer, SimpleRenderer, SimpleFillSymbol,
-      FeatureFilter, TimeSlider, TimeExtent) =>
+      FeatureFilter, TimeSlider, TimeExtent, reactiveUtils) =>
       (async () => {
 
       // Firefly Imagery Hybrid
@@ -111,8 +112,9 @@
       // watch time slider timeExtent event and
       // set layer view filter on fires perimeter layer
       // to show fire perimeter that falls within the time extent
-      timeSlider.watch("timeExtent", () => {
+      reactiveUtils.watch(() => timeSlider.timeExtent, () => {
         const start = timeSlider.timeExtent.start.toISOString().replace("T"," ").substring(0, 19);
+        // start example - 2019-10-25 02:37:00
         const where = `perimeterdatetime = TIMESTAMP '${start}'`;
         layerView.filter = new FeatureFilter({
           where

@@ -41,11 +41,15 @@
         "esri/Map",
         "esri/views/MapView",
         "esri/layers/FeatureLayer",
+        "esri/layers/support/FeatureFilter",
+        "esri/layers/support/FeatureEffect",
         "esri/core/reactiveUtils"
       ], (
         Map,
         MapView,
         FeatureLayer,
+        FeatureFilter,
+        FeatureEffect,
         reactiveUtils
       ) =>
       (async () => {
@@ -129,13 +133,13 @@
 
         function highlightSelectedTreeSpecies (event) {
           const treeSpecies = event.srcElement.value;
-          layerView.featureEffect = {
-            filter: {
+          layerView.featureEffect = new FeatureEffect({
+            filter: new FeatureFilter({
               where: `COMMON = '${treeSpecies}'`
-            },
+            }),
             excludedEffect: "opacity(0.3) blur(5px)",
             includedEffect: "drop-shadow(1px, 1px, 1px)"
-          };
+          });
         }
 
         function processFeatureCount(count) {

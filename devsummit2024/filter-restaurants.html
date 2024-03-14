@@ -41,8 +41,10 @@
       "esri/geometry/geometryEngine",
       "esri/geometry/Point",
       "esri/geometry/Polyline",
-      "esri/layers/FeatureLayer"
-    ], (Map, MapView, Graphic, geometryEngine, Point, Polyline, FeatureLayer) =>
+      "esri/layers/FeatureLayer",
+      "esri/layers/support/FeatureFilter",
+      "esri/layers/support/FeatureEffect",
+    ], (Map, MapView, Graphic, geometryEngine, Point, Polyline, FeatureLayer, FeatureFilter, FeatureEffect) =>
     (async () => {
       // used for filtering restaurants on the map
       let path;
@@ -130,14 +132,14 @@
           });
 
           pointGraphic.geometry = point;
-          layerView.featureEffect = {
-            filter: {
+          layerView.featureEffect = new FeatureEffect({
+            filter: new FeatureFilter({
               geometry: point,
               distance: distance,
               units: unit
-            },
+            }),
             excludedEffect: "blur(2px) opacity(0.2) grayscale(0.2)"
-          };
+          });
 
           // get the number of restaurants within specified distance and unit
           const query = layerView.featureEffect.filter.createQuery();
