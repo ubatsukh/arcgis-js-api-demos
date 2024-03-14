@@ -64,7 +64,7 @@
       // only load kincade fire perimeters from 2019 CA fire perimeters
       const featureLayer = new FeatureLayer({
         url: "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/Historic_GeoMAC_Perimeters_2019/FeatureServer/0",
-        definitionExpression: "incidentname =	'KINCADE'",
+        definitionExpression: "incidentname = 'KINCADE'",
         outFields: ["*"],
         renderer: new SimpleRenderer({
           symbol: new SimpleFillSymbol({
