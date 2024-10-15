@@ -995,6 +995,30 @@
       },
       {
         category: "Data Management",
+        name: "Clip",
+        desc: "Added at version 4.29. Extracts a portion of an image based on an `extent` or a `polygon` geometry. The clip output includes any pixels that intersect the clip geometry.",
+        snippet: [
+          {
+            functionName: "Clip",
+            functionArguments: {
+              ClippingGeometry: {
+                type: "extent",
+                xmin: -13046135,
+                ymin: 4032060,
+                xmax: -13040335,
+                ymax: 4037060,
+                spatialReference: {
+                  wkid: 102100
+                }
+              },
+              ClippingType: 2 // 2 = clippingInside
+            },
+            outputPixelType: "C128 | C64 | F32 | F64 | S16 | S32 | S8 | U1 | U16 | U2 | U32 | U4 | U8 | UNKNOWN"
+          }
+        ]
+      },
+      {
+        category: "Data Management",
         name: "Composite Bands",
         desc: "Combines multiple rasters into one multiband raster. See <a href='https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/composite-bands-function.htm' target='_blank'>Composite Bands function</a> for more info.",
         snippet: {
@@ -1040,6 +1064,20 @@
             }
           }
         }]
+      },
+      {
+        category: "Data Management",
+        name: "Grayscale",
+        desc: "Added at version 4.29. Converts a multiband image into a single-band grayscale image. Specified weights are applied to each of the input bands, and normalization is applied to the output image. The weights are often applied because some bands have variable importance depending on the application. For example, the blue band often contains more noise than other bands. See <a href='https://pro.arcgis.com/en/pro-app/latest/arcpy/spatial-analyst/grayscale.htm' target='_blank'>Grayscale function</a> for more info.",
+        snippet: [
+          {
+            functionName: "Grayscale",
+            functionArguments: {
+              conversionparameters: [1, 3, 2]
+            },
+            outputPixelType: "C128 | C64 | F32 | F64 | S16 | S32 | S8 | U1 | U16 | U2 | U32 | U4 | U8 | UNKNOWN"
+          }
+        ]
       },
       {
         category: "Data Management",
